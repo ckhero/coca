@@ -9,6 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\base\BaseController;
+use yii\filters\auth\HttpBasicAuth;
+
 /**
  * QuestionsController implements the CRUD actions for Questions model.
  */
@@ -26,6 +28,9 @@ class QuestionsController extends BaseController
                     'delete' => ['POST'],
                 ],
             ],
+            // 'authenticator'=> [
+            //     'class' => HttpBasicAuth::className(),
+            // ]
         ];
     }
 
@@ -65,7 +70,7 @@ class QuestionsController extends BaseController
     public function actionCreate()
     {
         $model = new Questions();
-        $model->load(\Yii::$app->request->post());
+        $model->load(\Yii::$app->request->get());
 
         $code = 0;
         if ($model->validate() && $model->save()) {
