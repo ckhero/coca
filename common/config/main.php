@@ -17,5 +17,14 @@ return [
             'charset' => 'utf8',
             'tablePrefix' => 'co_',
         ],
+        // 'authManager' => [
+        //     'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
+        // ],
     ],
+    // 'modules' => [
+    //     'admin' => [
+    //         'class' => 'mdm\admin\Module',
+    //         'layout' => 'left-menu',//yii2-admin的导航菜单
+    //     ],
+    // ],
 ];

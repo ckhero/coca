@@ -50,5 +50,17 @@ class QuestionOptions extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
+    } 
+
+    public function fields()
+    {
+        return [
+            'id',
+            'q_id',
+            'short_name',
+            'desc',
+            // 'updated_at',
+            // 'created_at',
+        ];
     }
 }

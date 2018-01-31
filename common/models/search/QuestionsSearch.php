@@ -19,7 +19,7 @@ class QuestionsSearch extends Questions
     {
         return [
             [['id'], 'integer'],
-            [['desc', 'option', 'created_at', 'updated_at'], 'safe'],
+            [['desc', 'right_option', 'created_at', 'updated_at'], 'safe'],
         ];
     }
 
@@ -65,7 +65,7 @@ class QuestionsSearch extends Questions
         ]);
 
         $query->andFilterWhere(['like', 'desc', $this->desc])
-            ->andFilterWhere(['like', 'option', $this->option]);
+            ->andFilterWhere(['like', 'right_option', $this->right_option]);
 
         return $dataProvider;
     }

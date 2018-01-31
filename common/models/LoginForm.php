@@ -55,11 +55,20 @@ class LoginForm extends Model
      */
     public function login()
     {
-        if ($this->validate()) {
-            return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-        }
+        // if ($this->validate()) {
+        //     return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
+        // }
         
-        return false;
+        // return false;
+        if ($this->validate()) {
+            //return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            $this->_user->expired_at = time() + 3600*2;
+            $accessToken= $this->_user->generateAccessToken();
+            $this->_user->save();
+            Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
+            return ['code'=> 1, 'message'=> 'success', 'access-token'=> $accessToken];
+        }
+        return ['code'=> 0, 'message'=> current($this->errors)[0]?? '登陆失败'];
     }
 
     /**

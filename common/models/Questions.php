@@ -80,4 +80,18 @@ class Questions extends \yii\db\ActiveRecord
     {
         return $this->hasMany(QuestionOptions::className(), ['q_id' => 'id']);
     }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'desc',
+            'options'=> function($model) {
+                return $model->questionOptions;
+            },
+            'right_option',
+            // 'updated_at',
+            // 'created_at',
+        ];
+    }
 }

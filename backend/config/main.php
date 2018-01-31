@@ -43,14 +43,38 @@ return [
             // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                //['class' => 'yii\rest\UrlRule', 'controller' => ['v1/question', 'v1/post']],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'questions'],
             ],
         ],
+        'request' =>
+        [
+
+        'enableCsrfValidation' => false,
+        'parsers' => [
+            'application/json' => 'yii\web\JsonParser',
+        ]
+
+        ],
+        // 'authManager' => [
+        //     'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
+        // ]
     ],
     'modules' => [
         'v1' => [
             'class' => 'backend\modules\v1\Module',
         ],
+        'admin' => [
+            'class' => 'mdm\admin\Module',
+             'layout' => 'left-menu',//yii2-admin的导航菜单
+        ],
     ],
+
+    // 'as access' => [
+    //     'class' => 'mdm\admin\components\AccessControl',
+    //     'allowActions' => [
+    //         'site/*',//允许访问的节点，可自行添加
+    //         'admin/*',//允许所有人访问admin节点及其子节点
+    //     ]
+    // ],
     'params' => $params,
 ];
