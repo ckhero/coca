@@ -1,0 +1,336 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "COCA",
+        "description": "Coca-Api",
+        "termsOfService": "",
+        "license": {
+            "name": "\u63a5\u53e3\u751f\u6210",
+            "url": "http://localhost/coca/backend/web/site/gen-swg"
+        },
+        "version": "1.0.0"
+    },
+    "host": "localhost",
+    "basePath": "/coca/backend/web/v1",
+    "paths": {
+        "/questions": {
+            "get": {
+                "tags": [
+                    "\u9898\u76ee\u7ba1\u7406"
+                ],
+                "summary": "\u8fd4\u56de\u9898\u76ee\u5217\u8868",
+                "description": "\u8fd4\u56de\u9898\u76ee\u5217\u8868",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "path",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Questions"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "\u9898\u76ee\u7ba1\u7406"
+                ],
+                "summary": "\u6dfb\u52a0\u9898\u76ee",
+                "description": "\u6dfb\u52a0\u9898\u76ee",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u9898\u76ee\u548c\u9009\u9879json\u4e32",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Questions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "\u6dfb\u52a0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/Questions"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/questions/{id}": {
+            "put": {
+                "tags": [
+                    "\u9898\u76ee\u7ba1\u7406"
+                ],
+                "summary": "\u66f4\u65b0\u9898\u76ee",
+                "description": "\u66f4\u65b0\u9898\u76ee",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u9898\u76eeid",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u5f85\u66f4\u65b0\u9898\u76ee\u548c\u9009\u9879json\u4e32",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Questions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/Questions"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    },
+                    "404": {
+                        "description": "\u9898\u76ee\u4e0d\u5b58\u5728"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "\u9898\u76ee\u7ba1\u7406"
+                ],
+                "summary": "\u5220\u9664\u9898\u76ee",
+                "description": "\u5220\u9664\u9898\u76ee",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u9898\u76eeid",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "\u5220\u9664\u6210\u529f"
+                    },
+                    "404": {
+                        "description": "\u9898\u76ee\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        }
+    },
+    "definitions": {
+        "QuestionOptions": {
+            "required": [
+                "q_id",
+                "short_name",
+                "desc"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u9009\u9879id",
+                    "type": "integer"
+                },
+                "q_id": {
+                    "description": "\u5bf9\u5e94\u9898\u76eeid",
+                    "type": "integer"
+                },
+                "short_name": {
+                    "description": "\u9009\u9879\u540d\u79f0",
+                    "type": "string",
+                    "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "..."
+                    ]
+                },
+                "desc": {
+                    "description": "\u9009\u9879\u5185\u5bb9",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "QuestionOptions"
+            }
+        },
+        "Questions": {
+            "required": [
+                "desc",
+                "right_option"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u9898\u76eeid",
+                    "type": "integer"
+                },
+                "desc": {
+                    "description": "\u9898\u76ee\u5185\u5bb9",
+                    "type": "string"
+                },
+                "right_option": {
+                    "description": "\u9898\u76ee\u6b63\u786e\u9009\u9879",
+                    "type": "string",
+                    "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "..."
+                    ]
+                },
+                "questionOptions": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/QuestionOptions"
+                    },
+                    "xml": {}
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Questions"
+            }
+        },
+        "Pet": {
+            "required": [
+                "name",
+                "photoUrls"
+            ],
+            "properties": {
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "description": "",
+                    "type": "string",
+                    "example": "doggie"
+                },
+                "category": {
+                    "description": ""
+                },
+                "photoUrls": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "xml": {
+                        "name": "photoUrl",
+                        "wrapped": true
+                    }
+                },
+                "tags": {
+                    "description": "",
+                    "type": "array",
+                    "items": {},
+                    "xml": {
+                        "name": "tag",
+                        "wrapped": true
+                    }
+                },
+                "status": {
+                    "description": "",
+                    "type": "string",
+                    "enum": [
+                        "available",
+                        "pending",
+                        "sold"
+                    ]
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Pet"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "\u9898\u76ee\u7ba1\u7406",
+            "description": "\u9898\u76ee\u589e\u5220\u6539"
+        },
+        {
+            "name": "store",
+            "description": "Access to Petstore orders"
+        },
+        {
+            "name": "user",
+            "description": "Operations about user",
+            "externalDocs": {
+                "description": "Find out more about our store",
+                "url": "http://swagger.io"
+            }
+        }
+    ]
+}

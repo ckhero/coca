@@ -40,19 +40,24 @@ return [
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
-            // 'enableStrictParsing' => true,
+            'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
-                ['class' => 'yii\rest\UrlRule', 'controller' => 'questions'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question'],
+                [
+                    'class' => 'yii\web\UrlRule',
+                    'pattern' => 'site/gen-swg',
+                    'route' => 'site/gen-swg'
+                ],
             ],
         ],
         'request' =>
         [
 
-        'enableCsrfValidation' => false,
-        'parsers' => [
-            'application/json' => 'yii\web\JsonParser',
-        ]
+            // 'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
 
         ],
         // 'authManager' => [

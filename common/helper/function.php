@@ -1,0 +1,54 @@
+<?php 
+
+ /**
+ * [quick_sort 对二维数组快速排序]
+ * @ckhero
+ * @DateTime 2017-05-19
+ * @param    [type]     $data [description]
+ * @param    [type]     $key  [description]
+ * @return   [type]           [description]
+ */
+function quick_sort($data, $key)
+{
+    reset($data);
+    $first = current($data);
+    $first_key = key($data);
+    if (!is_array($data) || empty($data)) {
+
+        return false;
+    }
+
+    $num = count($data);
+    if ($num <= 1) {
+        return $data;
+    }
+
+    $x = array();
+    $y = array();
+
+    foreach ($data as $k => $val) {
+
+        if ($k == $first_key) {
+
+            continue;
+        }
+        if ($val[$key] < $first[$key]) {
+
+            $x[] = $val;
+        } else {
+
+            $y[] = $val;
+        }
+    }
+    $x = quick_sort($x, $key);
+    $y = quick_sort($y, $key);
+    if (empty($x)) {
+
+        $x = array();
+    }
+    if (empty($y)) {
+
+        $y = array();
+    }
+    return array_merge($x, array($first), $y);
+}
