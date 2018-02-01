@@ -19,7 +19,8 @@ return [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
+            // 'enableSession' => false,
+            // 'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
@@ -40,10 +41,12 @@ return [
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
-            'enableStrictParsing' => true,
+            // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/level'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/login'],
                 [
                     'class' => 'yii\web\UrlRule',
                     'pattern' => 'site/gen-swg',
@@ -54,7 +57,7 @@ return [
         'request' =>
         [
 
-            // 'enableCsrfValidation' => false,
+            'enableCsrfValidation' => false,
             'parsers' => [
                 'application/json' => 'yii\web\JsonParser',
             ]

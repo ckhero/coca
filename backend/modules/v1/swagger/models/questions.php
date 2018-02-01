@@ -1,45 +1,32 @@
 <?php
 
 /**
- * @SWG\Definition(required={"name", "photoUrls"}, type="object", @SWG\Xml(name="Pet"))
+ * @SWG\Definition(required={"desc", "right_option"}, type="object", @SWG\Xml(name="Questions"))
  */
-class Pet
+class Questions
 {
 
     /**
-     * @SWG\Property(format="int64")
+     * @SWG\Property(description="题目id")
      * @var int
      */
-    public $id;
-
-    /**
-     * @SWG\Property(example="doggie")
+    private $id;
+     /**
+     * @SWG\Property(description="题目内容")
      * @var string
      */
-    public $name;
-
-    /**
-     * @var Category
-     * @SWG\Property()
-     */
-    public $category;
-
-    /**
-     * @var string[]
-     * @SWG\Property(@SWG\Xml(name="photoUrl", wrapped=true))
-     */
-    public $photoUrls;
-
-    /**
-     * @var Tag[]
-     * @SWG\Property(@SWG\Xml(name="tag", wrapped=true))
-     */
-    public $tags;
+    private $desc;
 
     /**
      * pet status in the store
+     * @SWG\Property( enum={"A", "B", "C", "..."},description="题目正确选项")
      * @var string
-     * @SWG\Property(enum={"available", "pending", "sold"})
      */
-    public $status;
+    private $right_option;
+
+    /**
+     * @var QuestionOptions[]
+     * @SWG\Property(@SWG\Xml())
+     */
+    private $questionOptions;
 }

@@ -2,19 +2,15 @@
 
 namespace backend\modules\v1\controllers;
 
-use backend\models\Questions;
-use common\base\BaseController;
-use \yii\rest\ActiveController;
-use yii\filters\auth\QueryParamAuth;
-
-class QuestionController extends BaseController
+class LevelController extends \common\base\BaseController
 {
-	public $modelClass = 'backend\models\Questions';
+	public $modelClass=  'common\models\Level';
+
 	/**
-     * @SWG\Get(path="/v1/questions",
-     *   tags={"题目管理"},
-     *   summary="返回题目列表",
-     *   description="返回题目列表",
+     * @SWG\Get(path="/v1/levels",
+     *   tags={"等级管理"},
+     *   summary="返回等级列表",
+     *   description="返回等级列表",
      *   operationId="getInventory",
      *   produces={"application/json"},
      *  @SWG\Parameter(
@@ -32,24 +28,22 @@ class QuestionController extends BaseController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema( type="array", @SWG\Items(ref="#/definitions/QuestionsList")), description="获取成功"),
+     *   @SWG\Response(response=200, @SWG\Schema( type="array", @SWG\Items(ref="#/definitions/LevelList")), description="获取成功"),
      *   @SWG\Response(response=401,description="身份认证失败"),
      *   security={
      *     {"Authorization": {}},
      *   }
      * )
      */
-    
-
     /**
-     * @SWG\Delete(path="/v1/questions/{id}",
-     *   tags={"题目管理"},
-     *   summary="删除题目",
-     *   description="删除题目",
+     * @SWG\Delete(path="/v1/levels/{id}",
+     *   tags={"等级管理"},
+     *   summary="删除等级",
+     *   description="删除等级",
      *   operationId="getInventory",
      *   produces={"application/json"},
      *  @SWG\Parameter(
-     *         description="题目id",
+     *         description="等级id",
      *         in="path",
      *         name="id",
      *         required=true,
@@ -63,7 +57,7 @@ class QuestionController extends BaseController
      *         type="string",
      *     ),
      *   @SWG\Response(response=204,description="删除成功"),
-     *   @SWG\Response(response=404,description="题目不存在"),
+     *   @SWG\Response(response=404,description="等级不存在"),
      *   @SWG\Response(response=401,description="身份认证失败"),
      *   security={
      *     {"Authorization": {}},
@@ -72,19 +66,19 @@ class QuestionController extends BaseController
      */
     
     /**
-     * @SWG\Post(path="/v1/questions",
-     *   tags={"题目管理"},
-     *   summary="添加题目",
-     *   description="添加题目",
+     * @SWG\Post(path="/v1/levels",
+     *   tags={"等级管理"},
+     *   summary="添加等级",
+     *   description="添加等级",
      *   operationId="getInventory",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     description="题目和选项json串",
+     *     description="等级和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/Questions"
+     *       ref="#/definitions/Level"
      *     )
      *   ),
      *    @SWG\Parameter(
@@ -94,7 +88,7 @@ class QuestionController extends BaseController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=201, @SWG\Schema(ref="#/definitions/Questions"), description="添加成功"),
+     *   @SWG\Response(response=201, @SWG\Schema(ref="#/definitions/Level"), description="添加成功"),
      *   @SWG\Response(response=422, description="数据验证失败"),
      *   security={
      *     {"Authorization": {}},
@@ -103,26 +97,26 @@ class QuestionController extends BaseController
      */
     
     /**
-     * @SWG\Put(path="/v1/questions/{id}",
-     *   tags={"题目管理"},
-     *   summary="更新题目",
-     *   description="更新题目",
+     * @SWG\Put(path="/v1/levels/{id}",
+     *   tags={"等级管理"},
+     *   summary="更新等级",
+     *   description="更新等级",
      *   operationId="getInventory",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     in="path",
      *     name="id",
-     *     description="题目id",
+     *     description="等级id",
      *     required=true,
      *     type="integer"
      *   ),
      *   @SWG\Parameter(
      *     in="body",
      *     name="body",
-     *     description="待更新题目和选项json串",
+     *     description="待更新等级和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/Questions"
+     *       ref="#/definitions/Level"
      *     )
      *   ),
      *   @SWG\Parameter(
@@ -132,9 +126,9 @@ class QuestionController extends BaseController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/Questions"), description="更新成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/Level"), description="更新成功"),
      *   @SWG\Response(response=422, description="数据验证失败"),
-     *   @SWG\Response(response=404,description="题目不存在"),
+     *   @SWG\Response(response=404,description="等级不存在"),
      *   security={
      *     {"Authorization": {}},
      *   }
@@ -142,16 +136,16 @@ class QuestionController extends BaseController
      */
     
     /**
-     * @SWG\Get(path="/v1/questions/{id}",
-     *   tags={"题目管理"},
-     *   summary="查看题目",
-     *   description="查看题目",
+     * @SWG\Get(path="/v1/levels/{id}",
+     *   tags={"等级管理"},
+     *   summary="查看等级",
+     *   description="查看等级",
      *   operationId="getInventory",
      *   produces={"application/json"},
      *   @SWG\Parameter(
      *     in="path",
      *     name="id",
-     *     description="题目id",
+     *     description="等级id",
      *     required=true,
      *     type="integer"
      *   ),
@@ -162,12 +156,13 @@ class QuestionController extends BaseController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/Questions"), description="更新成功"),
-     *   @SWG\Response(response=404,description="题目不存在"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/Level"), description="更新成功"),
+     *   @SWG\Response(response=404,description="等级不存在"),
      *   @SWG\Response(response=401,description="身份验证失败"),
      *   security={
      *     {"Authorization": {}},
      *   }
      * )
      */
+
 }

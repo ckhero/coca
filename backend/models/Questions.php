@@ -3,35 +3,9 @@
 namespace backend\models;
 
 use Yii;
-/**
- * @SWG\Definition(required={"desc", "right_option"}, type="object", @SWG\Xml(name="Questions"))
- */
+
 class Questions extends \yii\db\ActiveRecord
 {   
-    /**
-     * @SWG\Property(description="题目id")
-     * @var int
-     */
-    private $id;
-     /**
-     * @SWG\Property(description="题目内容")
-     * @var string
-     */
-    private $desc;
-
-    /**
-     * pet status in the store
-     * @SWG\Property( enum={"A", "B", "C", "..."},description="题目正确选项")
-     * @var string
-     */
-    private $right_option;
-
-    /**
-     * @var QuestionOptions[]
-     * @SWG\Property(@SWG\Xml())
-     */
-    private $questionOptions;
-    
     /**
      * {@inheritdoc}
      */
@@ -72,7 +46,8 @@ class Questions extends \yii\db\ActiveRecord
     public function beforeSave($insert) {
 
         if (parent::beforeSave($insert)) {
-            $this->right_option = chr($this->right_option + 64);
+
+            // $this->right_option = chr($this->right_option + 64);
             if ($insert) {
 
                 $this->created_at = date('Y-m-d H:i:s');
@@ -110,7 +85,18 @@ class Questions extends \yii\db\ActiveRecord
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
-        $this->questionOptions = Yii::$app->request->getBodyParam('questionOptions');
-        file_put_contents('test.log', json_encode(Yii::$app->request->getBodyParam('questionOptions')));
+        if ($questionOptions = Yii::$app->request->getBodyParam('questionOptions')) {
+            $questionOptions = array_unset_tt($questionOptions, 'short_name');
+            QuestionOptions::deleteAll(['q_id'=> $this->id]); //先删除
+            QuestionOptions::addOptions($questionOptions, $this->id); //全部重新添加
+        }
+        
     }
+
+    public function afterDelete()
+    {
+        parent::afterDelete();
+        QuestionOptions::deleteAll(['q_id'=> $this->id]);
+    }
+
 }

@@ -3,35 +3,10 @@
 namespace backend\models;
 
 use Yii;
-/**
- * @SWG\Definition(required={"q_id", "short_name", "desc"}, type="object", @SWG\Xml(name="QuestionOptions"))
- */
+
 class QuestionOptions extends \yii\db\ActiveRecord
 {   
-    /**
-     * @SWG\Property(description="选项id")
-     * @var int
-     */
-    private $id;
-
-    /**
-     * @SWG\Property(description="对应题目id")
-     * @var int
-     */
-    private  $q_id;
-
-    /**
-     * @SWG\Property( enum={"A", "B", "C", "..."},description="选项名称")
-     * @var string
-     */
-    private  $short_name;
-
-    /**
-     * pet status in the store
-     * @SWG\Property(description="选项内容")
-     * @var string
-     */
-    private  $desc;
+   
     /**
      * {@inheritdoc}
      */
@@ -77,5 +52,38 @@ class QuestionOptions extends \yii\db\ActiveRecord
             // 'updated_at',
             // 'created_at',
         ];
+    }
+
+    public function beforeSave($insert) {
+
+        if (parent::beforeSave($insert)) {
+           
+            if ($insert) {
+
+                $this->created_at = date('Y-m-d H:i:s');
+                $this->updated_at = date('Y-m-d H:i:s');
+                
+            } else {
+
+                $this->updated_at = date('Y-m-d H:i:s');
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function addOptions($options = [], $qId = null)
+    {
+        foreach($options as $key=> $val) {
+            $insertData[] = [
+                'q_id'=> $qId,
+                'short_name'=> $val['short_name'],
+                'desc'=> $val['desc']
+            ];
+        }
+
+        Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['q_id', 'short_name', 'desc'], $insertData)->execute(); 
     }
 }
