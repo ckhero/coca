@@ -29,6 +29,7 @@ class Level extends \yii\db\ActiveRecord
         return [
             [['score'], 'integer'],
             [['name'], 'string', 'max' => 16],
+            ['score', 'unique'],
         ];
     }
 

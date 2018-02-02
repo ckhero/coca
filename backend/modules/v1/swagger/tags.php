@@ -9,9 +9,22 @@
  *   description="题目增删改",
  * )
  * @SWG\Tag(
+ *   name="地图管理",
+ *   description="地图管理",
+ * )
+ * @SWG\Tag(
+ *   name="道具管理",
+ *   description="道具管理",
+ * )
+ * @SWG\Tag(
  *   name="等级管理",
  *   description="用户等级设置",
  * )
+ * @SWG\Tag(
+ *   name="文件管理",
+ *   description="文件上传",
+ * )
+ 
  * @SWG\Tag(
  *   name="user",
  *   description="Operations about user",
