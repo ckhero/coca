@@ -40,6 +40,10 @@ class Map extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getChapters()
+    {
+        return $this->hasMany(Chapter::className(), ['map_id'=> 'id'])->innerJoinWith('childs');
+    }
     /**
      * {@inheritdoc}
      */
@@ -63,6 +67,7 @@ class Map extends \yii\db\ActiveRecord
             'name',
             'desc',
             'sort',
+            'chapters'
         ];
     }
 }

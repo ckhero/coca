@@ -57,14 +57,17 @@ class Chapter extends \yii\db\ActiveRecord
             'bg_url',
             'sort',
             'guide',
-            // 'childs' => function ($model) {
-            //     return 
-            // }
+            'childs',
         ];
     }
     public function beforeSave($insert)
     {
         parent::beforeSave($insert);
+    }
+
+    public function getChilds()
+    {
+        return $this->hasMany(ChapterChild::className(), ['chapter_id'=> 'id']);
     }
     // public function setGuide($value)
     // {
