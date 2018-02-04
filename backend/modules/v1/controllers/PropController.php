@@ -25,7 +25,7 @@ class PropController extends \common\base\BaseController
      *  @SWG\Parameter(
      *         description="第几页",
      *         in="path",
-     *         name="page",
+     *         name="query",
      *         required=true,
      *         type="integer",
      *         required=false,

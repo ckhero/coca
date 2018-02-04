@@ -16,7 +16,7 @@ return [
             'csrfParam' => '_csrf-frontend',
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'common\models\PtUser',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
@@ -40,9 +40,27 @@ return [
         'urlManager' => [
             'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
+            // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],
+                
+               // ['class' => 'yii\rest\UrlRule', 'controller' => 'upload'],
+                [
+                    'class' => 'yii\web\UrlRule',
+                    'pattern' => 'site/gen-swg',
+                    'route' => 'site/gen-swg'
+                ],
             ],
+        ],
+        'request' =>
+        [
+
+            'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+
         ],
         
         

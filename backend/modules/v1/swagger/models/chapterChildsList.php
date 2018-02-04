@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @SWG\Definition(type="object", @SWG\Xml(name="chapterChildsList"))
+ */
+class chapterChildsList
+{
+
+    /**
+     * @SWG\Property(description="小关卡列表")
+     * @var chapterChilds[]
+     */
+    private $items;
+
+    /**
+     * pet status in the store
+     * @SWG\Property(description="相关信息")
+     * @var ListInfo
+     */
+    private $_meta;
+
+}

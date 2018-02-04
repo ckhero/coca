@@ -12,6 +12,14 @@
  *   name="地图管理",
  *   description="地图管理",
  * )
+  * @SWG\Tag(
+ *   name="关卡管理",
+ *   description="关卡管理",
+ * )
+   * @SWG\Tag(
+ *   name="小关卡管理",
+ *   description="关卡管理",
+ * )
  * @SWG\Tag(
  *   name="道具管理",
  *   description="道具管理",

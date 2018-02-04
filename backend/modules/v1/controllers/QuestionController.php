@@ -19,7 +19,7 @@ class QuestionController extends BaseController
      *   produces={"application/json"},
      *  @SWG\Parameter(
      *         description="第几页",
-     *         in="path",
+     *         in="query",
      *         name="page",
      *         required=true,
      *         type="integer",

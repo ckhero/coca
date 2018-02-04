@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * @SWG\Definition(required={"name", "sort"}, type="object", @SWG\Xml(name="guide"))
+ */
+class guide
+{
+
+    /**
+     * @SWG\Property(description="地图id")
+     * @var int
+     */
+    private $id;
+}

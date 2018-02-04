@@ -44,4 +44,25 @@ class Level extends \yii\db\ActiveRecord
             'name' => 'Name',
         ];
     }
+
+    /**
+     * [getLevelByScore 根据经验值获取等级名称]
+     * @Author   ckhero
+     * @DateTime 2018-02-04
+     * @param    integer    $score [description]
+     * @return   [type]            [description]
+     */
+    public static function getLevelByScore($score = 0)
+    {
+        return \Yii::$app->cache->getOrSet('score_'.$score, function () use ($score) {
+
+            $model = new static();
+            $info = $model->find()
+                      ->where(['<=', 'score', $score])
+                      ->orderBy('score desc')
+                      ->one();
+            return $info->name;
+        }, 300);
+        
+    }
 }

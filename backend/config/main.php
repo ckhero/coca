@@ -44,11 +44,14 @@ return [
             // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter-item'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/login'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/prop'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter'],
+                
                // ['class' => 'yii\rest\UrlRule', 'controller' => 'upload'],
                 [
                     'class' => 'yii\web\UrlRule',

@@ -4,18 +4,6 @@ namespace common\models;
 
 use Yii;
 
-/**
- * This is the model class for table "co_chapter".
- *
- * @property int $id
- * @property int $map_id 所属地图id
- * @property string $name 关卡名字
- * @property string $desc 关卡描述
- * @property string $bg_url
- * @property string $guide 课件j，用逗号隔开
- * @property string $created_at
- * @property string $updated_at
- */
 class Chapter extends \yii\db\ActiveRecord
 {
     /**
@@ -32,11 +20,12 @@ class Chapter extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['map_id'], 'integer'],
+            [['map_id', 'sort'], 'integer'],
             [['desc'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 32],
-            [['bg_url', 'guide'], 'string', 'max' => 255],
+            [['bg_url'], 'string', 'max' => 255],
+            [['guide'], 'safe'],
         ];
     }
 
@@ -51,9 +40,34 @@ class Chapter extends \yii\db\ActiveRecord
             'name' => 'Name',
             'desc' => 'Desc',
             'bg_url' => 'Bg Url',
+            'sort' => 'Sort',
             'guide' => 'Guide',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
     }
+
+    public function fields()
+    {
+        return [
+            'id',
+            'map_id',
+            'name',
+            'desc',
+            'bg_url',
+            'sort',
+            'guide',
+            // 'childs' => function ($model) {
+            //     return 
+            // }
+        ];
+    }
+    public function beforeSave($insert)
+    {
+        parent::beforeSave($insert);
+    }
+    // public function setGuide($value)
+    // {
+    //     $this->guide = 222;
+    // }
 }
