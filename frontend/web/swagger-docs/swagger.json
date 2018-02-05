@@ -98,7 +98,7 @@
         "/v1/maps": {
             "get": {
                 "tags": [
-                    "\u5173\u5361"
+                    "\u5730\u56fe"
                 ],
                 "summary": "\u83b7\u53d6\u5173\u5361\u4fe1\u606f",
                 "description": "\u7528\u6237\u83b7\u53d6\u5173\u5361\u4fe1\u606f",
@@ -135,7 +135,7 @@
         "/v1/maps/{id}": {
             "get": {
                 "tags": [
-                    "\u5173\u5361"
+                    "\u5730\u56fe"
                 ],
                 "summary": "\u67d0\u5f20\u5730\u56fe\u4e0b\u7684\u6240\u6709\u5173\u5361",
                 "description": "\u67e5\u770b\u5173\u5361",
@@ -161,7 +161,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "description": "\u83b7\u53d6\u6210\u529f",
                         "schema": {
                             "$ref": "#/definitions/maps"
                         }
@@ -374,6 +374,18 @@
         {
             "name": "\u7528\u6237",
             "description": "access-token\u83b7\u53d6\u66f4\u65b0\u63a5\u53e3"
+        },
+        {
+            "name": "\u5730\u56fe",
+            "description": "\u9996\u9875\u83b7\u53d6\u5173\u5361\u5217\u8868"
+        },
+        {
+            "name": "\u5173\u5361",
+            "description": "\u83b7\u53d6\u6bcf\u4e2a\u5173\u5361\u7684\u5b50\u5173\u5361"
+        },
+        {
+            "name": "\u7b54\u9898",
+            "description": "\u9898\u76ee\u5217\u8868\u7b49"
         }
     ]
 }

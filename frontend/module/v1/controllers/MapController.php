@@ -14,7 +14,7 @@ class MapController extends \common\base\BaseController
      // }
 	/**
      * @SWG\Get(path="/v1/maps",
-     *   tags={"关卡"},
+     *   tags={"地图"},
      *   summary="获取关卡信息",
      *   description="用户获取关卡信息",
      *   operationId="getInventory",
@@ -54,7 +54,7 @@ class MapController extends \common\base\BaseController
 
     /**
      * @SWG\Get(path="/v1/maps/{id}",
-     *   tags={"关卡"},
+     *   tags={"地图"},
      *   summary="某张地图下的所有关卡",
      *   description="查看关卡",
      *   operationId="getInventory",
