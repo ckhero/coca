@@ -89,6 +89,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
             $user->generateAccessToken();
             $user->generateReFreshToekn();
         }
+        $user->save();
         return $user;
     }
 
@@ -140,8 +141,12 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
 
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        //return static::find()->where(['>', 'expired_at', time()]);
         return static::find()->where(['access_token'=> $token])->andWhere(['>', 'access_expired_at', time()])->one();
+    }
+
+    public static function findIdentityByRefreshToken($token, $type = null)
+    {
+        return static::find()->where(['refresh_token'=> $token])->andWhere(['>', 'refresh_expired_at', time()])->one();
     }
 
     public function getAuthKey()
@@ -162,5 +167,10 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+
+    public function getChapterDone()
+    {
+        return Level::getLevelByScore($this->exp);
     }
 }

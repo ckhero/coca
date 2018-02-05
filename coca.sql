@@ -1,6 +1,42 @@
-﻿# Host: localhost  (Version 5.7.19)
-# Date: 2018-02-04 22:57:25
-# Generator: MySQL-Front 6.0  (Build 2.20)
+﻿# Host: localhost  (Version 5.7.19-log)
+# Date: 2018-02-05 18:12:56
+# Generator: MySQL-Front 5.3  (Build 5.39)
+
+/*!40101 SET NAMES utf8 */;
+
+#
+# Structure for table "co_activity"
+#
+
+CREATE TABLE `co_activity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '活动类型表',
+  `short_name` char(32) DEFAULT NULL,
+  `name` char(32) DEFAULT '',
+  `desc` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_activity"
+#
+
+REPLACE INTO `co_activity` VALUES (1,'Chapter','关卡',''),(2,'WorldBoss','世界boss',NULL),(3,'Day','日常答题',NULL);
+
+#
+# Structure for table "co_auth_rule"
+#
+
+CREATE TABLE `co_auth_rule` (
+  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `data` blob,
+  `created_at` int(11) DEFAULT NULL,
+  `updated_at` int(11) DEFAULT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Data for table "co_auth_rule"
+#
 
 
 #
@@ -22,17 +58,9 @@ CREATE TABLE `co_auth_item` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 #
-# Structure for table "co_auth_assignment"
+# Data for table "co_auth_item"
 #
 
-CREATE TABLE `co_auth_assignment` (
-  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `created_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`item_name`,`user_id`),
-  KEY `auth_assignment_user_id_idx` (`user_id`),
-  CONSTRAINT `co_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `co_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 #
 # Structure for table "co_auth_item_child"
@@ -48,16 +76,27 @@ CREATE TABLE `co_auth_item_child` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 #
-# Structure for table "co_auth_rule"
+# Data for table "co_auth_item_child"
 #
 
-CREATE TABLE `co_auth_rule` (
-  `name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
-  `data` blob,
+
+#
+# Structure for table "co_auth_assignment"
+#
+
+CREATE TABLE `co_auth_assignment` (
+  `item_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
+  `user_id` varchar(64) COLLATE utf8_unicode_ci NOT NULL,
   `created_at` int(11) DEFAULT NULL,
-  `updated_at` int(11) DEFAULT NULL,
-  PRIMARY KEY (`name`)
+  PRIMARY KEY (`item_name`,`user_id`),
+  KEY `auth_assignment_user_id_idx` (`user_id`),
+  CONSTRAINT `co_auth_assignment_ibfk_1` FOREIGN KEY (`item_name`) REFERENCES `co_auth_item` (`name`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Data for table "co_auth_assignment"
+#
+
 
 #
 # Structure for table "co_chapter"
@@ -77,6 +116,12 @@ CREATE TABLE `co_chapter` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 #
+# Data for table "co_chapter"
+#
+
+REPLACE INTO `co_chapter` VALUES (1,6,'string1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',3,'string',NULL,NULL),(2,6,'1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',2,'string',NULL,NULL),(3,6,'string2','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',11,'string',NULL,NULL);
+
+#
 # Structure for table "co_chapter_child"
 #
 
@@ -92,6 +137,12 @@ CREATE TABLE `co_chapter_child` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 
 #
+# Data for table "co_chapter_child"
+#
+
+REPLACE INTO `co_chapter_child` VALUES (12,1,NULL,NULL,111,NULL,NULL),(13,1,NULL,NULL,2,NULL,NULL),(14,2,NULL,NULL,22,NULL,NULL);
+
+#
 # Structure for table "co_chapter_child_question"
 #
 
@@ -100,6 +151,11 @@ CREATE TABLE `co_chapter_child_question` (
   `question_id` int(11) NOT NULL DEFAULT '0',
   KEY `chapter_child_id` (`chapter_child_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_chapter_child_question"
+#
+
 
 #
 # Structure for table "co_level"
@@ -111,6 +167,11 @@ CREATE TABLE `co_level` (
   `name` char(16) DEFAULT NULL COMMENT '等级名字',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_level"
+#
+
 
 #
 # Structure for table "co_map"
@@ -126,6 +187,12 @@ CREATE TABLE `co_map` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_map"
+#
+
+REPLACE INTO `co_map` VALUES (6,'2',NULL,0,NULL,NULL,NULL);
 
 #
 # Structure for table "co_menu"
@@ -144,6 +211,11 @@ CREATE TABLE `co_menu` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 #
+# Data for table "co_menu"
+#
+
+
+#
 # Structure for table "co_migration"
 #
 
@@ -152,6 +224,11 @@ CREATE TABLE `co_migration` (
   `apply_time` int(11) DEFAULT NULL,
   PRIMARY KEY (`version`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_migration"
+#
+
 
 #
 # Structure for table "co_prop"
@@ -169,6 +246,11 @@ CREATE TABLE `co_prop` (
   PRIMARY KEY (`id`),
   KEY `idx_pid` (`pid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_prop"
+#
+
 
 #
 # Structure for table "co_pt_user"
@@ -194,6 +276,12 @@ CREATE TABLE `co_pt_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 #
+# Data for table "co_pt_user"
+#
+
+REPLACE INTO `co_pt_user` VALUES (2,11111,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,0,'RwSINYJYrnylmkxFm03F42atJzKr4Tw5','sQtWJJPgMGtTSjbo09w1Ylu3onb9xVvS',1517827510,1517910310,1,'2018-02-05 03:01:54','2018-02-05 09:45:10');
+
+#
 # Structure for table "co_question_options"
 #
 
@@ -208,6 +296,11 @@ CREATE TABLE `co_question_options` (
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 #
+# Data for table "co_question_options"
+#
+
+
+#
 # Structure for table "co_questions"
 #
 
@@ -219,6 +312,11 @@ CREATE TABLE `co_questions` (
   `updated_at` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_questions"
+#
+
 
 #
 # Structure for table "co_user"
@@ -237,3 +335,31 @@ CREATE TABLE `co_user` (
   `expired_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Data for table "co_user"
+#
+
+REPLACE INTO `co_user` VALUES (5,'ckhero','K0CddrjOrwvjGCM2M26sPMMnbMC4B-E-','$2y$13$PlGtKHK4yAaKiI6C3AIQTexHwtDxxnPPmu7EDRDYl1CXq/O77YZSG',NULL,'ckhero@163.com',10,1517798545,1517798545,NULL),(6,'ckhero2','gxjQEbrUYWqV9DXNh84OQI8mAdPBNiT0','$2y$13$rEDZbwzKU.ImhtnEgdMk1OFsIaAM2ENh83kJqPss9iB8O1b0V8MXS',NULL,'335688758@qq.com',10,1517798566,1517798566,NULL);
+
+#
+# Structure for table "co_user_chapter_record"
+#
+
+CREATE TABLE `co_user_chapter_record` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) unsigned DEFAULT '0' COMMENT '用户id',
+  `activity_id` int(11) DEFAULT NULL COMMENT '属于哪种活动',
+  `chapter_child_id` int(11) DEFAULT '0' COMMENT '关卡id',
+  `total` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '总答题数',
+  `right_num` tinyint(3) unsigned DEFAULT '0' COMMENT '答对的题目数',
+  `created_at` datetime DEFAULT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+#
+# Data for table "co_user_chapter_record"
+#
+
+REPLACE INTO `co_user_chapter_record` VALUES (1,2,NULL,12,0,0,NULL,NULL);

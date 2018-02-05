@@ -12,6 +12,8 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\models\Chapter;
+use common\models\ChapterChild;
 
 /**
  * Site controller
@@ -117,6 +119,7 @@ class SiteController extends Controller
      */
     public function actionContact()
     {
+        var_dump(Chapter::total(), ChapterChild::totalDone());
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
@@ -211,5 +214,17 @@ class SiteController extends Controller
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    public function actionGenSwg()
+    {
+        $projectRoot = Yii::getAlias('@myapiroot');
+
+        $swagger = \Swagger\scan($projectRoot);
+        $json_file = $projectRoot . '/web/swagger-docs/swagger.json';
+        $is_write = file_put_contents($json_file, $swagger);
+        if ($is_write == true) {
+            $this->redirect('/coca/frontend/web/swagger-ui-3.9.3/dist/index.html');
+        }
     }
 }

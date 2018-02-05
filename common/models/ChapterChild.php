@@ -6,6 +6,8 @@ use Yii;
 
 class ChapterChild extends \yii\db\ActiveRecord
 {
+    const ACTIVITY_ID = 1;
+
     /**
      * {@inheritdoc}
      */
@@ -51,7 +53,8 @@ class ChapterChild extends \yii\db\ActiveRecord
             'name',
             'desc',
             'sort',
-            'questions'
+            'questions',
+            'clearanceChapterChild'
         ];
     }
 
@@ -89,5 +92,46 @@ class ChapterChild extends \yii\db\ActiveRecord
             ChapterChildQuestion::deleteAll(['chapter_child_id'=> $this->id]); //先删除
             ChapterChildQuestion::addItems($questions, $this->id); //全部重新添加
         }
+    }
+
+    public function getParents()
+    {
+        return $this->hasOne(Chapter::className(), ['id'=> 'chapter_id'])->innerJoinWith('map');
+    }
+
+    public function getClearanceChapterChild()
+    {
+        return $this->hasOne(UserChapterRecord::className(), ['chapter_child_id'=> 'id']);
+    }
+    /**
+     * [totalDone 获取用户已经完成的关卡数量]
+     * #Author ckhero
+     * #DateTime 2018-02-05
+     * @param  integer $uid [description]
+     * @return [type]       [description]
+     */
+    public static function totalDone($uid = 0)
+    {
+        return Yii::$app->cache->getOrSet('userTotalDone_'.$uid, function () use ($uid) {
+            $query = new static();
+            return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::ACTIVITY_ID])->count();
+        }, 300);
+    }
+
+    /**
+     * [getDoneClearance 获取完成的关卡]
+     * #Author ckhero
+     * #DateTime 2018-02-05
+     * @return [type] [description]
+     */
+    public static function getDoneClearanceByUid($uid = 0)
+    {
+        $allClearance = static::findAllClearance($uid);
+        return $allClearance;
+    }
+
+    public static function findAllClearance($uid = 0)
+    {
+        return static::find()->where(['uid'=> $uid, 'activity_id'=> 1])->innerJoinWith('clearanceChapterChild')->all();
     }
 }

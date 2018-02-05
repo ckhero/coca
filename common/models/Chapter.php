@@ -5,7 +5,10 @@ namespace common\models;
 use Yii;
 
 class Chapter extends \yii\db\ActiveRecord
-{
+{   
+    const DONE = 'done';
+    const DOING = 'doing';
+    const UNDO = 'undo';
     /**
      * {@inheritdoc}
      */
@@ -57,20 +60,58 @@ class Chapter extends \yii\db\ActiveRecord
             'bg_url',
             'sort',
             'guide',
-            'childs',
+            // 'childs',
+            'status',
         ];
     }
     public function beforeSave($insert)
     {
-        parent::beforeSave($insert);
+        return parent::beforeSave($insert);
     }
 
     public function getChilds()
     {
         return $this->hasMany(ChapterChild::className(), ['chapter_id'=> 'id']);
     }
+
+    public function getMap()
+    {
+        return $this->hasOne(Map::className(), ['id'=> 'map_id']);
+    }
     // public function setGuide($value)
     // {
     //     $this->guide = 222;
     // }
+    // 
+    
+    public static function total()
+    {
+        return Yii::$app->cache->getOrSet('Chapter_total', function () {
+            $query = new static();
+            return $query->find()->innerJoinWith('childs')->innerJoinWith('map')->count();
+        }, 300);
+        
+    }
+
+    /**
+     * [getStatus 关卡进行状态]
+     * #Author ckhero
+     * #DateTime 2018-02-05
+     * @return [type] [description]
+     */
+    public function getStatus()
+    {
+        //子关卡id
+        $childsId = array_column($this->childs, 'id');
+
+        //已完成关卡id
+        $clearanceChapterChild = ChapterChild::getDoneClearanceByUid(Yii::$app->user->id);
+        $diff = array_diff($childsId, array_column(array_column($clearanceChapterChild, 'clearanceChapterChild'), 'chapter_child_id'));
+        if (!empty($childsId) && empty($diff)) {
+            return self::DONE;
+        } else if (!empty($childsId) && count($diff) < count($childsId)){
+            return self::DOING;
+        }
+        return self::UNDO;
+    }
 }

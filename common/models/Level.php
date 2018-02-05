@@ -61,7 +61,7 @@ class Level extends \yii\db\ActiveRecord
                       ->where(['<=', 'score', $score])
                       ->orderBy('score desc')
                       ->one();
-            return $info->name;
+            return $info->name?? '';
         }, 300);
         
     }

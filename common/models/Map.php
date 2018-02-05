@@ -42,7 +42,8 @@ class Map extends \yii\db\ActiveRecord
 
     public function getChapters()
     {
-        return $this->hasMany(Chapter::className(), ['map_id'=> 'id'])->innerJoinWith('childs');
+        return $this->hasMany(Chapter::className(), ['map_id'=> 'id'])
+                    ->orderBy(Chapter::tableName().'.sort');
     }
     /**
      * {@inheritdoc}
@@ -66,6 +67,7 @@ class Map extends \yii\db\ActiveRecord
             'id',
             'name',
             'desc',
+            'bg_url',
             'sort',
             'chapters'
         ];
