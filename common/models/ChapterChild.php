@@ -7,6 +7,9 @@ use Yii;
 class ChapterChild extends \yii\db\ActiveRecord
 {
     const ACTIVITY_ID = 1;
+    const DONE = 'done';
+    const DOING = 'doing';
+    const UNDO = 'undo';
 
     /**
      * {@inheritdoc}
@@ -47,15 +50,42 @@ class ChapterChild extends \yii\db\ActiveRecord
 
     public function fields()
     {
-        return [
-            'id',
-            'chapter_id',
-            'name',
-            'desc',
-            'sort',
-            'questions',
-            'clearanceChapterChild'
-        ];
+        if (Yii::$app->controller->action->id === 'view' && Yii::$app->id =='app-frontend') {
+            if (Yii::$app->controller->id =='chapter-item') {
+
+                return [
+                    'id',
+                    'chapter_id',
+                    'name',
+                    'desc',
+                    'sort',
+                    'status',
+                    'questions',
+                ];
+
+            } else {
+
+                return [
+                    'id',
+                    'chapter_id',
+                    'name',
+                    'desc',
+                    'sort',
+                    'status'
+                ];
+            }
+        } else {
+            return [
+                'id',
+                'chapter_id',
+                'name',
+                'desc',
+                'sort',
+                'questions',
+                'clearanceChapterChild'
+            ];
+        }
+        
     }
 
     public function getQuestions()
@@ -133,5 +163,10 @@ class ChapterChild extends \yii\db\ActiveRecord
     public static function findAllClearance($uid = 0)
     {
         return static::find()->where(['uid'=> $uid, 'activity_id'=> 1])->innerJoinWith('clearanceChapterChild')->all();
+    }
+
+    public function getStatus()
+    {
+        return $this->clearanceChapterChild == null? self::UNDO: self::DONE;
     }
 }

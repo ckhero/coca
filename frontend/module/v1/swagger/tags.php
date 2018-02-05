@@ -13,6 +13,10 @@
  *   description="获取每个关卡的子关卡"
  * )
  * @SWG\Tag(
+ *   name="子关卡",
+ *   description="获取子关卡的题目"
+ * )
+ * @SWG\Tag(
  *   name="答题",
  *   description="题目列表等"
  * )

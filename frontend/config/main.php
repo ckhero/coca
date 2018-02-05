@@ -43,7 +43,10 @@ return [
             // 'enableStrictParsing' => true,
             'showScriptName' => false,
             'rules' => [
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter-item'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter'],
+
                 
                // ['class' => 'yii\rest\UrlRule', 'controller' => 'upload'],
                 [

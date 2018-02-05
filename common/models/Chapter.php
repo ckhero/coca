@@ -52,24 +52,41 @@ class Chapter extends \yii\db\ActiveRecord
 
     public function fields()
     {
-        return [
-            'id',
-            'map_id',
-            'name',
-            'desc',
-            'bg_url',
-            'sort',
-            'guide',
-            // 'childs',
-            'status',
-        ];
+        if (Yii::$app->controller->action->id === 'view' && Yii::$app->id =='app-frontend') {
+
+            return [
+                'id',
+                'map_id',
+                'name',
+                'desc',
+                'bg_url',
+                'sort',
+                'guide',
+                'chapterChilds',
+                // 'status',
+            ];
+        } else {
+
+            return [
+                'id',
+                'map_id',
+                'name',
+                'desc',
+                'bg_url',
+                'sort',
+                'guide',
+                // 'childs',
+                'status',
+            ];
+        }
+        
     }
     public function beforeSave($insert)
     {
         return parent::beforeSave($insert);
     }
 
-    public function getChilds()
+    public function getChapterChilds()
     {
         return $this->hasMany(ChapterChild::className(), ['chapter_id'=> 'id']);
     }

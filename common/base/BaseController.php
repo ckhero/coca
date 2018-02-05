@@ -20,9 +20,9 @@ class BaseController extends \yii\rest\ActiveController
         $behaviors = parent::behaviors();
         return array_merge($behaviors, [
 
-	            'authenticator'=> [
-	                'class' => QueryParamAuth::className(),
-	            ]
+	            // 'authenticator'=> [
+	            //     'class' => QueryParamAuth::className(),
+	            // ]
             ]);
     }
 }

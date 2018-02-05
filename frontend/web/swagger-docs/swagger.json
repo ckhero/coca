@@ -95,6 +95,159 @@
                 ]
             }
         },
+        "/v1/chapters/{id}": {
+            "get": {
+                "tags": [
+                    "\u5173\u5361"
+                ],
+                "summary": "\u67e5\u770b\u5173\u5361",
+                "description": "\u67e5\u770b\u5173\u5361",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u5173\u5361id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/chapters"
+                        }
+                    },
+                    "404": {
+                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/chapter-items/{id}": {
+            "get": {
+                "tags": [
+                    "\u5b50\u5173\u5361"
+                ],
+                "summary": "\u67e5\u770b\u5b50\u5173\u5361",
+                "description": "\u83b7\u53d6\u5b50\u5173\u5361\u7684\u9898\u76ee",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u5173\u5361id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/chapterChilds"
+                        }
+                    },
+                    "404": {
+                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "\u5b50\u5173\u5361"
+                ],
+                "summary": "\u66f4\u65b0\u7528\u6237\u7b54\u9898\u7ed3\u679c",
+                "description": "\u66f4\u65b0\u7528\u6237\u7b54\u9898\u7ed3\u679c",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u5c0f\u5173\u5361id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u7528\u6237\u7b54\u9898\u7ed3\u679c",
+                        "required": true,
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/answerSubmitFormat"
+                            }
+                        }
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/chapterChilds"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    },
+                    "404": {
+                        "description": "\u5c0f\u5173\u5361\u4e0d\u5b58\u5728"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
         "/v1/maps": {
             "get": {
                 "tags": [
@@ -210,11 +363,84 @@
                 "name": "ListInfo"
             }
         },
+        "answerSubmitFormat": {
+            "properties": {
+                "id": {
+                    "description": "\u9898\u76eeid",
+                    "type": "integer"
+                },
+                "option": {
+                    "description": "\u7528\u6237\u9009\u9879",
+                    "type": "string",
+                    "example": "A"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "answerSubmitFormat"
+            }
+        },
+        "chapterAnswer": {
+            "properties": {
+                "chapter_child_id": {
+                    "description": "\u5b50\u5173\u5361id\uff0c\u4e5f\u5c31\u662f\u9898\u76ee\u6240\u5c5e\u5173\u5361id",
+                    "type": "integer"
+                },
+                "options": {
+                    "description": "\u7528\u6237\u9009\u9879",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/answerSubmitFormat"
+                    }
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "chapterAnswer"
+            }
+        },
+        "chapterChilds": {
+            "required": [],
+            "properties": {
+                "id": {
+                    "description": "\u5c0f\u5173\u5361id",
+                    "type": "integer"
+                },
+                "chapter_id": {
+                    "description": "\u5c0f\u5173\u5361\u6240\u5c5e\u5173\u5361id",
+                    "type": "integer"
+                },
+                "name": {
+                    "description": "\u5c0f\u5173\u5361\u540d\u5b57",
+                    "type": "string"
+                },
+                "desc": {
+                    "description": "\u5c0f\u5173\u5361\u63cf\u8ff0",
+                    "type": "string"
+                },
+                "sort": {
+                    "description": "\u5c0f\u5173\u5361\u6392\u5e8f",
+                    "type": "integer",
+                    "example": "1"
+                },
+                "status": {
+                    "description": "\u5173\u5361\u662f\u5426\u5b8c\u6210;undo\u672a\u5b8c\u6210\uff0cdone\u5df2\u5b8c\u6210",
+                    "type": "string",
+                    "example": "undo"
+                },
+                "questions": {
+                    "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
+                    "type": "array",
+                    "items": {}
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "chapterChilds"
+            }
+        },
         "chapters": {
-            "required": [
-                "name",
-                "sort"
-            ],
+            "required": [],
             "properties": {
                 "id": {
                     "description": "\u5173\u5361id",
@@ -242,9 +468,21 @@
                     "type": "integer",
                     "example": "1"
                 },
+                "status": {
+                    "description": "\u5173\u5361\u662f\u5426\u5b8c\u6210;undo\u672a\u5b8c\u6210\uff0cdone\u5df2\u5b8c\u6210\uff0c doing\u5b8c\u6210\u90e8\u5206",
+                    "type": "string",
+                    "example": "undo"
+                },
                 "guide": {
                     "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
                     "type": "string"
+                },
+                "chapterChilds": {
+                    "description": "\u5b50\u5173\u5361\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/chapterChilds"
+                    }
                 }
             },
             "type": "object",
@@ -382,6 +620,10 @@
         {
             "name": "\u5173\u5361",
             "description": "\u83b7\u53d6\u6bcf\u4e2a\u5173\u5361\u7684\u5b50\u5173\u5361"
+        },
+        {
+            "name": "\u5b50\u5173\u5361",
+            "description": "\u83b7\u53d6\u5b50\u5173\u5361\u7684\u9898\u76ee"
         },
         {
             "name": "\u7b54\u9898",
