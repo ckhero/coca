@@ -65,6 +65,7 @@ class CocaController extends \yii\web\Controller
     	// }
 
         $coca = new Coca();
+        return $coca->savePoint();
     	// if (!$coca->checkSign($params)) {
     	// 	return [
     	// 		'Status'=> '003',

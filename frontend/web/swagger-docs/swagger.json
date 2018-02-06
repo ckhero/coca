@@ -451,6 +451,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "access-token",
                         "in": "query",
                         "description": "\u8eab\u4efd\u4ee4\u724c",

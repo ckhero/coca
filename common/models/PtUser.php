@@ -28,6 +28,8 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     const REFRESH_EXPIRED_TIME = 3600 * 24;
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 1;
+
+    public $rank;
     /**
      * {@inheritdoc}
      */
@@ -42,8 +44,8 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            [['coca_id', 'points', 'exp', 'access_expired_at', 'refresh_expired_at', 'status'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['coca_id', 'points', 'exp', 'nog', 'access_expired_at', 'refresh_expired_at', 'status'], 'integer'],
+            [['created_at', 'updated_at', 'rank'], 'safe'],
             [['nick_name'], 'string', 'max' => 128],
             [['head_img'], 'string', 'max' => 255],
             [['access_token', 'refresh_token'], 'string', 'max' => 32],
@@ -62,6 +64,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
             'head_img' => 'Head Img',
             'points' => 'Points',
             'exp' => 'Exp',
+            'nog' => 'Nog',
             'access_token' => 'Access Token',
             'refresh_token' => 'Refresh Token',
             'access_expired_at' => 'Access Expired At',
@@ -186,10 +189,16 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     public static function addExp($exp = 0)
     {
         $model = static::findById(Yii::$app->user->id);
-        $model->exp += $exp;
-        return $model->save();
+        return $model->updateCounters(['exp' => $exp]);
+        //return $model->save();
     }
 
+    public static function addNog($nog = 0)
+    {
+        $model = static::findById(Yii::$app->user->id);
+        return $model->updateCounters(['nog' => $nog]);
+        //return $model->save();
+    }
     /**
      * [getDayMissionStatus 日常任务状态，1为完成，0为未完成]
      * #Author ckhero
@@ -200,4 +209,18 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return UserChapterRecord::isDayMissionDone();
     }
+
+    public function fields()
+    {
+        $fields = parent::fields();
+        unset($fields['access_token'], $fields['refresh_token'], $fields['created_at'], $fields['updated_at'], $fields['access_expired_at'], $fields['refresh_expired_at']);
+        return array_merge($fields, ['rank']);
+        // return array_merge($fields, [
+        //     'rank'=> function($model, $key, $index, $column) {
+        //         return $key;
+        //     }
+        // ]);
+        
+    }
+
 }

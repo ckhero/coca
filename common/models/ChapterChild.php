@@ -7,6 +7,9 @@ use Yii;
 class ChapterChild extends \yii\db\ActiveRecord
 {
     const ACTIVITY_ID = 1;
+    const TYPE_CHAPTER = 1; //关卡
+    const TYPE_WORLD = 2; //世界boss
+    const TYPE_DAY = 3;//每日任务
     const DONE = 'done';
     const DOING = 'doing';
     const UNDO = 'undo';
@@ -144,7 +147,7 @@ class ChapterChild extends \yii\db\ActiveRecord
     {
         return Yii::$app->cache->getOrSet('userTotalDone_'.$uid, function () use ($uid) {
             $query = new static();
-            return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::ACTIVITY_ID])->count();
+            return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::TYPE_CHAPTER])->count();
         }, 300);
     }
 
@@ -168,5 +171,13 @@ class ChapterChild extends \yii\db\ActiveRecord
     public function getStatus()
     {
         return $this->clearanceChapterChild == null? self::UNDO: self::DONE;
+    }
+
+    public static function getNameById($id = 0) 
+    {
+        return Yii::$app->cache->getOrSet('ChapterChildName:'.$id, function () use ($id){
+            $model = static::findOne(['id'=> $id]);
+            return $model->name?? null;
+        }, 300);
     }
 }

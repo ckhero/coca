@@ -84,12 +84,14 @@ class DayController extends \common\base\BaseRestWebController
         }
         $options = \Yii::$app->request->getBodyParams();
 	    $optionsVerifyRes = Questions::cTwoOptions(Questions::dayQuestions(), $options);
+        $extraData = [];
 	    if ($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.5)) {
 	         //答题成功
 	         $pieces = Prop::randomPieces(); //获取五个碎片
 	         UserProp::addProp($pieces); //将碎片添加给用户
-	         UserChapterRecord::addRecord(array_merge($optionsVerifyRes), UserChapterRecord::TYPE_DAY);//添加过关记录表明关卡已通
+             $extraData = ['props'=> json_encode(array_column($pieces, 'id'))];
 	    }
+        UserChapterRecord::addRecord(array_merge($optionsVerifyRes, $extraData), UserChapterRecord::TYPE_DAY);//添加过关记录表明关卡已通
 	    GameLog::log(['detail'=> json_encode($options)]);
 	    return $optionsVerifyRes;
 

@@ -105,7 +105,7 @@ class Chapter extends \yii\db\ActiveRecord
     {
         return Yii::$app->cache->getOrSet('Chapter_total', function () {
             $query = new static();
-            return $query->find()->innerJoinWith('childs')->innerJoinWith('map')->count();
+            return $query->find()->innerJoinWith('chapterChilds')->innerJoinWith('map')->count();
         }, 300);
         
     }
@@ -119,7 +119,7 @@ class Chapter extends \yii\db\ActiveRecord
     public function getStatus()
     {
         //子关卡id
-        $childsId = array_column($this->childs, 'id');
+        $childsId = array_column($this->chapterChilds, 'id');
 
         //已完成关卡id
         $clearanceChapterChild = ChapterChild::getDoneClearanceByUid(Yii::$app->user->id);

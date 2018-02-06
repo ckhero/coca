@@ -72,4 +72,11 @@ class Map extends \yii\db\ActiveRecord
             'chapters'
         ];
     }
+
+    public function extraFields()
+    {
+        return [
+            'chapters',
+        ];
+    }
 }
