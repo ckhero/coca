@@ -149,6 +149,15 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         return static::find()->where(['refresh_token'=> $token])->andWhere(['>', 'refresh_expired_at', time()])->one();
     }
 
+    public static function findById($id)
+    {
+        $user = static::find()->where(['id'=> $id])->one();
+        if (is_null($user)) {
+            throw new \yii\web\NotFoundHttpException();
+        }
+        return $user;
+    }
+
     public function getAuthKey()
     {
         return $this->access_token;
@@ -172,5 +181,23 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     public function getChapterDone()
     {
         return Level::getLevelByScore($this->exp);
+    }
+
+    public static function addExp($exp = 0)
+    {
+        $model = static::findById(Yii::$app->user->id);
+        $model->exp += $exp;
+        return $model->save();
+    }
+
+    /**
+     * [getDayMissionStatus 日常任务状态，1为完成，0为未完成]
+     * #Author ckhero
+     * #DateTime 2018-02-06
+     * @return [type] [description]
+     */
+    public function getDayMissionStatus()
+    {
+        return UserChapterRecord::isDayMissionDone();
     }
 }

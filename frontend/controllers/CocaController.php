@@ -7,9 +7,11 @@ use common\models\PtUser;
 use common\models\Level;
 use common\models\Chapter;
 use common\models\ChapterChild;
+use Api\Coca;
 
 class CocaController extends \yii\web\Controller
 {
+
     public function actionIndex()
     {
         return $this->render('index');
@@ -46,9 +48,12 @@ class CocaController extends \yii\web\Controller
     public function actionLogin()
     {
         
-    	//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+    	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        // $arr = json_decode('{"timestamp":1517911177,"nonce":"NPUAMnOlvEmsAMibnEWa4xt3dGeKYtcX","str":"69a63a93c06a0c52NPUAMnOlvEmsAMibnEWa4xt3dGeKYtcX1517911177","signature":"7ecdf946f496f733638a33b2ad56e60ac4ecbc76"}', true);
+     //    arsort($arr);
+     //    return $arr;
     	$params = Yii::$app->request->get(); 
-    	// if ((time() - $params['TimeStamp']) > 500) {
+    	// if ((time() - @$params['TimeStamp']) > 500) {
     	// 	return [
     	// 		'Status'=> '002',
     	// 		'Message'=> [
@@ -59,7 +64,8 @@ class CocaController extends \yii\web\Controller
     	// 	];
     	// }
 
-    	// if (!$this->checkSign($params)) {
+        $coca = new Coca();
+    	// if (!$coca->checkSign($params)) {
     	// 	return [
     	// 		'Status'=> '003',
     	// 		'Message'=> [
@@ -69,7 +75,7 @@ class CocaController extends \yii\web\Controller
     	// 		'Data'=> null,
     	// 	];
     	// }
-
+        return $coca->getSign();exit;
     	$user = PtUser::loginOrCreate($params);
         // var_dump($user);
     	var_dump($user->id,ChapterChild::totalDone($user->id));exit;
@@ -83,16 +89,6 @@ class CocaController extends \yii\web\Controller
     		];
     }
 
-    public function checkSign($params = [])
-    {
-
-    	$paramsTmp['token'] = '69a63a93c06a0c52';
-    	$paramsTmp['nonce'] = $params['Nonce']?? '';
-    	$paramsTmp['timestamp'] = $params['TimeStamp']?? '';
-    	ksort($paramsTmp);
-    	$str = implode('', $paramsTmp);
-    	return sha1($str) == strtolower($params['signature']?? 0);
-    }
 
     /**
      * @SWG\Post(path="/coca/refresh",

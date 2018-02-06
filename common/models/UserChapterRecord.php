@@ -18,7 +18,9 @@ use Yii;
  */
 class UserChapterRecord extends \yii\db\ActiveRecord
 {
-    const TYPE_CHAPTER = 1;
+    const TYPE_CHAPTER = 1; //关卡
+    const TYPE_WORLD = 2; //世界boss
+    const TYPE_DAY = 3;//每日任务
     /**
      * {@inheritdoc}
      */
@@ -55,6 +57,27 @@ class UserChapterRecord extends \yii\db\ActiveRecord
         ];
     }
 
+    public function beforeSave($insert) {
+
+        if (parent::beforeSave($insert)) {
+
+            // $this->right_option = chr($this->right_option + 64);
+            if ($insert) {
+
+                $this->created_at = date('Y-m-d H:i:s');
+                $this->updated_at = date('Y-m-d H:i:s');
+                
+            } else {
+
+                $this->updated_at = date('Y-m-d H:i:s');
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
     public function getCahpterChilds()
     {
         return $this->hasMany(ChapterChild::className(), ['id'=> 'chapter_child_id']);
@@ -74,5 +97,39 @@ class UserChapterRecord extends \yii\db\ActiveRecord
     public static function findAllClearance($uid = 0)
     {
         return static::find()->where(['uid'=> $uid, 'activity_id'=> self::TYPE_CHAPTER])->innerJoinWith('cahpterChilds')->all();
+    }
+
+    public static function addRecord($data, $activityId = self::TYPE_CHAPTER)
+    {
+        $model = new static();
+        $model->uid = Yii::$app->user->id;
+        $model->activity_id = $activityId;
+        $model->chapter_child_id = $data['chapter_child_id']?? 0;
+        $model->total = $data['total'];
+        $model->right_num = $data['rightOptionNum'];
+        return $model->save();
+    }
+
+    /**
+     * [isDayMissionDone 判断没人任务是否完成]
+     * #Author ckhero
+     * #DateTime 2018-02-06
+     * @return boolean [true 为已完成 false为未完成]
+     */
+    public static function isDayMissionDone()
+    {
+        $uid = Yii::$app->user->id;
+        if ($uid > 0) {
+            $record = static::find()
+                            ->where([
+                                'uid'=> $uid, 
+                                'activity_id'=> self::TYPE_DAY
+                            ])
+                            ->andWhere(['date(created_at)'=> date('Y-m-d')])
+                            ->one();
+            return !is_null($record);
+        } else {
+            throw new yii\web\UnauthorizedHttpException;
+        }
     }
 }

@@ -2,6 +2,13 @@
 
 namespace frontend\module\v1\controllers;
 
+use common\models\Questions;
+use common\models\PtUser;
+use common\models\Prop;
+use common\models\UserProp;
+use common\models\UserChapterRecord;
+use common\models\GameLog;
+
 class ChapterItemController extends \common\base\BaseController
 {
 	public $modelClass = 'common\models\ChapterChild';
@@ -72,7 +79,7 @@ class ChapterItemController extends \common\base\BaseController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/chapterChilds"), description="更新成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/responseQuestion"), description="提交成功"),
      *   @SWG\Response(response=422, description="数据验证失败"),
      *   @SWG\Response(response=404,description="小关卡不存在"),
      *   security={
@@ -83,7 +90,23 @@ class ChapterItemController extends \common\base\BaseController
     
     public function actionUpdate($id)
     {
-    	$answers = \Yii::$app->request->getBodyParams();
-    	//验证答案的正确性
+         	$options = \Yii::$app->request->getBodyParams();
+          $optionsVerifyRes = Questions::verifyChapterOptions($id, $options);
+          if ($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.5)) {
+               //答题成功
+               PtUser::addExp(100);//发放经验
+               $pieces = Prop::randomPieces(); //获取五个碎片
+               UserProp::addProp($pieces); //将碎片添加给用户
+               UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id]));//添加过关记录表明关卡已通
+          }
+          GameLog::log([
+                         'chapter_child_id'=> $id,
+                         'detail'=> json_encode($options),
+                    ]);
+          // $user = new PtUser();
+          // return $user->dayMissionStatus;
+          // return \Yii::$app->user->dayMissionStatus;
+          return $optionsVerifyRes;
+         	//验证答案的正确性
     }
 }

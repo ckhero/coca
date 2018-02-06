@@ -229,9 +229,100 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "description": "\u63d0\u4ea4\u6210\u529f",
                         "schema": {
-                            "$ref": "#/definitions/chapterChilds"
+                            "$ref": "#/definitions/responseQuestion"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    },
+                    "404": {
+                        "description": "\u5c0f\u5173\u5361\u4e0d\u5b58\u5728"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/days": {
+            "get": {
+                "tags": [
+                    "\u6bcf\u65e5\u4efb\u52a1"
+                ],
+                "summary": "\u83b7\u53d6\u6bcf\u65e5\u4efb\u52a1\u9898\u76ee",
+                "description": "\u83b7\u53d6\u6bcf\u65e5\u4efb\u52a1\u9898\u76ee",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/dayResult"
+                        }
+                    },
+                    "404": {
+                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "\u6bcf\u65e5\u4efb\u52a1"
+                ],
+                "summary": "\u66f4\u65b0\u7528\u6237\u6bcf\u65e5\u4efb\u52a1\u7b54\u9898\u7ed3\u679c",
+                "description": "\u66f4\u65b0\u7528\u6237\u6bcf\u65e5\u4efb\u52a1\u7b54\u9898\u7ed3\u679c",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u7528\u6237\u7b54\u9898\u7ed3\u679c",
+                        "required": true,
+                        "schema": {
+                            "items": {
+                                "$ref": "#/definitions/answerSubmitFormat"
+                            }
+                        }
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u63d0\u4ea4\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/responseQuestion"
                         }
                     },
                     "422": {
@@ -332,6 +423,61 @@
                     }
                 ]
             }
+        },
+        "/v1/ranks": {
+            "get": {
+                "tags": [
+                    "\u6392\u884c\u699c"
+                ],
+                "summary": "\u8fd4\u56de\u6392\u884c\u699c",
+                "description": "\u8fd4\u56de\u6392\u884c\u699c",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "\u6392\u884c\u699c\u7c7b\u578b\uff0c\u79ef\u5206\u7528point\uff0c\u7ecf\u9a8c\u7528exp",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/rank"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
         }
     },
     "definitions": {
@@ -361,6 +507,41 @@
             "type": "object",
             "xml": {
                 "name": "ListInfo"
+            }
+        },
+        "QuestionOptions": {
+            "required": [
+                "q_id",
+                "short_name",
+                "desc"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u9009\u9879id",
+                    "type": "integer"
+                },
+                "q_id": {
+                    "description": "\u5bf9\u5e94\u9898\u76eeid",
+                    "type": "integer"
+                },
+                "short_name": {
+                    "description": "\u9009\u9879\u540d\u79f0",
+                    "type": "string",
+                    "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "..."
+                    ]
+                },
+                "desc": {
+                    "description": "\u9009\u9879\u5185\u5bb9",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "QuestionOptions"
             }
         },
         "answerSubmitFormat": {
@@ -431,7 +612,9 @@
                 "questions": {
                     "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
                     "type": "array",
-                    "items": {}
+                    "items": {
+                        "$ref": "#/definitions/Questions"
+                    }
                 }
             },
             "type": "object",
@@ -507,6 +690,36 @@
             "type": "object",
             "xml": {
                 "name": "chaptersList"
+            }
+        },
+        "dayResult": {
+            "properties": {
+                "code": {
+                    "description": "\u7b54\u9898\u60c5\u51b5\uff0c0\u4e3a\u9a8c\u8bc1\u5931\u8d25\uff0c1\u4e3a\u5168\u90e8\u7b54\u5bf9\uff0c2\u4f4d\u90e8\u5206\u7b54\u5bf9",
+                    "type": "integer",
+                    "enum": [
+                        "0",
+                        "1",
+                        "2"
+                    ],
+                    "example": "0"
+                },
+                "message": {
+                    "description": "\u72b6\u6001\u7801\u63cf\u8ff0",
+                    "type": "string",
+                    "example": "\u5168\u90e8\u7b54\u9519"
+                },
+                "items": {
+                    "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Questions"
+                    }
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "dayResult"
             }
         },
         "loginResult": {
@@ -605,6 +818,114 @@
             "type": "object",
             "xml": {
                 "name": "mapsList"
+            }
+        },
+        "Questions": {
+            "required": [
+                "desc",
+                "right_option"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u9898\u76eeid",
+                    "type": "integer"
+                },
+                "desc": {
+                    "description": "\u9898\u76ee\u5185\u5bb9",
+                    "type": "string"
+                },
+                "right_option": {
+                    "description": "\u9898\u76ee\u6b63\u786e\u9009\u9879",
+                    "type": "string",
+                    "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "..."
+                    ]
+                },
+                "questionOptions": {
+                    "description": "",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/QuestionOptions"
+                    }
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "Questions"
+            }
+        },
+        "rank": {
+            "properties": {
+                "items": {
+                    "description": "\u5c0f\u5173\u5361\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user"
+                    }
+                },
+                "_meta": {
+                    "description": "\u76f8\u5173\u4fe1\u606f",
+                    "$ref": "#/definitions/ListInfo"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "rank"
+            }
+        },
+        "responseQuestion": {
+            "properties": {
+                "code": {
+                    "description": "\u7b54\u9898\u60c5\u51b5\uff0c0\u4e3a\u9a8c\u8bc1\u5931\u8d25\uff0c1\u4e3a\u5168\u90e8\u7b54\u5bf9\uff0c2\u4f4d\u90e8\u5206\u7b54\u5bf9",
+                    "type": "integer",
+                    "enum": [
+                        "0",
+                        "1",
+                        "2"
+                    ],
+                    "example": "0"
+                },
+                "message": {
+                    "description": "\u72b6\u6001\u7801\u63cf\u8ff0",
+                    "type": "string",
+                    "example": "\u5168\u90e8\u7b54\u9519"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "responseQuestion"
+            }
+        },
+        "user": {
+            "required": [],
+            "properties": {
+                "coca_id": {
+                    "description": "\u7528\u6237\u7684\u53ef\u4e50id",
+                    "type": "integer"
+                },
+                "point": {
+                    "description": "\u79ef\u5206",
+                    "type": "integer"
+                },
+                "rank": {
+                    "description": "\u6392\u540d",
+                    "type": "integer"
+                },
+                "head_img": {
+                    "description": "\u5934\u50cf",
+                    "type": "string"
+                },
+                "nick_name": {
+                    "description": "\u6635\u79f0",
+                    "type": "string"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "user"
             }
         }
     },
