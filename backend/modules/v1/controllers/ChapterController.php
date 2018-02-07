@@ -30,6 +30,14 @@ class ChapterController extends \common\base\BaseController
      *         type="integer",
      *         required=false,
      *     ),
+     *    @SWG\Parameter(
+     *         description="每页的数量",
+     *         in="query",
+     *         name="per-page",
+     *         required=true,
+     *         type="integer",
+     *         required=false,
+     *     ),
      *      @SWG\Parameter(
      *         description="所属地图id",
      *         in="query",
@@ -61,7 +69,7 @@ class ChapterController extends \common\base\BaseController
     	return new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
-		        'pageSize' => 20,
+		        'pageSize' => Yii::$app->ggetquest->get('per-page', 20),
 		    ],
 		    // 'sort' => [
 		    //     'defaultOrder' => [
