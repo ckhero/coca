@@ -6,6 +6,7 @@ class Coca
 	private $token = '69a63a93c06a0c52';
     const RANK_URL = 'https://konnectoruat.icoke.cn/ELearningGame/GetUserList?';
     const POINT_SAVE_URL = 'https://konnectoruat.icoke.cn/ELearningGame/SavePontInfo?';
+    const USER_INFO_URL = 'https://konnectoruat.icoke.cn/ELearningGame/GetGamePontsByUser?';
 
 	public function checkSign($params = [])
     {
@@ -39,8 +40,8 @@ class Coca
 
     public function ranks($page = 1, $per_page = 20)
     {   
-        $params['CurrPage'] = $page;
-        $params['PageCount'] = $per_page;
+        $params['currPage'] = $page;
+        $params['pageSize'] = $per_page;
         $params = array_merge($params, $this->getSign());
 
         $res = send_curl(self::RANK_URL.http_build_query($params));
@@ -56,31 +57,42 @@ class Coca
         
         if ($res['Status'] != '001') {
             $returnData['items'] = [];
+        } else {
+            foreach ($res['Data']['List'] as $user) {
+            $returnData['items'][] = [
+                    'coca_id'=> $user['KOUserId'],
+                    'rank'=> $user['Ranking'],
+                    'nick_name'=> $user['NickName'],
+                    'points'=> $user['Points'],
+                    'head_img'=> $user['HeadImgUrl'],
+                ];
+            }
         }
-        foreach ($res['Data']['List'] as $user) {
-            $items[] = [
-                'coca_id'=> $user['KOUserId'],
-                'rank'=> $user['Ranking'],
-                'nick_name'=> $user['NickName'],
-                'points'=> $user['Points'],
-                'head_img'=> $user['HeadImgUrl'],
-            ];
-        }
+        
         return $returnData;
     }
 
-    public function savePoint()
+    public function savePoint($record = [], $cocaId = 0)
     {
         $points['Points'] = [];
-        $points['Points'][] = [
-            'Id'=> 11,
-            'SourceId'=> 1,
-            'SourceName'=> 'test',
-            'GainPoint'=> 10,
-            'GainTime'=> date('Y-m-d H:i:s'),
-            'KOUserId'=> 100000,
-        ];
+        // foreach($records as $record) {
+            $points['Points'][] = [
+                'Id'=> $record['chapter_child_id'],
+                'SourceId'=> 1,
+                'SourceName'=> $record['activity_name'],
+                'GainPoint'=> $record['point'],
+                'GainTime'=> date('Y-m-d H:i:s'),
+                'KOUserId'=> $cocaId,
+            ];
+        // }
         $res = send_curl(self::POINT_SAVE_URL.http_build_query($this->getSign()), json_encode($points), 'POST');
+        return json_decode($res, true);
+    }
+
+    public function getUserInfo()
+    {
+        $params['KOUserId'] = 22439;
+        $res = send_curl(self::USER_INFO_URL.http_build_query(array_merge($params, $this->getSign())));;
         return json_decode($res, true);
     }
  }

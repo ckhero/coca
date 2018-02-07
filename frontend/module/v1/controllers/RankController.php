@@ -12,21 +12,21 @@ class RankController extends \common\base\BaseRestWebController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
-            [
-                'class' => 'yii\filters\PageCache',
-                'only' => ['index'],
-                'duration' => 60,
-                'variations' => [
-                    Yii::$app->language,
-                    Yii::$app->request->get('page'),
-                    Yii::$app->request->get('type'),
-                    Yii::$app->request->get('per-page'),
-                ],
-                // 'dependency' => [
-                //     'class' => 'yii\caching\DbDependency',
-                //     'sql' => 'SELECT COUNT(*) FROM post',
-                // ],
-            ],
+            // [
+            //     'class' => 'yii\filters\PageCache',
+            //     'only' => ['index'],
+            //     'duration' => 60,
+            //     'variations' => [
+            //         Yii::$app->language,
+            //         Yii::$app->request->get('page'),
+            //         Yii::$app->request->get('type'),
+            //         Yii::$app->request->get('per-page'),
+            //     ],
+            //     // 'dependency' => [
+            //     //     'class' => 'yii\caching\DbDependency',
+            //     //     'sql' => 'SELECT COUNT(*) FROM post',
+            //     // ],
+            // ],
         ]);
     }
 	/**

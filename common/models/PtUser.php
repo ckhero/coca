@@ -213,14 +213,32 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     public function fields()
     {
         $fields = parent::fields();
-        unset($fields['access_token'], $fields['refresh_token'], $fields['created_at'], $fields['updated_at'], $fields['access_expired_at'], $fields['refresh_expired_at']);
-        return array_merge($fields, ['rank']);
-        // return array_merge($fields, [
-        //     'rank'=> function($model, $key, $index, $column) {
-        //         return $key;
-        //     }
-        // ]);
-        
+        unset($fields['created_at'], $fields['updated_at'], $fields['access_expired_at'], $fields['refresh_expired_at']);
+        if (Yii::$app->controller->id != 'coca' || Yii::$app->controller->action->id != 'login') {
+            unset($fields['access_token'], $fields['refresh_token']);
+        }
+        return array_merge($fields, ['rank']);   
     }
 
+    /**
+     * [addDoubleTime 增加双倍时间]
+     * #Author ckhero
+     * #DateTime 2018-02-07
+     */
+    public static function addDoubleTime($seconds = 3600)
+    {
+        $model = static::findById(Yii::$app->user->id);
+        if (strtotime($model->double_end) < time()) {
+            $model->double_end = date('Y-m-d H:i:s', time() + $seconds);
+        } else {
+            $model->double_end = strtotime($model->double_end) < time()? date('Y-m-d H:i:s', time() + $seconds): date('Y-m-d H:i:s', strtotime($model->double_end) + $seconds);
+        }
+        return $model->save();
+    }
+
+    public static function getCocaIdById()
+    {
+        $model = static::findById(Yii::$app->user->id);
+        return $model->coca_id;
+    }
 }

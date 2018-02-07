@@ -18,25 +18,12 @@ class CocaController extends \yii\web\Controller
     }
 
     /**
-     * @SWG\Get(path="/coca/login",
+     * @SWG\Get(path="/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg",
      *   tags={"用户"},
      *   summary="登录获取access-token",
      *   description="登录获取access-token，用于接口调用时候的验证",
      *   operationId="getInventory",
      *   produces={"application/json"},
-     *   @SWG\Parameter(
-     *         description="用户名",
-     *         in="formData",
-     *         name="username",
-     *         type="string",
-     *     ),
-     *   @SWG\Parameter(
-     *         description="密码",
-     *         in="formData",
-     *         name="password",
-     *         required=true,
-     *         type="string",
-     *     ),
      *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/loginResult"),description="access-token获取成功"),
      *   @SWG\Response(response=400,description="账号密码错误"),
      *   security={
@@ -49,9 +36,6 @@ class CocaController extends \yii\web\Controller
     {
         
     	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        // $arr = json_decode('{"timestamp":1517911177,"nonce":"NPUAMnOlvEmsAMibnEWa4xt3dGeKYtcX","str":"69a63a93c06a0c52NPUAMnOlvEmsAMibnEWa4xt3dGeKYtcX1517911177","signature":"7ecdf946f496f733638a33b2ad56e60ac4ecbc76"}', true);
-     //    arsort($arr);
-     //    return $arr;
     	$params = Yii::$app->request->get(); 
     	// if ((time() - @$params['TimeStamp']) > 500) {
     	// 	return [
@@ -65,20 +49,18 @@ class CocaController extends \yii\web\Controller
     	// }
 
         $coca = new Coca();
-        return $coca->savePoint();
-    	// if (!$coca->checkSign($params)) {
-    	// 	return [
-    	// 		'Status'=> '003',
-    	// 		'Message'=> [
-    	// 			'Key'=> '签名验证失败',
-    	// 			'Value'=> 'signature error',
-    	// 		],
-    	// 		'Data'=> null,
-    	// 	];
-    	// }
-        return $coca->getSign();exit;
+    	if (!$coca->checkSign($params)) {
+    		return [
+    			'Status'=> '003',
+    			'Message'=> [
+    				'Key'=> '签名验证失败',
+    				'Value'=> 'signature error',
+    			],
+    			'Data'=> null,
+    		];
+    	}
     	$user = PtUser::loginOrCreate($params);
-        // var_dump($user);
+        return $user;
     	var_dump($user->id,ChapterChild::totalDone($user->id));exit;
         return [
     			'Status'=> '001',
@@ -105,7 +87,7 @@ class CocaController extends \yii\web\Controller
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/loginResult"),description="access-token刷新成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/refreshResult"),description="access-token刷新成功"),
      *   @SWG\Response(response=400,description="refresh不存在"),
      *   security={
      *     {"Authorization": {}},

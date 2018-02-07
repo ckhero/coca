@@ -138,4 +138,40 @@ class Prop extends \yii\db\ActiveRecord
 
         return $query->all();
     }
+    /**
+     * [findPropPiecesById 某个道具的碎片列表]
+     * #Author ckhero
+     * #DateTime 2018-02-07
+     * @param  integer $pid [description]
+     * @return [type]       [description]
+     */
+    public static function findPropPiecesById($pid = 0)
+    {
+        return static::find()->where(['pid'=> $pid])->all();
+    }
+
+    /**
+     * [cTwoPieces 对比碎片或查看是否可以合成]
+     * #Author ckhero
+     * #DateTime 2018-02-07
+     * @param  array  $pieces     [description]
+     * @param  array  $userPieces [description]
+     * @return [type]             [description]
+     */
+    public static function cTwoPieces($pieces = [], $userPieces = []) 
+    {
+        $ids = array_column($pieces, 'id');
+        sort($ids);
+        $userIds = array_column($userPieces, 'prop_id');
+        sort($userIds);
+        if (count($ids) != count($userIds) || empty($pieces)) {
+            return ['code'=> 0, 'message'=>'fail'];
+        }
+        foreach ($ids as $key=> $id) {
+            if ($id != $userIds[$key]) {
+                return ['code'=> 0, 'message'=> 'fail'];
+            }
+        }
+        return ['code'=> 1, 'message'=>'success']; 
+    }
 }

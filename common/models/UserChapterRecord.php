@@ -21,10 +21,12 @@ class UserChapterRecord extends \yii\db\ActiveRecord
     const TYPE_CHAPTER = 1; //关卡
     const TYPE_WORLD = 2; //世界boss
     const TYPE_DAY = 3;//每日任务
+    const TYPE_XIAOXIAOLE = 4;//每日任务
 
     static $activityNames = [
         '2'=> '世界boss',
         '3'=> '每日任务',
+        '4'=> '消消乐',
     ];
     /**
      * {@inheritdoc}
@@ -110,13 +112,15 @@ class UserChapterRecord extends \yii\db\ActiveRecord
         $model->uid = Yii::$app->user->id;
         $model->activity_id = $activityId;
         $model->chapter_child_id = $data['chapter_child_id']?? 0;
+        $model->chapter_child_name = $activityId == self::TYPE_CHAPTER? ChapterChild::getNameById($model->chapter_child_id): ($data['chapter_child_name']?? 0);
         $model->activity_name = $activityId == self::TYPE_CHAPTER? ChapterChild::getNameById($model->chapter_child_id): self::$activityNames[$activityId];
-        $model->total = $data['total'];
-        $model->right_num = $data['rightOptionNum'];
+        $model->total = $data['total']?? 0;
+        $model->right_num = $data['rightOptionNum']?? 0;
         $model->point = $data['point']?? 0;
         $model->exp = $data['exp']?? 0;
         $model->props = $data['props']?? null;
-        return $model->save();
+        $model->save();
+        return $model;
     }
 
     /**
