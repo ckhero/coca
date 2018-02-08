@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use Yii;
 use yii\base\Model;
 use yii\web\UploadedFile;
 
@@ -21,9 +22,15 @@ class UploadForm extends Model
     {
 
     	foreach($this->files as $file) {
-    		$attachment = uploadPath('uploads/'.date('Ymd').'/') . uuid() . '.' . $file->extension;
+            $fileName =  uuid() . '.' . $file->extension;
+    		$attachment = uploadPath('uploads/'.date('Ymd').'/') . $fileName;
 	    	$file->saveAs($attachment);
-	    	$attachments[]['path'] = $attachment;
+	    	$attachments[] = [
+                'type'=> $file->extension,
+                'name'=> $fileName,
+                'original_name'=> $file->baseName.$file->extension,
+                'path'=> Yii::$app->request->serverName.'/'.$attachment,
+            ];
     	}
     	return $attachments;
     }

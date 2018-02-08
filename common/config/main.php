@@ -17,14 +17,36 @@ return [
             'charset' => 'utf8',
             'tablePrefix' => 'co_',
         ],
-        // 'authManager' => [
+        'log' => [
+            'flushInterval' => 100,
+            'targets' => [
+                [
+                    'class' => 'yii\log\FileTarget',
+                    // 'class' => 'yii\log\DbTarget',
+                    'exportInterval' => 10,
+                    'levels' => ['info', 'error', 'profile'],
+                    'except' => [
+                       // 'yii\db\*',
+                    ],
+                    'logFile' => '@app/runtime/logs/'.date('Y-m-d').'.log',
+                ],
+            ],
+        ],
+        'urlManager' => [
+            //'enableStrictParsing' => true,
+            'rules' => [
+                // ...
+                'debug/<controller>/<action>' => 'debug/<controller>/<action>',
+            ],
+        ],
+            // 'authManager' => [
         //     'class' => 'yii\rbac\DbManager', // 使用数据库管理配置文件
         // ],
     ],
-    // 'modules' => [
-    //     'admin' => [
-    //         'class' => 'mdm\admin\Module',
-    //         'layout' => 'left-menu',//yii2-admin的导航菜单
-    //     ],
-    // ],
+    'bootstrap' => ['debug'],
+    'modules' => [
+        'debug' => [
+            'class' => 'yii\debug\Module',
+        ],
+    ],
 ];

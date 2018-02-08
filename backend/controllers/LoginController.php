@@ -61,13 +61,19 @@ class LoginController extends Controller
         $loginModel->username = Yii::$app->request->post('username');
         $loginModel->password = Yii::$app->request->post('password');
         $login = $loginModel->login();
+
+        $response = Yii::$app->getResponse();
+        $response->format = \yii\web\Response::FORMAT_JSON;
         if ($login['code'] == 0) {
 
-            throw new \yii\web\HttpException(400);
-        } 
-        $response = Yii::$app->getResponse();
+            $response->setStatusCode(404);
+            return [
+                'code' => 0,
+                'message'=> '没找到对应账号密码的用户',
+            ];
+        } ;
         $response->setStatusCode(200);
-        $response->format = \yii\web\Response::FORMAT_JSON;
+        
         return [
             'access-token' => $login['access-token'],
             'expire-time'=> 3600,

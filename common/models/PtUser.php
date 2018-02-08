@@ -3,7 +3,11 @@
 namespace common\models;
 
 use Yii;
+use yii\base\NotSupportedException;
+use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use yii\filters\RateLimitInterface;
 
 /**
  * This is the model class for table "co_pt_user".

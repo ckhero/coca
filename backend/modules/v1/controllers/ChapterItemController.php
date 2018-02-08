@@ -124,7 +124,7 @@ class ChapterItemController extends \common\base\BaseController
      *     description="小关卡和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/chapterChilds"
+     *       ref="#/definitions/chapterChildsAdd"
      *     )
      *   ),
      *    @SWG\Parameter(
@@ -162,7 +162,7 @@ class ChapterItemController extends \common\base\BaseController
      *     description="待更新小关卡和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/chapterChilds"
+     *       ref="#/definitions/chapterChildsAdd"
      *     )
      *   ),
      *   @SWG\Parameter(

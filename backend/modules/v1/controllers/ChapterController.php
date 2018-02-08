@@ -123,7 +123,7 @@ class ChapterController extends \common\base\BaseController
      *     description="关卡和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/chapters"
+     *       ref="#/definitions/chapterAdd"
      *     )
      *   ),
      *    @SWG\Parameter(
@@ -161,7 +161,7 @@ class ChapterController extends \common\base\BaseController
      *     description="待更新关卡和选项json串",
      *     required=true,
      *     @SWG\Schema(
-     *       ref="#/definitions/chapters"
+     *       ref="#/definitions/chapterAdd"
      *     )
      *   ),
      *   @SWG\Parameter(

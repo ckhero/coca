@@ -16,9 +16,9 @@ class BaseWebController extends \yii\web\Controller
         $behaviors = parent::behaviors();
         return array_merge($behaviors, [
 
-	            // 'authenticator'=> [
-	            //     'class' => QueryParamAuth::className(),
-	            // ]
+	            'authenticator'=> [
+	                'class' => QueryParamAuth::className(),
+	            ]
             ]);
     }
 }
