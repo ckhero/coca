@@ -1,5 +1,5 @@
-﻿# Host: localhost  (Version 5.7.19-log)
-# Date: 2018-02-07 18:21:34
+﻿# Host: 59.110.158.62  (Version 5.5.56-MariaDB)
+# Date: 2018-02-08 17:18:18
 # Generator: MySQL-Front 5.3  (Build 5.39)
 
 /*!40101 SET NAMES utf8 */;
@@ -110,6 +110,7 @@ CREATE TABLE `co_chapter` (
   `bg_url` varchar(255) DEFAULT NULL,
   `sort` tinyint(3) DEFAULT NULL COMMENT '排序',
   `guide` varchar(255) DEFAULT NULL COMMENT '课件，多个视频图片逗号隔开',
+  `guide_bg_url` varchar(255) DEFAULT NULL,
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -119,7 +120,7 @@ CREATE TABLE `co_chapter` (
 # Data for table "co_chapter"
 #
 
-REPLACE INTO `co_chapter` VALUES (1,6,'string1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',3,'string',NULL,NULL),(2,6,'1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',2,'string',NULL,NULL),(3,6,'string2','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',11,'string',NULL,NULL);
+REPLACE INTO `co_chapter` VALUES (1,6,'string1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',3,'string',NULL,NULL,NULL),(2,6,'1','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',2,'string',NULL,NULL,NULL),(3,6,'string2','string','uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg',11,'string',NULL,NULL,NULL);
 
 #
 # Structure for table "co_chapter_child"
@@ -134,13 +135,13 @@ CREATE TABLE `co_chapter_child` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "co_chapter_child"
 #
 
-REPLACE INTO `co_chapter_child` VALUES (12,1,'1-2',NULL,111,NULL,NULL),(13,2,NULL,NULL,2,NULL,NULL),(14,2,NULL,NULL,22,NULL,NULL),(15,0,NULL,NULL,0,'2018-02-06 08:52:40','2018-02-06 08:52:40'),(16,0,NULL,NULL,0,'2018-02-06 08:52:47','2018-02-06 08:52:47');
+REPLACE INTO `co_chapter_child` VALUES (12,1,'1-2',NULL,111,NULL,NULL),(13,2,NULL,NULL,2,NULL,NULL),(14,2,NULL,NULL,22,NULL,NULL),(15,0,NULL,NULL,0,'2018-02-06 08:52:40','2018-02-06 08:52:40'),(16,0,NULL,NULL,0,'2018-02-06 08:52:47','2018-02-06 08:52:47'),(17,0,'string','string',1,'2018-02-08 08:29:36','2018-02-08 08:29:36'),(18,0,'string','string',1,'2018-02-08 16:43:31','2018-02-08 16:43:31'),(19,0,'string','string',1,'2018-02-08 16:44:07','2018-02-08 16:44:07'),(20,0,'string','string',1,'2018-02-08 16:44:11','2018-02-08 16:44:11'),(21,0,'string','string',1,'2018-02-08 16:44:25','2018-02-08 16:44:25'),(22,1,'string','string',1,'2018-02-08 08:57:46','2018-02-08 08:57:46');
 
 #
 # Structure for table "co_chapter_child_question"
@@ -156,7 +157,7 @@ CREATE TABLE `co_chapter_child_question` (
 # Data for table "co_chapter_child_question"
 #
 
-REPLACE INTO `co_chapter_child_question` VALUES (12,1),(12,2);
+REPLACE INTO `co_chapter_child_question` VALUES (12,1),(12,2),(12,1),(12,2),(17,0),(18,0),(19,1),(20,1),(21,1),(21,2),(22,2);
 
 #
 # Structure for table "co_game_log"
@@ -188,10 +189,32 @@ CREATE TABLE `co_level` (
   `score` int(11) NOT NULL DEFAULT '0' COMMENT '分数',
   `name` char(16) DEFAULT NULL COMMENT '等级名字',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "co_level"
+#
+
+REPLACE INTO `co_level` VALUES (1,100,'等级测试');
+
+#
+# Structure for table "co_log"
+#
+
+CREATE TABLE `co_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `level` int(11) DEFAULT NULL,
+  `category` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `log_time` double DEFAULT NULL,
+  `prefix` text COLLATE utf8_unicode_ci,
+  `message` text COLLATE utf8_unicode_ci,
+  PRIMARY KEY (`id`),
+  KEY `idx_log_level` (`level`),
+  KEY `idx_log_category` (`category`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Data for table "co_log"
 #
 
 
@@ -251,6 +274,7 @@ CREATE TABLE `co_migration` (
 # Data for table "co_migration"
 #
 
+REPLACE INTO `co_migration` VALUES ('m141106_185632_log_init',1518058070);
 
 #
 # Structure for table "co_prop"
@@ -273,7 +297,7 @@ CREATE TABLE `co_prop` (
 # Data for table "co_prop"
 #
 
-REPLACE INTO `co_prop` VALUES (1,'string1','string',0,'string',0,'2018-02-06 03:57:38','2018-02-06 03:57:38'),(2,'string2','string',0,'string',1,NULL,NULL),(3,'2','string',0,'string',1,NULL,NULL),(4,'3','string',0,'string',1,NULL,NULL),(5,'4','string',0,'string',0,'2018-02-06 03:57:55','2018-02-06 03:57:55'),(6,'5','string',0,'string',5,NULL,NULL),(7,'6','string',0,'string',5,NULL,NULL),(8,'7','string',0,'string',5,NULL,NULL),(9,'8','string',0,'string',0,'2018-02-06 03:58:03','2018-02-06 03:58:03'),(10,'9','string',0,'string',9,NULL,NULL),(11,'11','string',0,'string',9,NULL,NULL),(12,'12','string',0,'string',9,NULL,NULL),(13,'13','string',0,'string',9,NULL,NULL),(14,'1414','string',0,'string',0,'2018-02-06 06:33:24','2018-02-06 06:33:24'),(15,'11111','string',0,'string',14,NULL,NULL),(16,'11','string',0,'string',14,NULL,NULL),(17,'1111','string',0,'string',14,NULL,NULL),(18,'111111','string',0,'string',14,NULL,NULL);
+REPLACE INTO `co_prop` VALUES (1,'string1','string',0,'string',0,'2018-02-06 03:57:38','2018-02-06 03:57:38'),(2,'string2','string',0,'string',1,NULL,NULL),(3,'2','string',0,'string',1,NULL,NULL),(4,'3','string',0,'string',1,NULL,NULL),(5,'4','string',0,'string',0,'2018-02-06 03:57:55','2018-02-06 03:57:55'),(6,'5','string',0,'string',5,NULL,NULL),(7,'6','string',0,'string',5,NULL,NULL),(8,'7','string',0,'string',5,NULL,NULL),(9,'8','string',0,'string',0,'2018-02-06 03:58:03','2018-02-06 03:58:03'),(10,'9','string',0,'string',9,NULL,NULL),(11,'11','string',0,'string',9,NULL,NULL),(12,'12','string',0,'string',9,NULL,NULL),(13,'13','string',0,'string',9,NULL,NULL),(14,'1414','string',0,'string',0,'2018-02-06 06:33:24','2018-02-06 06:33:24'),(15,'11111','string',0,'string',14,NULL,NULL),(16,'11','string',0,'string',14,NULL,NULL),(17,'1111','string',0,'string',14,NULL,NULL),(18,'111111','string',0,'string',14,NULL,NULL),(19,'string','string',0,'string',0,'2018-02-08 08:35:27','2018-02-08 08:35:27'),(20,'string','string',0,'string',19,NULL,NULL);
 
 #
 # Structure for table "co_pt_user"
@@ -304,7 +328,7 @@ CREATE TABLE `co_pt_user` (
 # Data for table "co_pt_user"
 #
 
-REPLACE INTO `co_pt_user` VALUES (2,11111,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,6400,0,'2018-02-07 16:55:22','-RgOhrjSKLZqvnJNiZ6E-eYm0VfryMph','pZMzWtm_Qi5GzbSBxFgvvxdmhmdCbIA6',1517995434,1518078234,1,'2018-02-05 03:01:54','2018-02-07 16:23:54'),(3,11111111,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,400,0,NULL,'egZ7nASjIz9hPaJgnJqI0MHQw7onyktz','MqxJj6QHj3NkFgV51iGHsk1CRw8InId_',1517979500,1518062300,1,'2018-02-06 09:14:30','2018-02-07 11:58:20'),(4,111112222,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,0,0,NULL,'C44Anyb9-uzCK5wtUUjleM13M_oCCpa2','pZZzvU5vH3mbXnPmQlRf5J8Uc4t_WAnB',1517987084,1518069884,1,'2018-02-07 11:59:11','2018-02-07 14:04:44');
+REPLACE INTO `co_pt_user` VALUES (2,11111,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,6400,0,'2018-02-07 16:55:22','cYs9xNjz-uozkRKMUfEKWy3VMHmoolrF','lNYPM3acZwXTbkArMfTTjUFVUEsI0mla',1518084057,1518166857,1,'2018-02-05 03:01:54','2018-02-08 17:00:57'),(3,11111111,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,400,0,NULL,'egZ7nASjIz9hPaJgnJqI0MHQw7onyktz','MqxJj6QHj3NkFgV51iGHsk1CRw8InId_',1517979500,1518062300,1,'2018-02-06 09:14:30','2018-02-07 11:58:20'),(4,111112222,'test','http://img0.imgtn.bdimg.com/it/u=12867320,655225767',0,0,0,NULL,'C44Anyb9-uzCK5wtUUjleM13M_oCCpa2','pZZzvU5vH3mbXnPmQlRf5J8Uc4t_WAnB',1517987084,1518069884,1,'2018-02-07 11:59:11','2018-02-07 14:04:44');
 
 #
 # Structure for table "co_question_options"
@@ -318,13 +342,13 @@ CREATE TABLE `co_question_options` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "co_question_options"
 #
 
-REPLACE INTO `co_question_options` VALUES (1,1,'C',NULL,NULL,NULL),(2,1,'A',NULL,NULL,NULL),(3,2,'A',NULL,NULL,NULL),(4,3,'B',NULL,NULL,NULL),(5,2,'C',NULL,NULL,NULL);
+REPLACE INTO `co_question_options` VALUES (3,2,'A',NULL,NULL,NULL),(4,3,'B',NULL,NULL,NULL),(5,2,'C',NULL,NULL,NULL),(9,5,'A','选项A',NULL,NULL),(10,5,'B','选项B',NULL,NULL),(11,5,'C','选项C',NULL,NULL),(12,6,'A','选项A',NULL,NULL),(13,6,'B','选项B',NULL,NULL),(14,6,'C','选项C',NULL,NULL),(15,7,'A','选项A',NULL,NULL),(16,7,'B','选项B',NULL,NULL),(17,7,'C','选项C',NULL,NULL),(18,8,'A','选项A',NULL,NULL),(19,8,'B','选项B',NULL,NULL),(20,8,'C','选项C',NULL,NULL),(21,9,'A','选项A',NULL,NULL),(22,9,'B','选项B',NULL,NULL),(23,9,'C','选项C',NULL,NULL),(24,10,'A','选项A',NULL,NULL),(25,10,'B','选项B',NULL,NULL),(26,10,'C','选项C',NULL,NULL),(27,11,'A','选项A',NULL,NULL),(28,11,'B','选项B',NULL,NULL),(29,11,'C','选项C',NULL,NULL),(30,12,'A','选项A',NULL,NULL),(31,12,'B','选项B',NULL,NULL),(32,12,'C','选项C',NULL,NULL),(33,13,'A','选项A',NULL,NULL),(34,13,'B','选项B',NULL,NULL),(35,13,'C','选项C',NULL,NULL),(36,14,'A','选项A',NULL,NULL),(37,14,'B','选项B',NULL,NULL),(38,14,'C','选项C',NULL,NULL),(39,15,'A','选项A',NULL,NULL),(40,15,'B','选项B',NULL,NULL),(41,15,'C','选项C',NULL,NULL),(42,16,'A','选项A',NULL,NULL),(43,16,'B','选项B',NULL,NULL),(44,16,'C','选项C',NULL,NULL),(45,17,'A','选项A',NULL,NULL),(46,17,'B','选项B',NULL,NULL),(47,17,'C','选项C',NULL,NULL),(48,18,'A','选项A',NULL,NULL),(49,18,'B','选项B',NULL,NULL),(50,18,'C','选项C',NULL,NULL);
 
 #
 # Structure for table "co_questions"
@@ -337,13 +361,13 @@ CREATE TABLE `co_questions` (
   `created_at` datetime DEFAULT NULL COMMENT '创建时间',
   `updated_at` datetime DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "co_questions"
 #
 
-REPLACE INTO `co_questions` VALUES (1,'2312','A',NULL,NULL),(2,'121211','C',NULL,NULL),(3,'3','B',NULL,NULL);
+REPLACE INTO `co_questions` VALUES (2,'121211','C',NULL,NULL),(3,'3','B',NULL,NULL),(5,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(6,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(7,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(8,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(9,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(10,'测试题目标题','B','2018-02-08 06:39:14','2018-02-08 06:39:14'),(11,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(12,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(13,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(14,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(15,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(16,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(17,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15'),(18,'测试题目标题','B','2018-02-08 06:39:15','2018-02-08 06:39:15');
 
 #
 # Structure for table "co_user"
@@ -367,7 +391,7 @@ CREATE TABLE `co_user` (
 # Data for table "co_user"
 #
 
-REPLACE INTO `co_user` VALUES (5,'ckhero','K0CddrjOrwvjGCM2M26sPMMnbMC4B-E-','$2y$13$PlGtKHK4yAaKiI6C3AIQTexHwtDxxnPPmu7EDRDYl1CXq/O77YZSG',NULL,'ckhero@163.com',10,1517798545,1517798545,NULL),(6,'ckhero2','gxjQEbrUYWqV9DXNh84OQI8mAdPBNiT0','$2y$13$rEDZbwzKU.ImhtnEgdMk1OFsIaAM2ENh83kJqPss9iB8O1b0V8MXS',NULL,'335688758@qq.com',10,1517798566,1517798566,NULL);
+REPLACE INTO `co_user` VALUES (5,'ckhero','28OJuFNusULGKJI1ujs-BmTwyyMvdZSv','$2y$13$PlGtKHK4yAaKiI6C3AIQTexHwtDxxnPPmu7EDRDYl1CXq/O77YZSG',NULL,'ckhero@163.com',10,1517798545,1518080257,1518087457),(6,'ckhero2','gxjQEbrUYWqV9DXNh84OQI8mAdPBNiT0','$2y$13$rEDZbwzKU.ImhtnEgdMk1OFsIaAM2ENh83kJqPss9iB8O1b0V8MXS',NULL,'335688758@qq.com',10,1517798566,1517798566,NULL);
 
 #
 # Structure for table "co_user_chapter_record"
@@ -387,8 +411,9 @@ CREATE TABLE `co_user_chapter_record` (
   `props` text COMMENT '道具和碎片信息',
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`),
+  KEY `idx_uid_created_at` (`uid`,`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 #
 # Data for table "co_user_chapter_record"

@@ -19,7 +19,7 @@
                     "\u7528\u6237"
                 ],
                 "summary": "\u767b\u5f55\u83b7\u53d6access-token",
-                "description": "\u767b\u5f55\u83b7\u53d6access-token\uff0c\u7528\u4e8e\u63a5\u53e3\u8c03\u7528\u65f6\u5019\u7684\u9a8c\u8bc1",
+                "description": "\u767b\u5f55\u83b7\u53d6access-token\uff0c\u7528\u4e8e\u63a5\u53e3\u8c03\u7528\u65f6\u5019\u7684\u9a8c\u8bc1;url\u4e2d\u7684\u53c2\u6570\u5230\u65f6\u53ef\u4e50\u90a3\u8fb9\u4f1a\u4f20\u7ed9\u4f60\uff0c\u63a5\u53e3\u8c03\u8bd5\u8df3\u8fc7\u7a0b\u4e2d\u6682\u65f6\u5148\u7528\u8fd9\u4e2a\u94fe\u63a5\u8bbf\u95ee",
                 "operationId": "getInventory",
                 "produces": [
                     "application/json"
@@ -849,6 +849,11 @@
                 "guide": {
                     "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
                     "type": "string"
+                },
+                "guide_bg_url": {
+                    "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
+                    "type": "string",
+                    "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
                 },
                 "chapterChilds": {
                     "description": "\u5b50\u5173\u5361\u5217\u8868",

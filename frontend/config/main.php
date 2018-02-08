@@ -19,6 +19,7 @@ return [
         'user' => [
             'identityClass' => 'common\models\PtUser',
             'enableAutoLogin' => true,
+            'enableSession'=> false,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
         'session' => [

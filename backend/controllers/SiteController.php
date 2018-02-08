@@ -111,4 +111,8 @@ class SiteController extends Controller
             $this->redirect('/coca/backend/web/swagger-ui-3.9.3/dist/index.html');
         }
     }
+     public function actionApi()
+    {   
+        $this->redirect('/swagger-ui-3.9.3/dist/index.html');
+    }
 }

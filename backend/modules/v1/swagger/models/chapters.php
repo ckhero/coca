@@ -37,7 +37,6 @@ class chapters
     private $bg_url;
 
 
-
     /**
      * @SWG\Property(description="关卡排序", example="1")
      * @var int
@@ -49,4 +48,17 @@ class chapters
      * @var string
      */
     private $guide;
+
+    /**
+     * @SWG\Property(description="课件背景图片", example="uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg")
+     * @var string
+     */
+    private $guide_bg_url;
+    
+    /**
+     * @SWG\Property(description="子关卡列表")
+     * @var chapterChilds[]
+     */
+    private $chapterChilds;
+
 }
