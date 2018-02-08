@@ -28,6 +28,7 @@ class UploadForm extends Model
 	    	$attachments[] = [
                 'type'=> $file->extension,
                 'name'=> $fileName,
+                'original_name'=> $file->baseName.$file->extension,
                 'path'=> Yii::$app->request->serverName.'/'.$attachment,
             ];
     	}

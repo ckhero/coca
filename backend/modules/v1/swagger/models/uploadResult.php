@@ -21,6 +21,12 @@ class uploadResult
     private $name;
 
     /**
+     * @SWG\Property(description="文件原始名字", example="222.mp4")
+     * @var file
+     */
+    private $original_name;
+
+    /**
      * @SWG\Property(description="文件访问路径，数据库中保存此地址", example="uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4")
      * @var file
      */
