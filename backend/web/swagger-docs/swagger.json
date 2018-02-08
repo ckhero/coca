@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "coca.51qwer.com",
-    "basePath": "/",
+    "host": "localhost",
+    "basePath": "/coca/backend/web/",
     "paths": {
         "/login": {
             "post": {
@@ -2147,8 +2147,16 @@
         },
         "uploadResult": {
             "properties": {
+                "type": {
+                    "description": "\u6587\u4ef6",
+                    "example": "jpg"
+                },
+                "name": {
+                    "description": "\u6587\u4ef6\u540d\u5b57",
+                    "example": "46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4"
+                },
                 "path": {
-                    "description": "\u6587\u4ef6\u5b58\u50a8\u8def\u5f84",
+                    "description": "\u6587\u4ef6\u8bbf\u95ee\u8def\u5f84\uff0c\u6570\u636e\u5e93\u4e2d\u4fdd\u5b58\u6b64\u5730\u5740",
                     "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4"
                 }
             },
