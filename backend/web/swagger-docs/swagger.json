@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "coca.51qwer.com",
-    "basePath": "/",
+    "host": "localhost",
+    "basePath": "/coca/backend/web/",
     "paths": {
         "/login": {
             "post": {
@@ -100,6 +100,252 @@
                     },
                     "422": {
                         "description": "\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/bosses": {
+            "get": {
+                "tags": [
+                    "\u4e16\u754cboss\u7ba1\u7406"
+                ],
+                "summary": "\u8fd4\u56de\u4e16\u754cboss\u5217\u8868",
+                "description": "\u8fd4\u56de\u4e16\u754cboss\u5217\u8868",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/bossList"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "\u4e16\u754cboss\u7ba1\u7406"
+                ],
+                "summary": "\u6dfb\u52a0\u4e16\u754cboss",
+                "description": "\u6dfb\u52a0\u4e16\u754cboss",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u4e16\u754cboss\u548c\u9009\u9879json\u4e32",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/boss"
+                        }
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "\u6dfb\u52a0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/boss"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/bosses/{id}": {
+            "get": {
+                "tags": [
+                    "\u4e16\u754cboss\u7ba1\u7406"
+                ],
+                "summary": "\u67e5\u770b\u4e16\u754cboss",
+                "description": "\u67e5\u770b\u4e16\u754cboss",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u4e16\u754cbossid",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/boss"
+                        }
+                    },
+                    "404": {
+                        "description": "\u4e16\u754cboss\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "\u4e16\u754cboss\u7ba1\u7406"
+                ],
+                "summary": "\u66f4\u65b0\u4e16\u754cboss",
+                "description": "\u66f4\u65b0\u4e16\u754cboss",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u4e16\u754cboss id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u5f85\u66f4\u65b0\u4e16\u754cboss\u548c\u9009\u9879json\u4e32",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/boss"
+                        }
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u66f4\u65b0\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/boss"
+                        }
+                    },
+                    "422": {
+                        "description": "\u6570\u636e\u9a8c\u8bc1\u5931\u8d25"
+                    },
+                    "404": {
+                        "description": "\u4e16\u754cboss\u4e0d\u5b58\u5728"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "\u4e16\u754cboss\u7ba1\u7406"
+                ],
+                "summary": "\u5220\u9664\u4e16\u754cboss",
+                "description": "\u5220\u9664\u4e16\u754cboss",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "\u4e16\u754cboss id",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "\u5220\u9664\u6210\u529f"
+                    },
+                    "404": {
+                        "description": "\u4e16\u754cboss\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
                     }
                 },
                 "security": [
@@ -1819,6 +2065,57 @@
                 "name": "QuestionsList"
             }
         },
+        "boss": {
+            "required": [
+                "score",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u4e16\u754cboss id",
+                    "type": "integer"
+                },
+                "hp": {
+                    "description": "\u8840\u91cf",
+                    "type": "integer"
+                },
+                "start": {
+                    "description": "\u5f00\u59cb\u65f6\u95f4",
+                    "type": "string",
+                    "format": "date",
+                    "example": "2018-02-09 11:41:27"
+                },
+                "end": {
+                    "description": "\u7ed3\u675f\u65f6\u95f4",
+                    "type": "string",
+                    "format": "date",
+                    "example": "2018-02-09 11:41:27"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "boss"
+            }
+        },
+        "bossList": {
+            "properties": {
+                "items": {
+                    "description": "\u4e16\u754cBOSS \u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/boss"
+                    }
+                },
+                "_meta": {
+                    "description": "\u76f8\u5173\u4fe1\u606f",
+                    "$ref": "#/definitions/ListInfo"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "bossList"
+            }
+        },
         "chapterAdd": {
             "required": [
                 "name",
@@ -2266,10 +2563,7 @@
                 },
                 "original_name": {
                     "description": "\u6587\u4ef6\u539f\u59cb\u540d\u5b57",
-<<<<<<< HEAD
-=======
                     "type": "string",
->>>>>>> 786e8ddd867a44b9ad8e05a4c2a7a9aaf75ec2a5
                     "example": "222.mp4"
                 },
                 "path": {

@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "www.51qwer.com",
-    "basePath": "/",
+    "host": "localhost",
+    "basePath": "/coca/frontend/web/",
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
             "get": {
@@ -71,6 +71,55 @@
                     },
                     "400": {
                         "description": "refresh\u4e0d\u5b58\u5728"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/bosses": {
+            "post": {
+                "tags": [
+                    "\u4e16\u754cboss"
+                ],
+                "summary": "\u83b7\u5f97\u9898\u76ee",
+                "description": "\u63d0\u4ea4\u7b54\u9898\u7ed3\u679c\uff0c\u8fd4\u56de\u4e0b\u4e00\u4e2a\u9898\u76ee\uff0c\u4ee5\u53caboss\u72b6\u6001\uff08\u9996\u6b21\u8bf7\u6c42\u65e0\u9700\u63d0\u4ea4\u7b54\u9898\u7ed3\u679c\uff09",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "\u7b54\u9898\u7ed3\u679c",
+                        "schema": {
+                            "$ref": "#/definitions/option"
+                        }
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/dayResult"
+                        }
+                    },
+                    "404": {
+                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
                     }
                 },
                 "security": [
@@ -1085,6 +1134,30 @@
             "type": "object",
             "xml": {
                 "name": "mapsList"
+            }
+        },
+        "option": {
+            "properties": {
+                "id": {
+                    "description": "\u95ee\u9898id",
+                    "type": "integer",
+                    "example": "1"
+                },
+                "option": {
+                    "description": "\u7528\u6237\u9009\u9879",
+                    "type": "string",
+                    "enum": [
+                        "A",
+                        "B",
+                        "C",
+                        "D"
+                    ],
+                    "example": "A"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "option"
             }
         },
         "props": {

@@ -52,6 +52,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/user'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/boss'],
                 
                // ['class' => 'yii\rest\UrlRule', 'controller' => 'upload'],
                 [

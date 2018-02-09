@@ -16,7 +16,9 @@ use Yii;
  * @property string $updated_at
  */
 class Boss extends \yii\db\ActiveRecord
-{
+{   
+    public $start_time;
+    public $end_time;
     /**
      * {@inheritdoc}
      */
@@ -32,6 +34,11 @@ class Boss extends \yii\db\ActiveRecord
     {
         return [
             [['hp', 'reduced'], 'integer'],
+            [['hp', 'start', 'end'], 'required'],
+            [['start'], 'datetime', 'format'=> 'php:Y-m-d H:i:s', 'timestampAttribute'=> 'start_time'],
+            [['end'], 'datetime', 'format'=> 'php:Y-m-d H:i:s', 'timestampAttribute'=> 'end_time'],
+            ['start', 'compare', 'compareAttribute' => 'end', 'operator' => '<', 'enableClientValidation' => false],
+            ['hp', 'compare', 'compareValue' => 0, 'operator' => '>'],
             [['start', 'end', 'created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -59,6 +66,12 @@ class Boss extends \yii\db\ActiveRecord
         if (Yii::$app->id =='app-backend') {
             unset($fields['reduced']);
         }
+        return $fields;
     }
     
+
+    public static function findCurrentBoss()
+    {
+        return static::find()->where(['<=', 'start', date('Y-m-d H:i:s')])->andWhere(['>', 'end', date('Y-m-d H:i:s')])->one();
+    }
 }
