@@ -89,6 +89,7 @@
                     "200": {
                         "description": "\u6587\u4ef6\u4e0a\u4f20\u6210\u529f",
                         "schema": {
+                            "type": "array",
                             "items": {
                                 "$ref": "#/definitions/uploadResult"
                             }
@@ -124,6 +125,13 @@
                         "name": "page",
                         "in": "query",
                         "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
                         "required": false,
                         "type": "integer"
                     },
@@ -374,6 +382,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "chapter_id",
                         "in": "query",
                         "description": "\u6240\u5c5echapter_id",
@@ -620,6 +635,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "access-token",
                         "in": "query",
                         "description": "\u8eab\u4efd\u4ee4\u724c",
@@ -855,6 +877,13 @@
                         "name": "page",
                         "in": "query",
                         "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
                         "required": false,
                         "type": "integer"
                     },
@@ -1098,6 +1127,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "access-token",
                         "in": "query",
                         "description": "\u8eab\u4efd\u4ee4\u724c",
@@ -1337,6 +1373,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
                         "name": "access-token",
                         "in": "query",
                         "description": "\u8eab\u4efd\u4ee4\u724c",
@@ -1544,6 +1587,61 @@
                     },
                     "404": {
                         "description": "\u9898\u76ee\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/users": {
+            "get": {
+                "tags": [
+                    "\u7528\u6237\u7ba1\u7406"
+                ],
+                "summary": "\u8fd4\u56de\u7528\u6237\u5217\u8868",
+                "description": "\u8fd4\u56de\u7528\u6237\u5217\u8868",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "path",
+                        "description": "\u7b2c\u51e0\u9875",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "per-page",
+                        "in": "query",
+                        "description": "\u6bcf\u9875\u7684\u6570\u91cf",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/userList"
+                            }
+                        }
                     },
                     "401": {
                         "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
@@ -2158,18 +2256,25 @@
             "properties": {
                 "type": {
                     "description": "\u6587\u4ef6",
+                    "type": "string",
                     "example": "jpg"
                 },
                 "name": {
                     "description": "\u6587\u4ef6\u540d\u5b57",
+                    "type": "string",
                     "example": "46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4"
                 },
                 "original_name": {
                     "description": "\u6587\u4ef6\u539f\u59cb\u540d\u5b57",
+<<<<<<< HEAD
+=======
+                    "type": "string",
+>>>>>>> 786e8ddd867a44b9ad8e05a4c2a7a9aaf75ec2a5
                     "example": "222.mp4"
                 },
                 "path": {
                     "description": "\u6587\u4ef6\u8bbf\u95ee\u8def\u5f84\uff0c\u6570\u636e\u5e93\u4e2d\u4fdd\u5b58\u6b64\u5730\u5740",
+                    "type": "string",
                     "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4"
                 }
             },
@@ -2177,12 +2282,111 @@
             "xml": {
                 "name": "uploadResult"
             }
+        },
+        "user": {
+            "required": [
+                "name",
+                "sort"
+            ],
+            "properties": {
+                "id": {
+                    "description": "\u7528\u6237id",
+                    "type": "integer",
+                    "example": "1"
+                },
+                "coca_id": {
+                    "description": "\u53ef\u4e50\u7684\u7528\u6237id",
+                    "type": "integer",
+                    "example": "11111"
+                },
+                "nick_name": {
+                    "description": "\u6635\u79f0",
+                    "type": "string",
+                    "example": "test"
+                },
+                "head_img": {
+                    "description": "\u5934\u50cf\u5730\u5740",
+                    "type": "string",
+                    "example": "http://img0.imgtn.bdimg.com/it/u=12867320,655225767"
+                },
+                "points": {
+                    "description": "\u79ef\u5206",
+                    "type": "integer",
+                    "example": "11"
+                },
+                "exp": {
+                    "description": "\u7ecf\u9a8c\u503c",
+                    "type": "integer",
+                    "example": "212"
+                },
+                "nog": {
+                    "description": "\u53ef\u4ee5\u73a9\u5c0f\u6e38\u620f\u7684\u6b21\u6570",
+                    "type": "integer",
+                    "example": "12"
+                },
+                "status": {
+                    "description": "\u7528\u6237\u72b6\u6001 0 \u4e3a\u9501\u5b9a\uff0c1\u4e3a\u6fc0\u6d3b",
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1
+                    ],
+                    "example": "0"
+                },
+                "access_token": {
+                    "description": "\u767b\u9646\u4ee4\u724c",
+                    "type": "string",
+                    "example": "K0CddrjOrwvjGCM2M26sPMMnbMC4B-E-"
+                },
+                "access_expired": {
+                    "description": "access_token\u8fc7\u671f\u65f6\u95f4",
+                    "type": "integer",
+                    "example": "3600"
+                },
+                "refresh_token": {
+                    "description": "\u5237\u65b0 \u767b\u9646\u4ee4\u724c\u7528\u7684",
+                    "type": "string",
+                    "example": "gxjQEbrUYWqV9DXNh84OQI8mAdPBNiT0"
+                },
+                "refresh_expired": {
+                    "description": "refresh_token\u8fc7\u671f\u65f6\u95f4",
+                    "type": "integer",
+                    "example": "3600 *24"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "user"
+            }
+        },
+        "userList": {
+            "properties": {
+                "items": {
+                    "description": "\u7528\u6237\u5217\u8868",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/user"
+                    }
+                },
+                "_meta": {
+                    "description": "\u76f8\u5173\u4fe1\u606f",
+                    "$ref": "#/definitions/ListInfo"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "mapsList"
+            }
         }
     },
     "tags": [
         {
             "name": "\u7ba1\u7406\u5458",
             "description": "\u7ba1\u7406\u5458\u767b\u9646\u63a5\u53e3"
+        },
+        {
+            "name": "\u7528\u6237\u7ba1\u7406",
+            "description": "\u7528\u6237\u7ba1\u7406"
         },
         {
             "name": "\u9898\u76ee\u7ba1\u7406",
@@ -2211,14 +2415,6 @@
         {
             "name": "\u6587\u4ef6\u7ba1\u7406",
             "description": "\u6587\u4ef6\u4e0a\u4f20"
-        },
-        {
-            "name": "user",
-            "description": "Operations about user",
-            "externalDocs": {
-                "description": "Find out more about our store",
-                "url": "http://swagger.io"
-            }
         }
     ]
 }

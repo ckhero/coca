@@ -5,6 +5,10 @@
  *   description="管理员登陆接口"
  * )
  * @SWG\Tag(
+ *   name="用户管理",
+ *   description="用户管理"
+ * )
+ * @SWG\Tag(
  *   name="题目管理",
  *   description="题目增删改",
  * )
@@ -31,14 +35,5 @@
  * @SWG\Tag(
  *   name="文件管理",
  *   description="文件上传",
- * )
- 
- * @SWG\Tag(
- *   name="user",
- *   description="Operations about user",
- *   @SWG\ExternalDocumentation(
- *     description="Find out more about our store",
- *     url="http://swagger.io"
- *   )
  * )
  */

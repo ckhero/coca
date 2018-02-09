@@ -30,6 +30,14 @@ class PropController extends \common\base\BaseController
      *         type="integer",
      *         required=false,
      *     ),
+     *    @SWG\Parameter(
+     *         description="每页的数量",
+     *         in="query",
+     *         name="per-page",
+     *         required=true,
+     *         type="integer",
+     *         required=false,
+     *     ),
      *  @SWG\Parameter(
      *         description="身份令牌",
      *         in="query",
@@ -51,7 +59,7 @@ class PropController extends \common\base\BaseController
     	return new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
-		        'pageSize' => 20,
+		        'pageSize' => Yii::$app->ggetquest->get('per-page', 20),
 		    ],
 		    // 'sort' => [
 		    //     'defaultOrder' => [

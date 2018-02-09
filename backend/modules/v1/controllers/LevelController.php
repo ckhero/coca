@@ -21,6 +21,14 @@ class LevelController extends \common\base\BaseController
      *         type="integer",
      *         required=false,
      *     ),
+     *    @SWG\Parameter(
+     *         description="每页的数量",
+     *         in="query",
+     *         name="per-page",
+     *         required=true,
+     *         type="integer",
+     *         required=false,
+     *     ),
      *  @SWG\Parameter(
      *         description="身份令牌",
      *         in="query",

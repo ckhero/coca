@@ -29,7 +29,7 @@ class UploadController extends \common\base\BaseWebController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(@SWG\Items(ref="#/definitions/uploadResult")),description="文件上传成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(type="array",@SWG\Items(ref="#/definitions/uploadResult")),description="文件上传成功"),
      *   @SWG\Response(response=400,description="账号密码错误"),
      *   @SWG\Response(response=422,description="验证失败"),
      *   security={
