@@ -16,6 +16,6 @@
  * )
  * www.51qwer.com
  * localhost
- *
+ *unzip coca.zip ;chmod 777 -R coca;rm -rf /var/www/coca;mv coca /var/www/
  * /coca/backend/web
  */

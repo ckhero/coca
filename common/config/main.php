@@ -11,9 +11,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=localhost;dbname=coca',
-            'username' => 'root',
-            'password' => '',
+            'dsn' => 'mysql:host=59.110.158.62;dbname=coca',
+            'username' => 'ckhero',
+            'password' => '123123',
             'charset' => 'utf8',
             'tablePrefix' => 'co_',
         ],

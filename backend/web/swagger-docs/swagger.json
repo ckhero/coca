@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/coca/backend/web/",
+    "host": "coca.51qwer.com",
+    "basePath": "/",
     "paths": {
         "/login": {
             "post": {
@@ -1752,15 +1752,6 @@
                     "description": "\u5173\u5361\u6392\u5e8f",
                     "type": "integer",
                     "example": "1"
-                },
-                "guide": {
-                    "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
-                    "type": "string"
-                },
-                "guide_bg_url": {
-                    "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
-                    "type": "string",
-                    "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
                 }
             },
             "type": "object",
@@ -1794,6 +1785,15 @@
                     "description": "\u5c0f\u5173\u5361\u6392\u5e8f",
                     "type": "integer",
                     "example": "1"
+                },
+                "guide": {
+                    "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
+                    "type": "string"
+                },
+                "guide_bg_url": {
+                    "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
+                    "type": "string",
+                    "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
                 },
                 "questions": {
                     "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
@@ -1834,6 +1834,15 @@
                     "description": "\u5c0f\u5173\u5361\u6392\u5e8f",
                     "type": "integer",
                     "example": "1"
+                },
+                "guide": {
+                    "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
+                    "type": "string"
+                },
+                "guide_bg_url": {
+                    "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
+                    "type": "string",
+                    "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
                 },
                 "questions": {
                     "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
@@ -2154,6 +2163,10 @@
                 "name": {
                     "description": "\u6587\u4ef6\u540d\u5b57",
                     "example": "46b0ba04-ca6c-12e4-b90d-803aaeef5e39.mp4"
+                },
+                "original_name": {
+                    "description": "\u6587\u4ef6\u539f\u59cb\u540d\u5b57",
+                    "example": "222.mp4"
                 },
                 "path": {
                     "description": "\u6587\u4ef6\u8bbf\u95ee\u8def\u5f84\uff0c\u6570\u636e\u5e93\u4e2d\u4fdd\u5b58\u6b64\u5730\u5740",

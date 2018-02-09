@@ -27,8 +27,8 @@ class Chapter extends \yii\db\ActiveRecord
             [['desc'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 32],
-            [['bg_url', 'guide_bg_url'], 'string', 'max' => 255],
-            [['guide'], 'safe'],
+            [['bg_url'], 'string', 'max' => 255],
+            // [['guide'], 'safe'],
         ];
     }
 
@@ -44,8 +44,8 @@ class Chapter extends \yii\db\ActiveRecord
             'desc' => 'Desc',
             'bg_url' => 'Bg Url',
             'sort' => 'Sort',
-            'guide' => 'Guide',
-            'guide_bg_url' => 'guide_bg_url',
+            // 'guide' => 'Guide',
+            // 'guide_bg_url' => 'guide_bg_url',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -62,8 +62,8 @@ class Chapter extends \yii\db\ActiveRecord
                 'desc',
                 'bg_url',
                 'sort',
-                'guide',
-                'guide_bg_url',
+                // 'guide',
+                // 'guide_bg_url',
                 'chapterChilds',
                 // 'status',
             ];
@@ -76,8 +76,8 @@ class Chapter extends \yii\db\ActiveRecord
                 'desc',
                 'bg_url',
                 'sort',
-                'guide',
-                'guide_bg_url',
+                // 'guide',
+                // 'guide_bg_url',
                 'chapterChilds',
                 // 'childs',
                 'status',
