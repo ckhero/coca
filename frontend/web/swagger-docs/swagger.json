@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/coca/frontend/web/",
+    "host": "www.51qwer.com",
+    "basePath": "/",
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
             "get": {
@@ -116,7 +116,7 @@
                         }
                     },
                     "404": {
-                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                        "description": "\u4e16\u754cboss\u8fd8\u672a\u5f00\u59cb"
                     },
                     "401": {
                         "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
@@ -842,6 +842,25 @@
                     "description": "\u5c0f\u5173\u5361\u6392\u5e8f",
                     "type": "integer",
                     "example": "1"
+                },
+                "guide": {
+                    "description": "\u5173\u5361\u5f15\u5bfc\uff0c\u91cc\u9762\u653e\u7740\u5173\u5361\u5f15\u5bfc\u7684\u56fe\u7247\u89c6\u9891\u7b49(\u591a\u5f20\u56fe\u7247\u6216\u89c6\u9891\u9017\u53f7\u9694\u5f00)",
+                    "type": "string"
+                },
+                "guide_bg_url": {
+                    "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
+                    "type": "string",
+                    "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
+                },
+                "guide_type": {
+                    "description": "\u8bfe\u4ef6\u7c7b\u578b",
+                    "type": "string",
+                    "enum": [
+                        "picture",
+                        "vedio",
+                        "url"
+                    ],
+                    "example": "picture"
                 },
                 "status": {
                     "description": "\u5173\u5361\u662f\u5426\u5b8c\u6210;undo\u672a\u5b8c\u6210\uff0cdone\u5df2\u5b8c\u6210",

@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/coca/backend/web/",
+    "host": "coca.51qwer.com",
+    "basePath": "/",
     "paths": {
         "/login": {
             "post": {
@@ -2190,6 +2190,16 @@
                     "type": "string",
                     "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
                 },
+                "guide_type": {
+                    "description": "\u8bfe\u4ef6\u7c7b\u578b",
+                    "type": "string",
+                    "enum": [
+                        "picture",
+                        "vedio",
+                        "url"
+                    ],
+                    "example": "picture"
+                },
                 "questions": {
                     "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",
                     "type": "array",
@@ -2238,6 +2248,16 @@
                     "description": "\u8bfe\u4ef6\u80cc\u666f\u56fe\u7247",
                     "type": "string",
                     "example": "uploads/20180202/46b0ba04-ca6c-12e4-b90d-803aaeef5e39.jpg"
+                },
+                "guide_type": {
+                    "description": "\u8bfe\u4ef6\u7c7b\u578b",
+                    "type": "string",
+                    "enum": [
+                        "picture",
+                        "vedio",
+                        "url"
+                    ],
+                    "example": "picture"
                 },
                 "questions": {
                     "description": "\u5c0f\u5173\u5361\u95ee\u9898\u5217\u8868\uff08\u6dfb\u52a0\u66f4\u65b0\u53ea\u8981\u4f20id\u5c31\u884c\uff09",

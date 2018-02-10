@@ -50,6 +50,11 @@ class chapterChilds
     private $guide_bg_url;
     
     /**
+     * @SWG\Property(description="课件类型", example="picture", enum={"picture", "vedio","url"})
+     * @var string
+     */
+    private $guide_type;
+    /**
      * @SWG\Property(description="小关卡问题列表（添加更新只要传id就行）")
      * @var Questions[]
      */
