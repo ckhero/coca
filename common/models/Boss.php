@@ -69,9 +69,17 @@ class Boss extends \yii\db\ActiveRecord
         return $fields;
     }
     
-
+    /**
+     * [findCurrentBoss 找到正在进行的没有死的boss]
+     * #Author ckhero
+     * #DateTime 2018-02-11
+     * @return [type] [null 或者 object]
+     */
     public static function findCurrentBoss()
     {
-        return static::find()->where(['<=', 'start', date('Y-m-d H:i:s')])->andWhere(['>', 'end', date('Y-m-d H:i:s')])->one();
+        return static::find()->where(['<=', 'start', date('Y-m-d H:i:s')])
+                             ->andWhere(['>', 'end', date('Y-m-d H:i:s')])
+                             ->andWhere('hp > reduced')
+                             ->one();
     }
 }

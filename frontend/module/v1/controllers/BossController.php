@@ -4,6 +4,7 @@ namespace frontend\module\v1\controllers;
 
 use Yii;
 use common\models\Boss;
+use common\models\Questions;
 
 class BossController extends \common\base\BaseRestWebController
 {	/**
@@ -41,9 +42,18 @@ class BossController extends \common\base\BaseRestWebController
     	//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     	//判断boss状态
     	$bossModel = Boss::findCurrentBoss();
-    	if (is_null($bossModel) || $bossModel->hp <= $bossModel->reduced) {
+    	if (is_null($bossModel)) {
     		//判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
+            $battleDetail = Yii::$app->cache->get('Boss_'.date('Ymd').'_'.Yii::$app->user->id);
+            if (empty($battleDetail)) {
+                return ['code'=> 0, 'message'=> '世界BOSS还未开始'];
+            }
     	}
+        //用户选项
+        $options = [Questions::findOne(['id'=> Yii::$app->request->getBodyParam('id', 0)])];
+        $uerOptions = [Yii::$app->request->bodyParams];
+        $isOptionsRight = Questions::cTwoOptions($options, $uerOptions); 
+        return ['code'=> 1, 'message'=> $isOptionsRight];
     	//判断选项是否正确
         return $this->render('battle');
     }

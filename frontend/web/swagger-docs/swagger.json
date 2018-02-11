@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "www.51qwer.com",
-    "basePath": "/",
+    "host": "localhost",
+    "basePath": "/coca/frontend/web",
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
             "get": {
