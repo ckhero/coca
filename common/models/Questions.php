@@ -120,6 +120,9 @@ class Questions extends \yii\db\ActiveRecord
             return $questions;
         }
         $keys = array_rand($questions, $num);
+        if ($num == 1) {
+            return $questions[$keys];
+        }
         foreach ($keys as $key) {
             $questionList[] = $questions[$key];
         }

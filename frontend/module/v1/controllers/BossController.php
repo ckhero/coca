@@ -5,6 +5,7 @@ namespace frontend\module\v1\controllers;
 use Yii;
 use common\models\Boss;
 use common\models\Questions;
+use common\models\GameLog;
 
 class BossController extends \common\base\BaseRestWebController
 {	/**
@@ -41,14 +42,39 @@ class BossController extends \common\base\BaseRestWebController
     {	
     	//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     	//判断boss状态
-    	$bossModel = Boss::findCurrentBoss();
-    	if (is_null($bossModel)) {
-    		//判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
-            $battleDetail = Yii::$app->cache->get('Boss_'.date('Ymd').'_'.Yii::$app->user->id);
-            if (empty($battleDetail)) {
-                return ['code'=> 0, 'message'=> '世界BOSS还未开始'];
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
+            $queryParams = [
+                ":currTime"=> date('Y-m-d H:i:s'),
+            ];
+            $bossModel = Yii::$app->db->createCommand('select * from '.Boss::tableName().' where start <= :currTime and end > :currTime and hp > reduced for update', $queryParams)->queryOne();
+            if (!empty($bossModel)) {
+                //用户选项
+                $options = [Questions::findOne(['id'=> Yii::$app->request->getBodyParam('id', 0)])];
+                $uerOptions = [Yii::$app->request->bodyParams];
+                $isOptionsRight = Questions::cTwoOptions($options, $uerOptions);
+                GameLog::log(['detail'=> ';user='], GameLog::TYPE_WORLD);
+                // $transaction->commit();
+                $nextQuestion = Questions::randomQuestions(1);
+                if ($isOptionsRight['code'] == 1) {
+                    //答对了
+                    return ['code'=> 1, 'message'=> '回答正确', 'nextQuestion'=> $nextQuestion];
+                }
+                return ['code'=> 0, 'message'=> '题目回答错误', 'nextQuestion'=> $nextQuestion];
+            } else {
+                //判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
+                $battleDetail = Yii::$app->cache->get('Boss_'.date('Ymd').'_'.Yii::$app->user->id);
+                if (empty($battleDetail)) {
+                    return ['code'=> 0, 'message'=> '世界BOSS还未开始'];
+                }
             }
-    	}
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw $e;
+        }
+
+        sleep(10);
+    	return [2];
         //用户选项
         $options = [Questions::findOne(['id'=> Yii::$app->request->getBodyParam('id', 0)])];
         $uerOptions = [Yii::$app->request->bodyParams];

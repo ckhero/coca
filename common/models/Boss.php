@@ -80,6 +80,7 @@ class Boss extends \yii\db\ActiveRecord
         return static::find()->where(['<=', 'start', date('Y-m-d H:i:s')])
                              ->andWhere(['>', 'end', date('Y-m-d H:i:s')])
                              ->andWhere('hp > reduced')
+                             ->forUpdate()
                              ->one();
     }
 }
