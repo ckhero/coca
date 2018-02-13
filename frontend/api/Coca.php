@@ -72,6 +72,41 @@ class Coca
         return $returnData;
     }
 
+    public function onlineList($page = 1, $per_page = 20)
+    {   
+        $params['currPage'] = $page;
+        $params['pageSize'] = $per_page;
+        $params = array_merge($params, $this->getSign());
+
+        $res = send_curl(self::RANK_URL.http_build_query($params));
+
+        $res = json_decode($res, true);
+
+        $returnData['_meta'] = [
+            'totalCount'=> $res['Data']['TotalCount'],
+            'pageCount'=> $res['Data']['PageCount'],
+            'currentPage'=> $res['Data']['CurrPage'],
+        ];
+
+        
+        if ($res['Status'] != '001') {
+            $returnData['items'] = [];
+        } else {
+            foreach ($res['Data']['List'] as $user) {
+            $returnData['items'][] = [
+                    'coca_id'=> $user['KOUserId'],
+                    // 'rank'=> $user['Ranking'],
+                    'nick_name'=> $user['UserName'],
+                    // 'points'=> $user['Points'],
+                    'head_img'=> $user['HeadImgUrl'],
+                    'bottler_group'=> $user['BottlerGroup'],
+                    'bottler_name'=> $user['BottlerName'],
+                ];
+            }
+        }
+        
+        return $returnData;
+    }
     public function savePoint($record = [], $cocaId = 0)
     {
         $points['Points'] = [];

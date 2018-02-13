@@ -75,14 +75,14 @@ class RankController extends \common\base\BaseRestWebController
     public function actionIndex($type = 'point')
     {	
     	//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-        if ($type == 'point') {
-        	$coca = new Coca();
-        	return $coca->ranks(Yii::$app->request->get('page'));
-        }
+        // if ($type == 'point') {
+        // 	$coca = new Coca();
+        // 	return $coca->onlineList(Yii::$app->request->get('page', 1), Yii::$app->request->get('per-page', 20));
+        // }
         $query = PtUser::find();
 
         $perPage = Yii::$app->request->get('per-page', 20);
-
+        $type = $type == 'point'? 'points': $type;
     	$provider= new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
@@ -90,7 +90,7 @@ class RankController extends \common\base\BaseRestWebController
 		    ],
 		    'sort' => [
 		        'defaultOrder' => [
-		            'exp' => SORT_DESC,
+		            $type => SORT_DESC,
 		        ]
 		    ],
 		]);
