@@ -150,4 +150,17 @@ class Questions extends \yii\db\ActiveRecord
             'questionOptions',
         ];
     }
+
+    public static function getBossQuestion($type = null)
+    {
+        $cacheKey = "BOSS_QUESTION:".Yii::$app->user->id;
+        if ($type == 'new') {
+            $question = static::randomQuestions(1);
+            Yii::$app->cache->set($cacheKey, $question, 3600);
+            return $question;
+        }
+        return Yii::$app->cache->getOrSet($cacheKey, function () {
+            return static::randomQuestions(1);
+        }, 3600);
+    }
 }

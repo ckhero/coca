@@ -6,6 +6,9 @@ use Yii;
 use common\models\Boss;
 use common\models\Questions;
 use common\models\GameLog;
+use common\models\UserChapterRecord;
+use common\models\Prop;
+use common\models\UserProp;
 
 class BossController extends \common\base\BaseRestWebController
 {	/**
@@ -30,7 +33,7 @@ class BossController extends \common\base\BaseRestWebController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/dayResult"), description="获取成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/bossResult"), description="获取成功"),
      *   @SWG\Response(response=404,description="世界boss还未开始"),
      *   @SWG\Response(response=401,description="身份验证失败"),
      *   security={
@@ -43,45 +46,63 @@ class BossController extends \common\base\BaseRestWebController
     	//\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     	//判断boss状态
         $transaction = Yii::$app->db->beginTransaction();
+        $code = 2;
+        $message = '世界BOSS还未开始';
         try {
             $queryParams = [
                 ":currTime"=> date('Y-m-d H:i:s'),
             ];
-            $bossModel = Yii::$app->db->createCommand('select * from '.Boss::tableName().' where start <= :currTime and end > :currTime and hp > reduced for update', $queryParams)->queryOne();
-            if (!empty($bossModel)) {
+            $bossInfo = Yii::$app->db->createCommand('select * from '.Boss::tableName().' where start <= :currTime and end > :currTime and hp > reduced for update', $queryParams)->queryOne();
+            if (!empty($bossInfo)) {
                 //用户选项
-                $options = [Questions::findOne(['id'=> Yii::$app->request->getBodyParam('id', 0)])];
+                $options = [Questions::getBossQuestion()];
                 $uerOptions = [Yii::$app->request->bodyParams];
                 $isOptionsRight = Questions::cTwoOptions($options, $uerOptions);
-                GameLog::log(['detail'=> ';user='], GameLog::TYPE_WORLD);
-                // $transaction->commit();
-                $nextQuestion = Questions::randomQuestions(1);
-                if ($isOptionsRight['code'] == 1) {
-                    //答对了
-                    return ['code'=> 1, 'message'=> '回答正确', 'nextQuestion'=> $nextQuestion];
+                GameLog::log(['detail'=> 'option='.var_export($options[0], true).';userOption='.var_export($uerOptions[0], true)], GameLog::TYPE_WORLD);
+               
+                $nextQuestion = Questions::getBossQuestion('new');
+
+                $code = $isOptionsRight['code'] == 1? 1: 0; //状态码的值  0为答错题目，1为题目答对，2为boss战还未开始，3为当回答正确，答完该题后boss死亡
+                $message = '题目回答错误';
+                $bossRecord = UserChapterRecord::updateOrCreateBossRecord(['id'=> $bossInfo['id'], 'right_num'=> $code]);
+                
+                if ($code == 1) {
+                    //答对
+                    $message = '回答正确';
+                    Yii::$app->db->createCommand('update '.Boss::tableName().' set reduced =  reduced + 1 where id =:id ', [':id'=> $bossInfo['id']])->execute();
                 }
-                return ['code'=> 0, 'message'=> '题目回答错误', 'nextQuestion'=> $nextQuestion];
-            } else {
-                //判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
-                $battleDetail = Yii::$app->cache->get('Boss_'.date('Ymd').'_'.Yii::$app->user->id);
-                if (empty($battleDetail)) {
-                    return ['code'=> 0, 'message'=> '世界BOSS还未开始'];
+                
+                if (($bossInfo['hp'] - $bossInfo['reduced']) > 1 || $code != 1) { //答错或者答对的不是最后一题，答对最后一题的话要发放奖励
+                    $transaction->commit();
+                    return ['code'=> $code, 'message'=> $message, 'total'=> $bossRecord['total'], 'right_num'=> $bossRecord['right_num'], 'nextQuestion'=> $nextQuestion];
+                }
+                $message = '回答正确,并且boss死亡';
+                $code = 3;
+            } 
+            //判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
+            $battleDetail = Yii::$app->cache->get('Boss_'.Yii::$app->user->id);
+            $deadBossInfo = Boss::findOne(['id'=> $battleDetail['boss_id']]);
+            if ($deadBossInfo['hp'] == $deadBossInfo['reduced']) {
+                //boss死亡，发放奖励
+                $userRecord = UserChapterRecord::findOne(['id'=> $battleDetail['record_id'], 'status'=> UserChapterRecord::STATUS_UNISSUED]);
+                if (!is_null($userRecord)) {
+                    //可发放奖励
+                    $code = 4;
+                    $message = '参与答题,奖励发放成功';
+                    
+                    $pieces = Prop::randomPieces(); //获取五个碎片
+                    UserProp::addProp($pieces); //将碎片添加给用户
+                    $userRecord->props = json_encode(array_column($pieces, 'id'));
+                    $userRecord->status = UserChapterRecord::STATUS_ISSUED;
+                    $userRecord->save();
                 }
             }
+            $transaction->commit();
+            return ['code'=> $code, 'message'=> $message];
         } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;
         }
-
-        sleep(10);
-    	return [2];
-        //用户选项
-        $options = [Questions::findOne(['id'=> Yii::$app->request->getBodyParam('id', 0)])];
-        $uerOptions = [Yii::$app->request->bodyParams];
-        $isOptionsRight = Questions::cTwoOptions($options, $uerOptions); 
-        return ['code'=> 1, 'message'=> $isOptionsRight];
-    	//判断选项是否正确
-        return $this->render('battle');
     }
 
 }

@@ -51,6 +51,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/rank'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/prop', 'extraPatterns'=>['POST'=>'update']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/piece'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/battle'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/day', 'extraPatterns'=>['POST'=>'update']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/game', 'extraPatterns'=>['POST'=>'update']],

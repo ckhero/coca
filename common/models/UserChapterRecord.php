@@ -21,12 +21,16 @@ class UserChapterRecord extends \yii\db\ActiveRecord
     const TYPE_CHAPTER = 1; //关卡
     const TYPE_WORLD = 2; //世界boss
     const TYPE_DAY = 3;//每日任务
-    const TYPE_XIAOXIAOLE = 4;//每日任务
+    const TYPE_XIAOXIAOLE = 4;//小游戏
+    const TYPE_BATTLE = 5;//小游戏
 
+    const STATUS_UNISSUED = 0;//奖励未接发放
+    const STATUS_ISSUED = 1;//奖励未接发放
     static $activityNames = [
         '2'=> '世界boss',
         '3'=> '每日任务',
         '4'=> '消消乐',
+        '5'=> '对战',
     ];
     /**
      * {@inheritdoc}
@@ -42,7 +46,7 @@ class UserChapterRecord extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'activity_id', 'chapter_child_id', 'total', 'right_num'], 'integer'],
+            [['uid', 'activity_id', 'chapter_child_id', 'total', 'right_num', 'status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -59,6 +63,7 @@ class UserChapterRecord extends \yii\db\ActiveRecord
             'chapter_child_id' => 'Chapter Child ID',
             'total' => 'Total',
             'right_num' => 'Right Num',
+            'status' => 'Right Num',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -119,6 +124,7 @@ class UserChapterRecord extends \yii\db\ActiveRecord
         $model->point = $data['point']?? 0;
         $model->exp = $data['exp']?? 0;
         $model->props = $data['props']?? null;
+        $model->status = $data['status']?? 1;
         $model->save();
         return $model;
     }
@@ -165,5 +171,24 @@ class UserChapterRecord extends \yii\db\ActiveRecord
             return is_null($record);
         }
         throw new \yii\web\NotFoundHttpException();
+    }
+
+    /**
+     * [updateOrCreateBossRecord 更新用户世界boss的答题状态]
+     * #Author ckhero
+     * #DateTime 2018-02-23
+     * @param  array  $data [description]
+     * @return [type]       [description]
+     */
+    public static function updateOrCreateBossRecord ($data = []) 
+    {   
+        $model = static::findOne(['uid'=> Yii::$app->user->id, 'chapter_child_id'=> $data['id'], 'activity_id'=> static::TYPE_WORLD]);
+        if (is_null($model)) {
+            $model = static::addRecord(['chapter_child_id'=> $data['id'], 'total'=> 1, 'rightOptionNum'=> $data['right_num'], 'status'=> static::STATUS_UNISSUED], static::TYPE_WORLD);
+            Yii::$app->cache->set('Boss_'.Yii::$app->user->id, ['record_id'=> $model->id, 'boss_id'=> $data['id']]);
+            return $model;
+        }
+        $model->updateCounters(['total'=> 1, 'right_num'=> $data['right_num']]);
+        return $model;
     }
 }

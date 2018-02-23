@@ -245,4 +245,33 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         $model = static::findById(Yii::$app->user->id);
         return $model->coca_id;
     }
+
+    /**
+     * [findOrCreateByCache 找到可乐用户在本系统中的用户信息，没找到则根据缓存中的信息生成用户]
+     * #Author ckhero
+     * #DateTime 2018-02-23
+     * @return [type] [description]
+     */
+    public static function findOrCreateByCache($cocaId = 0)
+    {
+        if ($cocaId == 0) {
+            throw new \Exception("用户信息为空", 1);
+        }
+        $model = static::findOne(['coca_id'=> $cocaId]);
+        if (is_null($model)) {
+            $userInfo = Yii::$app->cache->get('COCA_'.$cocaId);
+            if (empty($userInfo)) {
+                throw new \Exception("用户信息为空", 1);
+            }
+            $model = new static();
+            $model->coca_id = $userInfo['coca_id'];
+            $model->nick_name = $userInfo['nick_name'];
+            $model->head_img = $userInfo['head_img'];
+            $model->nick_name = $userInfo['nick_name'];
+            $model->bottler_group = $userInfo['bottler_group'];
+            $model->bottler_name = $userInfo['bottler_name'];
+            $model->save();
+        }
+        return $model;
+    }
 }
