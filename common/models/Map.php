@@ -79,4 +79,45 @@ class Map extends \yii\db\ActiveRecord
             'chapters',
         ];
     }
+
+    /**
+     * [eachMapChapters 每张地图拥有的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-24
+     * @return [type] [description]
+     */
+    public static function eachMapChapters()
+    {
+        return Yii::$app->cache->getOrSet('eachMapChapt2ers', function () {
+            $model = new static();
+            $data = $model->find()->innerJoinWith('chapters')->all();
+            foreach($data as $key => $val) {
+                $res[$val['id']] = 0;
+                foreach ($val['chapters'] as $k => $v) {
+                    $res[$val['id']] += count($v['chapterChilds']);
+                } 
+            }
+            return $res;
+        }, 1);
+    }
+
+    public static function currentMapId() {
+
+        $mapHasChapters = Map::eachMapChapters();
+        $done = ChapterChild::totalDone(Yii::$app->user->id);;
+        $mapNum = count($mapHasChapters);
+        $i = 0;
+
+        $curr = 0;
+        $prev = 0;
+        $next = 0;
+        foreach ($mapHasChapters as $key => $chpatersNum) {
+            $i++;
+            if ($i == $mapNum) return [$key];
+            $done -= $chpatersNum;
+            if ($done < 0) {
+                return [$key];
+            }
+        } 
+    }
 }

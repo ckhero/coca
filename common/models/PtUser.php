@@ -49,7 +49,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
     {
         return [
             [['coca_id', 'points', 'exp', 'nog', 'access_expired_at', 'refresh_expired_at', 'status'], 'integer'],
-            [['created_at', 'updated_at', 'rank'], 'safe'],
+            [['created_at', 'updated_at', 'rank', 'level'], 'safe'],
             [['nick_name'], 'string', 'max' => 128],
             [['head_img'], 'string', 'max' => 255],
             [['access_token', 'refresh_token'], 'string', 'max' => 32],
@@ -142,8 +142,9 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
      * @return   [type]     [description]
      */
     public function getLevel()
-    {
-        return Level::getLevelByScore($this->exp);
+    {   
+        $level = Level::getLevelByScore($this->exp);
+        return empty($level)? '菜鸟': $level;
     }
 
     public static function findIdentityByAccessToken($token, $type = null)
@@ -185,11 +186,49 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         return $this->getPrimaryKey();
     }
 
+    /**
+     * [getChapterDone 已完成的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-24
+     * @return [type] [description]
+     */
     public function getChapterDone()
     {
-        return Level::getLevelByScore($this->exp);
+        return ChapterChild::totalDone($this->id);
     }
 
+    /**
+     * [getChapterDone 总的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-24
+     * @return [type] [description]
+     */
+    public function getChapterTotal()
+    {
+        return ChapterChild::total();
+    }
+
+    /**
+     * [getCurrentMapId 当前地图id]
+     * #Author ckhero
+     * #DateTime 2018-02-24
+     * @return [type] [description]
+     */
+    // public function getCurrentMapId()
+    // {
+    //     $mapHasChapters = Map::eachMapChapters();
+    //     $done = $this->chapterDone;
+    //     $mapNum = count($mapHasChapters);
+    //     $i = 0;
+    //     foreach ($mapHasChapters as $key => $chpatersNum) {
+    //         $i++;
+    //         if ($i == $mapNum) return $key;
+    //         $done -= $chpatersNum;
+    //         if ($done < 0) {
+    //             return $key;
+    //         }
+    //     } 
+    // }
     public static function addExp($exp = 0)
     {
         $model = static::findById(Yii::$app->user->id);
@@ -221,7 +260,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         if (Yii::$app->controller->id != 'coca' || Yii::$app->controller->action->id != 'login') {
             unset($fields['access_token'], $fields['refresh_token']);
         }
-        return array_merge($fields, ['rank']);   
+        return array_merge($fields, ['rank', 'level', 'chapterDone', 'chapterTotal']);   
     }
 
     /**

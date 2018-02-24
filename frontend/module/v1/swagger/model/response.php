@@ -19,4 +19,11 @@ class response
      */
     private $message;
 
+     /**
+     * pet status in the store
+     * @SWG\Property(description="奖励列表")
+     * @var reward
+     */
+    private $reward;
+
 }

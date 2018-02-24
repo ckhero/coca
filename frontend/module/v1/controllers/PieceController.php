@@ -22,15 +22,6 @@ class PieceController extends \common\base\BaseRestWebController
      *         type="integer",
      *         required=true,
      *     ),
-     *   @SWG\Parameter(
-     *     in="body",
-     *     name="body",
-     *     description="列表接口中获取的数据的ids",
-     *     required=true,
-     *     @SWG\Schema(
-     *       @SWG\Items(ref="#/definitions/ids")
-     *     )
-     *   ),
      *  @SWG\Parameter(
      *         description="身份令牌",
      *         in="query",
@@ -49,14 +40,14 @@ class PieceController extends \common\base\BaseRestWebController
     {	
     	//道具的碎片列表
     	$pieces = Prop::findPropPiecesById(Yii::$app->request->get('id'));
-    	$userPieces = UserProp::findUserPiecesByIds(array_column(Yii::$app->request->bodyParams, 'id'));
+    	$userPieces = UserProp::findUserPiecesByIds(Yii::$app->request->get('id'));
     	$isCanComplex = Prop::cTwoPieces($pieces, $userPieces);
     	if ($isCanComplex['code'] != 1) {
     		return $isCanComplex;
     	}
     	$transaction = UserProp::getDb()->beginTransaction();
 		try {
-			$updateNum  = UserProp::updateAll(['status'=> 0, 'updated_at'=> date('Y-m-d H:i:s')],['in', 'id', array_column(Yii::$app->request->bodyParams, 'id')]);
+			$updateNum  = UserProp::updateAll(['status'=> 0, 'updated_at'=> date('Y-m-d H:i:s')],['in', 'id', array_column($userPieces, 'id')]);
 			if ($updateNum < count($pieces)) {
 
 				throw new \Exception("部分数据没更新到", 1);
@@ -76,5 +67,4 @@ class PieceController extends \common\base\BaseRestWebController
         $isCanComplex['data'] = $addProp;
     	return $isCanComplex;
     }
-
 }

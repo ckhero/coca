@@ -21,6 +21,12 @@ class UserProp extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;
 
+    public function attributes ()
+    {
+        $attributes = parent::attributes();
+        $attributes[] = 'num';
+        return $attributes;
+    }
     /**
      * {@inheritdoc}
      */
@@ -36,7 +42,7 @@ class UserProp extends \yii\db\ActiveRecord
     {
         return [
             [['uid', 'prop_id', 'type', 'status'], 'integer'],
-            [['created_at', 'updated_at'], 'safe'],
+            [['created_at', 'updated_at', 'parent_prop_id', 'num'], 'safe'],
         ];
     }
 
@@ -51,8 +57,10 @@ class UserProp extends \yii\db\ActiveRecord
             'prop_id' => 'Prop ID',
             'type' => 'Type',
             'status' => 'Status',
+            'num' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'parent_prop_id' => 'Updated At',
         ];
     }
 
@@ -107,6 +115,7 @@ class UserProp extends \yii\db\ActiveRecord
         $fields = parent::fields();
         unset($fields['created_at'], $fields['updated_at']);
         return array_merge($fields, [
+                'num',
                 'type'=> function ($model) {
                     return $model->type == self::TYPE_PIECE? '碎片': '道具';
                 },
@@ -115,6 +124,9 @@ class UserProp extends \yii\db\ActiveRecord
                 },
                 'parent_prop_id'=> function ($model) {
                     return $model->prop->pid;
+                },
+                'img_url'=> function ($model) {
+                    return $model->prop->img_url;
                 }
             ]);
     }
@@ -124,12 +136,14 @@ class UserProp extends \yii\db\ActiveRecord
         return $this->hasOne(Prop::className(), ['id'=> 'prop_id']);
     }
 
-    public static function findUserPiecesByIds($ids = [])
+    public static function findUserPiecesByIds($pid = 0)
     {
-        return static::find()->where(['in', 'id', $ids])
-                             ->andWhere(['uid'=> Yii::$app->user->id])
+        return static::find()->where(['uid'=> Yii::$app->user->id])
                              ->andWhere(['status'=> UserProp::STATUS_ACTIVE])
                              ->andWhere(['type'=> UserProp::TYPE_PIECE]) 
+                             ->andWhere([Prop::tableName().'.pid'=>$pid])
+                             ->innerJoinWith('prop')
+                             ->groupBy('prop_id')
                              ->all();
     }
 

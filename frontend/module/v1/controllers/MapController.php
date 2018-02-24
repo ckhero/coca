@@ -2,16 +2,21 @@
 
 namespace frontend\module\v1\controllers;
 
+use Yii;
+use common\models\Map;
+use common\models\PtUser;
+use yii\data\ActiveDataProvider;
+
 class MapController extends \common\base\BaseController
 {
 	public $modelClass = "common\models\Map";
 
-     // public function actions()
-     // {
-     //      $actions = parent::actions();
-     //      unset($actions['index']);
-     //      return $actions;
-     // }
+     public function actions()
+     {
+          $actions = parent::actions();
+          unset($actions['index']);
+          return $actions;
+     }
 	/**
      * @SWG\Get(path="/v1/maps",
      *   tags={"地图"},
@@ -32,25 +37,27 @@ class MapController extends \common\base\BaseController
      *   }
      * )
      */
-    // public function actionIndex()
-    // {
-    //  $query = $this->modelClass::find();
-    //  $query->andFilterWhere([
-    //         'map_id' => \Yii::$app->request->get('map_id'),
-    //     ]);
-    //  return new ActiveDataProvider([
-    //           'query' => $query,
-    //           'pagination' => [
-    //               'pageSize' => 20,
-    //           ],
-    //           // 'sort' => [
-    //           //     'defaultOrder' => [
-    //           //         'created_at' => SORT_DESC,
-    //           //         'title' => SORT_ASC,
-    //           //     ]
-    //           // ],
-    //       ]);
-    // }
+    public function actionIndex()
+    {
+     $query = $this->modelClass::find();
+     // return Map::currentMapId();
+     $query->andFilterWhere([
+            'id' => Map::currentMapId(),
+        ]);
+     return $query->one();
+     // return new ActiveDataProvider([
+     //          'query' => $query,
+     //          'pagination' => [
+     //              'pageSize' => 20,
+     //          ],
+     //          // 'sort' => [
+     //          //     'defaultOrder' => [
+     //          //         'created_at' => SORT_DESC,
+     //          //         'title' => SORT_ASC,
+     //          //     ]
+     //          // ],
+     //      ]);
+    }
 
     /**
      * @SWG\Get(path="/v1/maps/{id}",

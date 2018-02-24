@@ -36,4 +36,11 @@ class user
      * @var string
      */
     private $nick_name;
+
+    /**
+     * pet status in the store
+     * @SWG\Property( description="经验等级", example="菜鸟")
+     * @var string
+     */
+    private $level;
 }

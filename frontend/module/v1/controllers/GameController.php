@@ -58,7 +58,7 @@ class GameController extends \common\base\BaseRestWebController
         if ($saveRes['Message'][0]['Value'] == 'Success') {
         	//nog减一
         	
-        	return ['code'=> 1, 'message'=> '成功'];
+        	return ['code'=> 1, 'message'=> '成功', 'reward'=> ['points'=> $params['point']]];
         }
         return ['code'=> 0, 'message'=> '失败'];
     }

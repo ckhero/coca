@@ -95,6 +95,7 @@ class ChapterItemController extends \common\base\BaseController
           if (($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.5))) {
                //第一次答对
                //答题成功
+               $optionsVerifyRes['reward'] = [];
                if ( UserChapterRecord::isFirstClearance($id) ) {
 
                     $exp = 100;
@@ -102,8 +103,12 @@ class ChapterItemController extends \common\base\BaseController
                     $pieces = Prop::randomPieces(); //获取五个碎片
                     UserProp::addProp($pieces); //将碎片添加给用户
                     UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id, 'exp'=> $exp, 'props'=> json_encode(array_column($pieces, 'id'))]));//添加过关记录表明关卡已通
+                    $optionsVerifyRes['reward']['pieces'] = $pieces;
+                    $optionsVerifyRes['reward']['exp'] = $exp;
+
                }
                PtUser::addNog(1);//增加一次小游戏机会
+               $optionsVerifyRes['reward']['nog'] = 1;
           }
           GameLog::log([
                          'chapter_child_id'=> $id,

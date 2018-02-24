@@ -56,6 +56,24 @@ class loginResult
     private $status;
 
     /**
+     * pet status in the store
+     * @SWG\Property( description="经验等级", example="菜鸟")
+     * @var string
+     */
+    private $level;
+
+    /**
+     * @SWG\Property(description="已完成的关卡数", example="12")
+     * @var int
+     */
+    private $chapterDone;
+
+    /**
+     * @SWG\Property(description="总的管卡数", example="12")
+     * @var int
+     */
+    private $chapterTotal;
+    /**
      * @SWG\Property(description="登陆令牌", example="K0CddrjOrwvjGCM2M26sPMMnbMC4B-E-")
      * @var string
      */

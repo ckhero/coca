@@ -64,6 +64,7 @@ class Prop extends \yii\db\ActiveRecord
             'sort',
             'pid',
             'pieces',
+            'parentProp',
         ];
     }
 
@@ -173,5 +174,10 @@ class Prop extends \yii\db\ActiveRecord
             }
         }
         return ['code'=> 1, 'message'=>'success']; 
+    }
+
+    public function getParentProp()
+    {
+        return $this->hasOne(static::className(), ['pid'=> 'id']);
     }
 }

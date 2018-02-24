@@ -6,6 +6,8 @@ use Yii;
 use common\models\UserProp;
 use common\models\PtUser;
 use yii\data\ActiveDataProvider;
+use yii\data\SqlDataProvider;
+
 
 class PropController extends \common\base\BaseRestWebController
 {	
@@ -37,7 +39,7 @@ class PropController extends \common\base\BaseRestWebController
      *         required=true,
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/props"),description="道具列表获取成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/props2"),description="道具列表获取成功"),
      *   @SWG\Response(response=400,description="账号密码错误"),
      *   security={
      *     {"Authorization": {}},
@@ -46,17 +48,80 @@ class PropController extends \common\base\BaseRestWebController
      */
     public function actionIndex()
     {
-        return new ActiveDataProvider([
-        		'query'=> UserProp::find()->innerJoinWith('prop')->where(['status'=> UserProp::STATUS_ACTIVE, 'uid'=> Yii::$app->user->id]),
-        		'pagination' => [
-		        	'pageSize' => Yii::$app->request->get('per-page', 20),
-			    ],
-			    'sort' => [
-			        'defaultOrder' => [
-			            'id' => SORT_DESC,
-			        ]
-			    ],
-        	]);
+       //  $provider = new ActiveDataProvider([
+       //  		'query'=> UserProp::find()->innerJoinWith('prop')->where(['status'=> UserProp::STATUS_ACTIVE, 'uid'=> Yii::$app->user->id]),
+       //  		'pagination' => [
+		     //    	'pageSize' => Yii::$app->request->get('per-page', 20),
+			    // ],
+			    // 'sort' => [
+			    //     'defaultOrder' => [
+			    //         'id' => SORT_DESC,
+			    //     ]
+			    // ],
+       //  	]);
+       //  $oldModels = $provider->getModels();
+       //  $currentPage = Yii::$app->request->get('page', 1);
+        
+       //  foreach($oldModels as $key => $model) {
+       //      return $model->prop;
+       //      if (isset($newModels[$model->prop->pid][$model->prop_id])) {
+
+       //          $newModels[$model->prop->pid][$model->prop_id]->num += 1;
+       //          continue;
+       //      }
+
+       //      $model->num = 1;
+       //      $newModels[$model->prop->pid][$model->prop_id] = $model;
+       //  }
+       //  $provider->setModels($newModels);
+       //  return $provider;
+
+        $count = Yii::$app->db->createCommand("select count(1) from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop inner join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.name order by co_prop.id) as a group by a.pid", [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE])->queryScalar();
+
+        $provider = new SqlDataProvider([
+            'sql' => "select co_prop.*, b.num,b.pieces from co_prop inner join (select * ,group_concat(concat_ws(' ',id,name,num, type, img_url)) as pieces from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop left join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.name order by co_prop.id) as a group by a.pid) as b on b.pid=co_prop.id ",
+            'params' => [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE],
+            'totalCount' => $count,
+            'pagination' => [
+                'pageSize' => Yii::$app->request->get('per-page', 20),
+            ],
+            // 'sort' => [
+            //     'attributes' => [
+            //         'id' => SORT_DESC
+            //     ],
+            // ],
+        ]);
+
+        $oldModels = $provider->getModels();
+        $currentPage = Yii::$app->request->get('page', 1);
+        $newModels = [];
+        foreach($oldModels as $key => $model) {
+            $pieces = [];
+            $pieces = explode(',', $model['pieces']);
+            $model['pieces'] = [];
+            $model['num'] = 0;
+            foreach ($pieces as $pieceStr) {
+                $pieceArr = explode(' ', $pieceStr);
+
+                if ($pieceArr[3] != 1) {
+                    $model['pieces'][] = [
+                        'id'=> $pieceArr[0],
+                        'name'=> $pieceArr[1],
+                        'num'=> $pieceArr[2],
+                        'type'=> $pieceArr[3],
+                        'img_url'=> $pieceArr[4],
+                    ];
+                } else {
+                    $model['num'] = $pieceArr[2];
+                }
+                
+            }
+            $newModels[] = $model;
+        }
+        $provider->setModels($newModels);
+
+        return $provider;
+
     }
 
     /**
@@ -67,7 +132,7 @@ class PropController extends \common\base\BaseRestWebController
      *   operationId="getInventory",
      *   produces={"application/json"},
      *  @SWG\Parameter(
-     *         description="列表接口中获取的数据的id",
+     *         description="要使用的道具id",
      *         in="formData",
      *         name="id",
      *         type="integer",
@@ -91,7 +156,7 @@ class PropController extends \common\base\BaseRestWebController
     {
         $model = UserProp::findOne([
         		'uid' => Yii::$app->user->id,
-        		'id'=> Yii::$app->request->post('id', 0),
+        		'prop_id'=> Yii::$app->request->post('id', 0),
         		'status'=> UserProp::STATUS_ACTIVE,
         		'type'=> UserProp::TYPE_PROP, 
         	]);

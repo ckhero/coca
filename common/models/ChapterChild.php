@@ -160,6 +160,20 @@ class ChapterChild extends \yii\db\ActiveRecord
         return Yii::$app->cache->getOrSet('userTotalDone_'.$uid, function () use ($uid) {
             $query = new static();
             return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::TYPE_CHAPTER])->count();
+        }, 10);
+    }
+
+    /**
+     * [total 获取总的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-24
+     * @return [type] [description]
+     */
+    public static function total()
+    {
+        return Yii::$app->cache->getOrSet('chapterTotal', function () {
+            $query = new static();
+            return $query->find()->innerJoinWith('parents')->count();
         }, 300);
     }
 
