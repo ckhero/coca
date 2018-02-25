@@ -83,23 +83,39 @@ class BossController extends \common\base\BaseRestWebController
             //判断用户是否正在参加，参加的话返回答题情况，分发奖品，没有的话
             $battleDetail = Yii::$app->cache->get('Boss_'.Yii::$app->user->id);
             $deadBossInfo = Boss::findOne(['id'=> $battleDetail['boss_id']]);
-            if ($deadBossInfo['hp'] == $deadBossInfo['reduced']) {
-                //boss死亡，发放奖励
-                $userRecord = UserChapterRecord::findOne(['id'=> $battleDetail['record_id'], 'status'=> UserChapterRecord::STATUS_UNISSUED]);
-                if (!is_null($userRecord)) {
-                    //可发放奖励
-                    $code = 4;
-                    $message = '参与答题,奖励发放成功';
-                    
-                    $pieces = Prop::randomPieces(); //获取五个碎片
-                    UserProp::addProp($pieces); //将碎片添加给用户
-                    $userRecord->props = json_encode(array_column($pieces, 'id'));
-                    $userRecord->status = UserChapterRecord::STATUS_ISSUED;
-                    $userRecord->save();
+            $userRecord = UserChapterRecord::findOne(['id'=> $battleDetail['record_id'], 'status'=> UserChapterRecord::STATUS_UNISSUED]);
+            if (!is_null($userRecord)) {
+                //可发放奖励
 
-                    $reward['pieces'] = $pieces;
-                }
+                $piecesNum = $deadBossInfo['hp'] == $deadBossInfo['reduced']? 10: 2;
+                $code = 4;
+                $message = '参与答题,奖励发放成功';
+                
+                $pieces = Prop::randomPieces($piecesNum); //获取五个碎片
+                UserProp::addProp($pieces); //将碎片添加给用户
+                $userRecord->props = json_encode(array_column($pieces, 'id'));
+                $userRecord->status = UserChapterRecord::STATUS_ISSUED;
+                $userRecord->save();
+
+                $reward['pieces'] = $pieces;
             }
+            // if ($deadBossInfo['hp'] == $deadBossInfo['reduced']) {
+            //     //boss死亡，发放奖励
+            //     $userRecord = UserChapterRecord::findOne(['id'=> $battleDetail['record_id'], 'status'=> UserChapterRecord::STATUS_UNISSUED]);
+            //     if (!is_null($userRecord)) {
+            //         //可发放奖励
+            //         $code = 4;
+            //         $message = '参与答题,奖励发放成功';
+                    
+            //         $pieces = Prop::randomPieces(10); //获取五个碎片
+            //         UserProp::addProp($pieces); //将碎片添加给用户
+            //         $userRecord->props = json_encode(array_column($pieces, 'id'));
+            //         $userRecord->status = UserChapterRecord::STATUS_ISSUED;
+            //         $userRecord->save();
+
+            //         $reward['pieces'] = $pieces;
+            //     }
+            // }
             $transaction->commit();
             return ['code'=> $code, 'message'=> $message, 'reward'=> $reward];
         } catch (\Exception $e) {

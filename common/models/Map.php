@@ -96,9 +96,10 @@ class Map extends \yii\db\ActiveRecord
      */
     public static function eachMapChapters()
     {
-        return Yii::$app->cache->getOrSet('eachMapChapt2ers', function () {
+        return Yii::$app->cache->getOrSet('eachMapChapters', function () {
             $model = new static();
             $data = $model->find()->innerJoinWith('chapters')->all();
+            $res = [];
             foreach($data as $key => $val) {
                 $res[$val['id']] = 0;
                 foreach ($val['chapters'] as $k => $v) {
