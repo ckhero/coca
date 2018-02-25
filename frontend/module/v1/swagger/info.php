@@ -1,8 +1,8 @@
 <?php 
 /**
  * @SWG\Swagger(
- *     host="localhost",
- *     basePath="/coca/frontend/web",
+ *     host="www.51qwer.com",
+ *     basePath="/",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="COCA(前台)",

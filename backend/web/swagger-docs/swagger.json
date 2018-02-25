@@ -10,8 +10,8 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/coca/backend/web",
+    "host": "coca.51qwer.com",
+    "basePath": "/",
     "paths": {
         "/login": {
             "post": {

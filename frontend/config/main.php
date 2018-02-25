@@ -49,6 +49,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question-chapter'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/rank'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/record'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/prop', 'extraPatterns'=>['POST'=>'update']],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/piece'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/battle'],

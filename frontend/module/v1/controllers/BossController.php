@@ -48,6 +48,7 @@ class BossController extends \common\base\BaseRestWebController
         $transaction = Yii::$app->db->beginTransaction();
         $code = 2;
         $message = '世界BOSS还未开始';
+        $reward = [];
         try {
             $queryParams = [
                 ":currTime"=> date('Y-m-d H:i:s'),
@@ -95,10 +96,12 @@ class BossController extends \common\base\BaseRestWebController
                     $userRecord->props = json_encode(array_column($pieces, 'id'));
                     $userRecord->status = UserChapterRecord::STATUS_ISSUED;
                     $userRecord->save();
+
+                    $reward['pieces'] = $pieces;
                 }
             }
             $transaction->commit();
-            return ['code'=> $code, 'message'=> $message];
+            return ['code'=> $code, 'message'=> $message, 'reward'=> $reward];
         } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;

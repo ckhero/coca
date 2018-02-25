@@ -3,6 +3,7 @@
 namespace common\models;
 
 use Yii;
+use Third\Steps;
 
 /**
  * This is the model class for table "co_map".
@@ -16,7 +17,8 @@ use Yii;
  * @property string $updated_at
  */
 class Map extends \yii\db\ActiveRecord
-{
+{   
+    public $curr;
     /**
      * {@inheritdoc}
      */
@@ -65,11 +67,12 @@ class Map extends \yii\db\ActiveRecord
     {
         return [
             'id',
+            'curr',
             'name',
             'desc',
             'bg_url',
             'sort',
-            'chapters'
+            'chapters',
         ];
     }
 
@@ -80,6 +83,11 @@ class Map extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getCurr(){
+        return 1;
+    }
+    public function getPrev(){}
+    public function getNext(){}
     /**
      * [eachMapChapters 每张地图拥有的关卡数]
      * #Author ckhero
@@ -107,17 +115,26 @@ class Map extends \yii\db\ActiveRecord
         $done = ChapterChild::totalDone(Yii::$app->user->id);;
         $mapNum = count($mapHasChapters);
         $i = 0;
+        ksort($mapHasChapters);
 
-        $curr = 0;
-        $prev = 0;
-        $next = 0;
+       
         foreach ($mapHasChapters as $key => $chpatersNum) {
             $i++;
-            if ($i == $mapNum) return [$key];
+  
+
+            if ($i == $mapNum) break;
             $done -= $chpatersNum;
             if ($done < 0) {
-                return [$key];
+                break;
             }
-        } 
+        }
+        $steps = new Steps(); 
+        $steps->setAll($mapHasChapters);
+
+        $steps->setCurrent($key);//参数为key值  
+        $curr = $steps->getCurrent(); 
+        $prev = $steps->getPrev()?? $curr; 
+        $next = $steps->getNext()?? $curr; 
+        return compact('curr', 'prev', 'next');
     }
 }
