@@ -260,7 +260,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         if (Yii::$app->controller->id != 'coca' || Yii::$app->controller->action->id != 'login') {
             unset($fields['access_token'], $fields['refresh_token']);
         }
-        return array_merge($fields, ['rank', 'level', 'chapterDone', 'chapterTotal']);   
+        return array_merge($fields, ['rank', 'level', 'chapterDone', 'chapterTotal', 'bossTime']);   
     }
 
     /**
@@ -312,5 +312,17 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
             $model->save();
         }
         return $model;
+    }
+
+    /**
+     * [getBossTime 得到下次世界boss的时间]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @return [type] [description]
+     */
+    public function getBossTime()
+    {
+        $boss = Boss::findCurrOrNextBoss();
+        return is_null($boss)? '': $boss->start;
     }
 }

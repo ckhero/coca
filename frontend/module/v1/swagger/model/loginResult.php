@@ -63,6 +63,13 @@ class loginResult
     private $level;
 
     /**
+     * pet status in the store
+     * @SWG\Property( description="下一个世界boss开始键", example="2018-03-23 17:41:27")
+     * @var string
+     */
+    private $bossTime;
+
+    /**
      * @SWG\Property(description="已完成的关卡数", example="12")
      * @var int
      */

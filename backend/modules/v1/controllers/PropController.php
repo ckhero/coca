@@ -2,6 +2,7 @@
 
 namespace backend\modules\v1\controllers;
 
+use Yii;
 use yii\data\ActiveDataProvider;
 use common\models\Prop;
 
@@ -59,7 +60,7 @@ class PropController extends \common\base\BaseController
     	return new ActiveDataProvider([
 		    'query' => $query,
 		    'pagination' => [
-		        'pageSize' => Yii::$app->ggetquest->get('per-page', 20),
+		        'pageSize' => Yii::$app->request->get('per-page', 20),
 		    ],
 		    // 'sort' => [
 		    //     'defaultOrder' => [

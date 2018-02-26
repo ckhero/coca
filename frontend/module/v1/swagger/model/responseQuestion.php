@@ -7,7 +7,7 @@ class responseQuestion
 {
 
     /**
-     * @SWG\Property(description="答题情况，0为验证失败，1为全部答对，2位部分答对", enum={"0","1","2"}, example="0")
+     * @SWG\Property(description="答题情况，0为验证失败，1闯关成功", enum={"0","1","2"}, example="0")
      * @var int
      */
     private $code;

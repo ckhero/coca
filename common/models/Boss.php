@@ -83,4 +83,17 @@ class Boss extends \yii\db\ActiveRecord
                              ->forUpdate()
                              ->one();
     }
+
+    /**
+     * [findCurrOrNextBoss 找到正在进行的或者已经死亡的boss]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @return [type] [description]
+     */
+    public static function findCurrOrNextBoss()
+    {
+        return static::find()->andWhere(['>', 'end', date('Y-m-d H:i:s')])
+                             ->orderBy('start')
+                             ->one();
+    }
 }

@@ -92,9 +92,10 @@ class ChapterItemController extends \common\base\BaseController
     {
          	$options = \Yii::$app->request->getBodyParams();
           $optionsVerifyRes = Questions::verifyChapterOptions($id, $options);
-          if (($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.5))) {
+          if (($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.7))) {
                //第一次答对
                //答题成功
+               $optionsVerifyRes['code'] = 1;
                $optionsVerifyRes['reward'] = [];
                if ( UserChapterRecord::isFirstClearance($id) ) {
 

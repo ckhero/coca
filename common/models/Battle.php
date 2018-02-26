@@ -21,9 +21,21 @@ class Battle extends \yii\db\ActiveRecord
 {
     const STATUS_ACCEPT = 1;
     const STATUS_UNACCEPT = 0;
+
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+
     const STATUS_LOSE = 0;
     const STATUS_WIN = 1;
     const STATUS_DOGFALL = 2;
+    const STATUS_NULL = -1;
+
+    const TIME_INACTIVE = 24 * 3600;
+    static $result = [
+        '失败了，再接再厉哦',
+        '赢得了胜利',      
+        '和对方旗鼓相当，不分上下~'
+    ];
     /**
      * {@inheritdoc}
      */
@@ -84,7 +96,8 @@ class Battle extends \yii\db\ActiveRecord
 
     public static function findOrCreateBattle($oppositeUid = 0)
     {
-        $battleModel = static::find()->where(['uid'=> Yii::$app->user->id, 'opposite_uid'=> $oppositeUid])->andWhere(['>', 'created_at', date('Y-m-d H:i:s', time() - 3600)])->one();
+        $battleModel = static::find()->where(['uid'=> Yii::$app->user->id, 'opposite_uid'=> $oppositeUid, 'status_win'=> static::STATUS_NULL])->andWhere(['>', 'created_at', date('Y-m-d H:i:s', time() - static::TIME_INACTIVE)])->one();
+        //$battleModel = static::find()->where(['uid'=> Yii::$app->user->id, 'opposite_uid'=> $oppositeUid])->andWhere('record_id = 0 or opposite_record_id =0')->one();
         if (is_null($battleModel)) {
 
             $battleModel = new static();
@@ -92,6 +105,61 @@ class Battle extends \yii\db\ActiveRecord
             $battleModel->opposite_uid = $oppositeUid;
             $battleModel->save();
         }
+       // $battleModel->questions = 1;
         return $battleModel;
+    }
+
+    public function getQuestions($battle_id = 0)
+    {
+        return Yii::$app->cache->getOrSet('battle_'.$battle_id, function () {
+            return Questions::randomQuestions(10);
+        }, 3600 * 2);
+    }
+
+    public function fields()
+    {
+        return array_merge(parent::fields(), [
+                'questions' => function($model) {
+                    return $model->getQuestions($model->id);
+                }
+            ]);
+    }
+
+    /**
+     * [isOppositeUser 判断当前用户是否是应战方]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @param  [type]  $model [description]
+     * @return boolean        [description]
+     */
+    public static function isOppositeUser($model) 
+    {
+        return !($model['uid'] == Yii::$app->user->id);
+    }
+
+    /**
+     * [cBattle 得出战斗结果]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @param  integer $recordId         [description]
+     * @param  integer $oppositeRecordId [description]
+     * @return [type]                    [description]
+     */
+    public static function cBattle($recordId = 0, $oppositeRecordId = 0)
+    {
+        $record = UserChapterRecord::findOne(['id'=> $recordId]);
+        $oppositeRecord = UserChapterRecord::findOne(['id'=> $oppositeRecordId]);
+        if ($record['right_num'] < $oppositeRecord['right_num']) {
+            return static::STATUS_LOSE;
+        } else if ($record['right_num'] > $oppositeRecord['right_num']) {
+            return static::STATUS_WIN;
+        }
+        if ($oppositeRecord['cost_time'] < $record['cost_time']) {
+            return static::STATUS_LOSE;
+        } else if ($oppositeRecord['cost_time'] > $record['cost_time']) {
+            return static::STATUS_WIN;
+        }
+
+        return static::STATUS_DOGFALL;
     }
 }

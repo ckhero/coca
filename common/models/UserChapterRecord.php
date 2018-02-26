@@ -27,6 +27,7 @@ class UserChapterRecord extends \yii\db\ActiveRecord
     const STATUS_UNISSUED = 0;//奖励未接发放
     const STATUS_ISSUED = 1;//奖励未接发放
     static $activityNames = [
+        '1'=> '关卡',
         '2'=> '世界boss',
         '3'=> '每日任务',
         '4'=> '消消乐',
@@ -125,6 +126,7 @@ class UserChapterRecord extends \yii\db\ActiveRecord
         $model->exp = $data['exp']?? 0;
         $model->props = $data['props']?? null;
         $model->status = $data['status']?? 1;
+        $model->cost_time = $data['cost_time']?? 0;
         $model->save();
         return $model;
     }

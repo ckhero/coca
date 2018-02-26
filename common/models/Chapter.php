@@ -105,13 +105,32 @@ class Chapter extends \yii\db\ActiveRecord
     // }
     // 
     
+    /**
+     * [total 获取总的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @return [type] [description]
+     */
     public static function total()
     {
-        return Yii::$app->cache->getOrSet('Chapter_total', function () {
+        return Yii::$app->cache->getOrSet('BigChapterTotal', function () {
             $query = new static();
-            return $query->find()->innerJoinWith('chapterChilds')->innerJoinWith('map')->count();
-        }, 300);
-        
+            return $query->find()->innerJoinWith('map')->count();
+        }, 300); 
+    }
+
+    /**
+     * [total 获取总的关卡数]
+     * #Author ckhero
+     * #DateTime 2018-02-26
+     * @return [type] [description]
+     */
+    public static function totalDone()
+    {
+        return Yii::$app->cache->getOrSet('BigChapterTotal', function () {
+            $query = new static();
+            return $query->find()->innerJoinWith('map')->count();
+        }, 300); 
     }
 
     /**
