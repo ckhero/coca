@@ -38,4 +38,10 @@ class bossResult
      */
     private $nextQuestion;
 
+    /**
+     * @SWG\Property(description="奖励")
+     * @var reward
+     */
+    private $reward;
+
 }

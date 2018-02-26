@@ -30,7 +30,7 @@ class MapController extends \common\base\BaseController
      *         name="access-token",
      *         type="string",
      *     ),
-     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/maps"),description="access-token获取成功"),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/currMap"),description="access-token获取成功"),
      *   @SWG\Response(response=400,description="账号密码错误"),
      *   security={
      *     {"Authorization": {}},
@@ -41,10 +41,11 @@ class MapController extends \common\base\BaseController
     {
      $query = $this->modelClass::find();
      // return Map::currentMapId();
+     $positions = Map::currentMapId();
      $query->andFilterWhere([
-            'id' => Map::currentMapId(),
+            'id' => $positions['curr'],
         ]);
-     return $query->one();
+     return ['map'=> $query->one(), '_meta'=> $positions];
      // return new ActiveDataProvider([
      //          'query' => $query,
      //          'pagination' => [

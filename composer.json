@@ -47,7 +47,8 @@
     "autoload": {
          "files": ["common/helper/function.php"],
          "psr-4": {
-            "Api\\": "frontend/api"
+            "Api\\": "frontend/api",
+            "Third\\": "frontend/third"
         }
     }
 }
