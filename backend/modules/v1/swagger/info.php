@@ -2,7 +2,7 @@
 /**
  * @SWG\Swagger(
  *     host="localhost",
- *     basePath="/coca/backend/web",
+ *     basePath="/coca/frontend/web",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="COCA",

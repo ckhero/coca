@@ -34,7 +34,8 @@ class CocaController extends \yii\web\Controller
     
     public function actionLogin()
     {
-        
+        \Yii::beginProfile('login');
+
     	\Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
     	$params = Yii::$app->request->get(); 
     	// if ((time() - @$params['TimeStamp']) > 500) {
@@ -60,6 +61,7 @@ class CocaController extends \yii\web\Controller
     		];
     	}
     	$user = PtUser::loginOrCreate($params);
+        \Yii::endProfile('myBenchmark');
         return $user;
     	var_dump($user->id,ChapterChild::totalDone($user->id));exit;
         return [

@@ -44,4 +44,10 @@ class bossResult
      */
     private $reward;
 
+    /**
+     * @SWG\Property(description="世界boss相关信息")
+     * @var _boss
+     */
+    private $boss;
+
 }

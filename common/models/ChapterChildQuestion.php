@@ -46,9 +46,7 @@ class ChapterChildQuestion extends \yii\db\ActiveRecord
         return [
             'chapter_child_id',
             'question_id',
-            'question_info'=>function ($model) {
-                return $this->questions;
-            },
+            'question_info'
         ];
     }
 
@@ -56,7 +54,10 @@ class ChapterChildQuestion extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Questions::className(), ['id' => 'question_id']);
     }
-
+    public function getQuestion_info()
+    {
+        return $this->hasOne(Questions::className(), ['id' => 'question_id'])->innerJoinWith('questionOptions');
+    }
     public static function addItems($options = [], $qId = null)
     {
         foreach($options as $key=> $val) {

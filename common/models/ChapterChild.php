@@ -55,10 +55,27 @@ class ChapterChild extends \yii\db\ActiveRecord
     }
 
     public function fields()
-    {
-        if (Yii::$app->controller->action->id === 'view' && Yii::$app->id =='app-frontend') {
-            if (Yii::$app->controller->id =='chapter-item') {
+    {   
+        if (Yii::$app->id =='app-frontend') {
+            if (Yii::$app->controller->action->id === 'view') {
+                if (Yii::$app->controller->id =='chapter-item') {
 
+                return [
+                        'id',
+                        'chapter_id',
+                        'name',
+                        'desc',
+                        'sort',
+                        'guide',
+                        'guide_bg_url',
+                        'guide_type',
+                        'status',
+                        'questions',
+                    ];
+
+                }
+            }
+            if (Yii::$app->controller->id == 'map') { //首页获取资源
                 return [
                     'id',
                     'chapter_id',
@@ -69,24 +86,8 @@ class ChapterChild extends \yii\db\ActiveRecord
                     'guide_bg_url',
                     'guide_type',
                     'status',
-                    'questions',
-                ];
-
-            } else {
-
-                return [
-                    'id',
-                    'chapter_id',
-                    'name',
-                    'desc',
-                    'sort',
-                    'guide',
-                    'guide_bg_url',
-                    'guide_type',
-                    'status'
                 ];
             }
-        } else {
             return [
                 'id',
                 'chapter_id',
@@ -96,10 +97,21 @@ class ChapterChild extends \yii\db\ActiveRecord
                 'guide',
                 'guide_bg_url',
                 'guide_type',
-                'questions',
-                'clearanceChapterChild'
+                'status'
             ];
-        }
+        } 
+        return [
+            'id',
+            'chapter_id',
+            'name',
+            'desc',
+            'sort',
+            'guide',
+            'guide_bg_url',
+            'guide_type',
+            'questions',
+            'clearanceChapterChild'
+        ];
         
     }
 
@@ -160,7 +172,7 @@ class ChapterChild extends \yii\db\ActiveRecord
         return Yii::$app->cache->getOrSet('userTotalDone_'.$uid, function () use ($uid) {
             $query = new static();
             return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::TYPE_CHAPTER])->count();
-        }, 10);
+        }, 300);
     }
 
     /**
@@ -206,4 +218,5 @@ class ChapterChild extends \yii\db\ActiveRecord
             return $model->name?? null;
         }, 300);
     }
+
 }

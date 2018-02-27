@@ -24,6 +24,9 @@ class Msg extends \yii\db\ActiveRecord
     const TYPE_XIAOXIAOLE = 4;//小游戏
     const TYPE_BATTLE = 5;//对战
 
+    const STATUS_BATTLE = 1;//需要战斗
+    const STATUS_INBATTLE = 0; //不需要战斗
+
     const STATUS_READ = 0;//奖励未接发放
     const STATUS_UNREAD= 1;//奖励未接发放
     static $activityNames = [
@@ -47,7 +50,7 @@ class Msg extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['uid', 'type', 'battle_id', 'status'], 'integer'],
+            [['uid', 'type', 'battle_id', 'status','is_battle'], 'integer'],
             [['detail'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
         ];
@@ -97,6 +100,7 @@ class Msg extends \yii\db\ActiveRecord
         $model->battle_id = $data['battle_id']?? 0;
         $model->type = $data['type']?? 0;
         $model->detail = $data['detail']?? '';
+        $model->is_battle = $data['is_battle']?? static::STATUS_INBATTLE;
         $model->save();
         Yii::$app->cache->set('NewMsg:'.$data['uid'], 1, 3600 * 24 * 30); //标记用户有新的消息
     }

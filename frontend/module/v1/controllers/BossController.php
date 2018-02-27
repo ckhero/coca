@@ -75,7 +75,10 @@ class BossController extends \common\base\BaseRestWebController
                 
                 if (($bossInfo['hp'] - $bossInfo['reduced']) > 1 || $code != 1) { //答错或者答对的不是最后一题，答对最后一题的话要发放奖励
                     $transaction->commit();
-                    return ['code'=> $code, 'message'=> $message, 'total'=> $bossRecord['total'], 'right_num'=> $bossRecord['right_num'], 'nextQuestion'=> $nextQuestion];
+                    if ($code == 1) {
+                        $bossInfo['reduced'] += 1;
+                    }
+                    return ['code'=> $code, 'message'=> $message, 'total'=> $bossRecord['total'], 'right_num'=> $bossRecord['right_num'], 'nextQuestion'=> $nextQuestion, 'boss'=> $bossInfo];
                 }
                 $message = '回答正确,并且boss死亡';
                 $code = 3;
@@ -117,7 +120,7 @@ class BossController extends \common\base\BaseRestWebController
             //     }
             // }
             $transaction->commit();
-            return ['code'=> $code, 'message'=> $message, 'reward'=> $reward];
+            return ['code'=> $code, 'message'=> $message, 'reward'=> $reward, 'boss'=> $bossInfo];
         } catch (\Exception $e) {
             $transaction->rollBack();
             throw $e;

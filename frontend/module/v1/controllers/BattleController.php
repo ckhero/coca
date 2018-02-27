@@ -74,6 +74,7 @@ class BattleController extends \common\base\BaseRestWebController
                     'battle_id'=> $battleModel->id,
                     'type'=> Msg::TYPE_BATTLE,
                     'detail'=> $ownUserInfo->nick_name." 在 ".date('Y-m-d H:i:s')." 向你发起1v1挑战，快来对战吧~",
+                    'is_battle'=> Msg::STATUS_BATTLE,
                 ]); 
         }
         return $battleModel;

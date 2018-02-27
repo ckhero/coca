@@ -106,7 +106,7 @@ class ChapterItemController extends \common\base\BaseController
                     UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id, 'exp'=> $exp, 'props'=> json_encode(array_column($pieces, 'id'))]));//添加过关记录表明关卡已通
                     $optionsVerifyRes['reward']['pieces'] = $pieces;
                     $optionsVerifyRes['reward']['exp'] = $exp;
-
+                    Yii::$app->cache->delete("userTotalDone_".Yii::$app->user->id);
                }
                PtUser::addNog(1);//增加一次小游戏机会
                $optionsVerifyRes['reward']['nog'] = 1;

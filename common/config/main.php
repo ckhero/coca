@@ -16,6 +16,8 @@ return [
             'password' => '123123',
             'charset' => 'utf8',
             'tablePrefix' => 'co_',
+            // 'enableSchemaCache' => true,  //开启表结构缓存
+            // 'schemaCacheDuration' => 3600, // 表结构缓存时间
         ],
         'log' => [
             'flushInterval' => 100,

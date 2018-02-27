@@ -45,6 +45,7 @@ class Map extends \yii\db\ActiveRecord
     public function getChapters()
     {
         return $this->hasMany(Chapter::className(), ['map_id'=> 'id'])
+                    ->innerJoinWith('chapterChilds')
                     ->orderBy(Chapter::tableName().'.sort');
     }
     /**
@@ -97,14 +98,10 @@ class Map extends \yii\db\ActiveRecord
     public static function eachMapChapters()
     {
         return Yii::$app->cache->getOrSet('eachMapChapters', function () {
-            $model = new static();
-            $data = $model->find()->innerJoinWith('chapters')->all();
-            $res = [];
-            foreach($data as $key => $val) {
-                $res[$val['id']] = 0;
-                foreach ($val['chapters'] as $k => $v) {
-                    $res[$val['id']] += count($v['chapterChilds']);
-                } 
+            $data = Yii::$app->db->createCommand('SELECT `co_map`.id, count(1) as num FROM `co_map` INNER JOIN `co_chapter` ON `co_map`.`id` = `co_chapter`.`map_id` INNER JOIN `co_chapter_child` ON `co_chapter`.`id` = `co_chapter_child`.`chapter_id` group by co_map.id ORDER BY `co_map`.`id` ')
+                                 ->queryAll();
+            foreach ($data as $key => $val) {
+                $res[$val['id']] = $val['num'];
             }
             return $res;
         }, 1);

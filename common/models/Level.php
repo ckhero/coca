@@ -62,7 +62,7 @@ class Level extends \yii\db\ActiveRecord
                       ->orderBy('score desc')
                       ->one();
             return $info->name?? '';
-        }, 300);
+        }, 3600);
         
     }
 }
