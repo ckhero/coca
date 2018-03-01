@@ -1,6 +1,8 @@
 <?php
 namespace Api;
 
+use common\models\PtUser;
+
 class Coca
 {
 	private $token = '69a63a93c06a0c52';
@@ -87,12 +89,14 @@ class Coca
             'pageCount'=> $res['Data']['PageCount'],
             'currentPage'=> $res['Data']['CurrPage'],
         ];
-
+        //排除当前用户
+        $currCocaId = PtUser::getCocaIdById();
         // return $res;
         if ($res['Status'] != '001') {
             $returnData['items'] = [];
         } else {
             foreach ($res['Data']['List'] as $user) {
+            if ($user['KOUserId'] == $currCocaId) continue;
             $returnData['items'][] = [
                     'coca_id'=> $user['KOUserId'],
                     // 'rank'=> $user['Ranking'],

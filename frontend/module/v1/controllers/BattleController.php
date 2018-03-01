@@ -77,6 +77,7 @@ class BattleController extends \common\base\BaseRestWebController
                     'is_battle'=> Msg::STATUS_BATTLE,
                 ]); 
         }
+        $battleModel->user = $userInfo;
         return $battleModel;
     }
 
@@ -280,8 +281,15 @@ class BattleController extends \common\base\BaseRestWebController
      */
     public function actionView($id) 
     {
-        $battleModel = new Battle();
-        return ['id'=> $id, 'questions'=> $battleModel->getQuestions($id)];
+        // $battleModel = new Battle();
+        // return ['id'=> $id, 'questions'=> $battleModel->getQuestions($id), 'user'=> 11];
+         $battleModel = Battle::findOne(['id'=> $id]);
+         if(is_null($battleModel)) {
+            throw new \yii\web\NotFoundHttpException('没有对战信息');
+         }
+         $isOppositeUser = Battle::isOppositeUser($battleModel);//是否是发起者
+         $battleModel->user = $isOppositeUser? PtUser::findOne(['id'=> $battleModel->uid]): PtUser::findOne(['id'=> $battleModel->opposite_uid]);
+         return $battleModel;
     }
 
 }

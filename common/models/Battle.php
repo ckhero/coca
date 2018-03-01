@@ -121,7 +121,8 @@ class Battle extends \yii\db\ActiveRecord
         return array_merge(parent::fields(), [
                 'questions' => function($model) {
                     return $model->getQuestions($model->id);
-                }
+                },
+                'user'
             ]);
     }
 
@@ -161,5 +162,20 @@ class Battle extends \yii\db\ActiveRecord
         }
 
         return static::STATUS_DOGFALL;
+    }
+
+    /**
+     * [getUser 对手的信息]
+     * #Author ckhero
+     * #DateTime 2018-03-01
+     * @return [type] [description]
+     */
+    public function getUser()
+    {
+        return false;
+    }
+    public function setUser($value)
+    {
+        $this->user = $value;
     }
 }

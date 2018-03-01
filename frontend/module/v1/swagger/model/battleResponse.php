@@ -21,4 +21,11 @@ class battleResponse
      */
     private $questions;
 
+    /**
+     * pet status in the store
+     * @SWG\Property(description="用户信息")
+     * @var user
+     */
+    private $user;
+
 }
