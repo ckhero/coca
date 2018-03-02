@@ -10,8 +10,11 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
+    "host": "elearninggame.icoke.cn",
     "basePath": "/coca/frontend/web",
+    "schemes": [
+        "https"
+    ],
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
             "get": {
@@ -1283,6 +1286,10 @@
                         "$ref": "#/definitions/Questions"
                     },
                     "example": "100"
+                },
+                "user": {
+                    "description": "\u7528\u6237\u4fe1\u606f",
+                    "$ref": "#/definitions/user"
                 }
             },
             "type": "object",

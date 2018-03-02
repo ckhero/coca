@@ -1,8 +1,9 @@
 <?php 
 /**
  * @SWG\Swagger(
+ * 	   schemes={"http"},
  *     host="localhost",
- *     basePath="/coca/frontend/web",
+ *     basePath="/coca/backend/web",
  *     @SWG\Info(
  *         version="1.0.0",
  *         title="COCA",
@@ -16,6 +17,6 @@
  * )
  * coca.51qwer.com
  * localhost
- *
+ *elearninggame.icoke.cn
  * /coca/backend/web
  */

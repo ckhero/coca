@@ -11,7 +11,7 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=127.0.0.1;dbname=coca',
+            'dsn' => 'mysql:host=139.219.68.50;dbname=coca',
             'username' => 'coca',
             'password' => 'coca123o1nfdasof!@#!4',
             'charset' => 'utf8',
@@ -49,6 +49,7 @@ return [
     'modules' => [
         'debug' => [
             'class' => 'yii\debug\Module',
+            'allowedIPs' => ['127.0.0.1', '::1', '192.168.*.*', '180.173.88.80'],
         ],
     ],
 ];

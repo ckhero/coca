@@ -1,6 +1,7 @@
 <?php 
 /**
  * @SWG\Swagger(
+ * 	   schemes={"http"},
  *     host="localhost",
  *     basePath="/coca/frontend/web",
  *     @SWG\Info(
@@ -16,6 +17,7 @@
  * )
  * www.51qwer.com
  * localhost
+ * elearninggame.icoke.cn
  *unzip coca.zip ;chmod 777 -R coca;rm -rf /var/www/coca;mv coca /var/www/
  * /coca/frontend/web
  */

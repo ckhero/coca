@@ -10,8 +10,11 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
-    "basePath": "/coca/frontend/web",
+    "host": "elearninggame.icoke.cn",
+    "basePath": "/coca/backend/web",
+    "schemes": [
+        "https"
+    ],
     "paths": {
         "/login": {
             "post": {
