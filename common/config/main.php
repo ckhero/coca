@@ -11,9 +11,9 @@ return [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=59.110.158.62;dbname=coca',
-            'username' => 'ckhero',
-            'password' => '123123',
+            'dsn' => 'mysql:host=127.0.0.1;dbname=coca',
+            'username' => 'coca',
+            'password' => 'coca123o1nfdasof!@#!4',
             'charset' => 'utf8',
             'tablePrefix' => 'co_',
             // 'enableSchemaCache' => true,  //开启表结构缓存
