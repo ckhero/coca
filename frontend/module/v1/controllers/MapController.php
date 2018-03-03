@@ -39,6 +39,8 @@ class MapController extends \common\base\BaseController
      */
     public function actionIndex()
     {
+     $response = Yii::$app->response;
+     $response->format = \yii\web\Response::FORMAT_JSON;
      $query = $this->modelClass::find();
      // return Map::currentMapId();
      $positions = Map::currentMapId();

@@ -34,4 +34,10 @@ class _msg
      */
     private $is_battle;
 
+    /**
+     * @SWG\Property(description="1为对战结束，已完成对战，2为对战未完成，已超时，3为对战未完成，但用户已经完成答题，4为对战未完成，用户未答题")
+     * @var string
+     */
+    private $battleStatus;
+
 }

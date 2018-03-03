@@ -29,7 +29,11 @@ class props
      */
     private $img_url;
 
-
+    /**
+     * @SWG\Property(description="[道具合成后的跳转链接")
+     * @var string
+     */
+    private $redirect_url;
 
     /**
      * @SWG\Property(description="道具的碎片列表")

@@ -10,10 +10,10 @@
         },
         "version": "1.0.0"
     },
-    "host": "elearninggame.icoke.cn",
+    "host": "localhost",
     "basePath": "/coca/frontend/web",
     "schemes": [
-        "https"
+        "http"
     ],
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
@@ -1186,6 +1186,10 @@
                 },
                 "is_battle": {
                     "description": "\u662f\u9700\u8981\u5e94\u6218\uff0c0\u4e3a\u666e\u901a\u6d88\u606f\u65e0\u9700\u8fce\u6218\uff0c1\u4e3a\u9700\u8981\u5e94\u6218",
+                    "type": "string"
+                },
+                "battleStatus": {
+                    "description": "1\u4e3a\u5bf9\u6218\u7ed3\u675f\uff0c\u5df2\u5b8c\u6210\u5bf9\u6218\uff0c2\u4e3a\u5bf9\u6218\u672a\u5b8c\u6210\uff0c\u5df2\u8d85\u65f6\uff0c3\u4e3a\u5bf9\u6218\u672a\u5b8c\u6210\uff0c\u4f46\u7528\u6237\u5df2\u7ecf\u5b8c\u6210\u7b54\u9898\uff0c4\u4e3a\u5bf9\u6218\u672a\u5b8c\u6210\uff0c\u7528\u6237\u672a\u7b54\u9898",
                     "type": "string"
                 }
             },

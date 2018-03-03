@@ -10,10 +10,10 @@
         },
         "version": "1.0.0"
     },
-    "host": "elearninggame.icoke.cn",
+    "host": "localhost",
     "basePath": "/coca/backend/web",
     "schemes": [
-        "https"
+        "http"
     ],
     "paths": {
         "/login": {
@@ -2484,6 +2484,10 @@
                 },
                 "img_url": {
                     "description": "[\u9053\u5177/\u9053\u5177\u788e\u7247]\u56fe\u7247",
+                    "type": "string"
+                },
+                "redirect_url": {
+                    "description": "[\u9053\u5177\u5408\u6210\u540e\u7684\u8df3\u8f6c\u94fe\u63a5",
                     "type": "string"
                 },
                 "pieces": {

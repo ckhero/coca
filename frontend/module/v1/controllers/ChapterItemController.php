@@ -2,6 +2,7 @@
 
 namespace frontend\module\v1\controllers;
 
+use Yii;
 use common\models\Questions;
 use common\models\PtUser;
 use common\models\Prop;

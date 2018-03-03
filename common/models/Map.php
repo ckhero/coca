@@ -45,7 +45,7 @@ class Map extends \yii\db\ActiveRecord
     public function getChapters()
     {
         return $this->hasMany(Chapter::className(), ['map_id'=> 'id'])
-                    ->innerJoinWith('chapterChilds')
+                    ->joinWith('chapterChilds')
                     ->orderBy(Chapter::tableName().'.sort');
     }
     /**
@@ -100,6 +100,7 @@ class Map extends \yii\db\ActiveRecord
         return Yii::$app->cache->getOrSet('eachMapChapters', function () {
             $data = Yii::$app->db->createCommand('SELECT `co_map`.id, count(1) as num FROM `co_map` INNER JOIN `co_chapter` ON `co_map`.`id` = `co_chapter`.`map_id` INNER JOIN `co_chapter_child` ON `co_chapter`.`id` = `co_chapter_child`.`chapter_id` group by co_map.id ORDER BY `co_map`.`id` ')
                                  ->queryAll();
+            if (empty($data)) return [];
             foreach ($data as $key => $val) {
                 $res[$val['id']] = $val['num'];
             }
@@ -129,7 +130,7 @@ class Map extends \yii\db\ActiveRecord
         $steps = new Steps(); 
         $steps->setAll($mapHasChapters);
 
-        $steps->setCurrent($key);//参数为key值  
+        $steps->setCurrent($key?? null);//参数为key值  
         $curr = $steps->getCurrent(); 
         $prev = $steps->getPrev()?? $curr; 
         $next = $steps->getNext()?? $curr; 

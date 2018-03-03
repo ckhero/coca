@@ -64,6 +64,7 @@ class PieceController extends \common\base\BaseRestWebController
 		    $transaction->rollBack();
 		    throw $e;
 		}
+        $isCanComplex['prop'] = Prop::findOne(['id'=> Yii::$app->request->get('id')]);
         $isCanComplex['data'] = $addProp;
     	return $isCanComplex;
     }

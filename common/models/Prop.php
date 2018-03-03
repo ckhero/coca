@@ -35,7 +35,7 @@ class Prop extends \yii\db\ActiveRecord
             [['sort', 'pid'], 'integer'],
             [['created_at'], 'safe'],
             [['name'], 'string', 'max' => 32],
-            [['img_url'], 'string', 'max' => 255],
+            [['img_url', 'redirect_url'], 'string', 'max' => 255],
         ];
     }
 
@@ -57,6 +57,18 @@ class Prop extends \yii\db\ActiveRecord
 
     public function fields()
     {
+        if (Yii::$app->controller->id == 'piece') {
+
+          return [
+                'id',
+                'name',
+                'desc',
+                'sort',
+                'pid',
+                'img_url',
+                'redirect_url',
+            ];  
+        }
         return [
             'id',
             'name',
@@ -65,6 +77,8 @@ class Prop extends \yii\db\ActiveRecord
             'pid',
             'pieces',
             'parentProp',
+            'img_url',
+            'redirect_url',
         ];
     }
 
@@ -101,7 +115,11 @@ class Prop extends \yii\db\ActiveRecord
         parent::afterSave($insert, $changedAttributes);
         if ($pieces = Yii::$app->request->getBodyParam('pieces')) {
 
-            $this->addPieces($pieces);
+            if ($insert) {
+                $this->addPieces($pieces);
+            } else {
+                $this->modifyPieces($pieces);
+            }
         }
         
     }
@@ -119,6 +137,47 @@ class Prop extends \yii\db\ActiveRecord
             ];
         }
         Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['name', 'desc', 'sort', 'img_url', 'pid'], $insertData)->execute(); 
+    }
+
+    /**
+     * [modifyPieces 更新道具信息 粗糙]
+     * @Author   ckhero
+     * @DateTime 2018-03-03
+     * @param    array      $pieces [description]
+     * @return   [type]             [description]
+     */
+    public function modifyPieces($pieces = []) 
+    {
+        //求出原来的   ??chu
+        $oldPieceIds = array_column(static::find()->where(['pid'=> $this->id])->all(), 'id');
+        $getPieceIds = array_column($pieces, 'id');
+        $deleleIds = array_diff($oldPieceIds,$getPieceIds);
+        foreach ($deleleIds as $key=> $val) {
+            $deleteModel = static::findOne(['id'=> $val]);
+            $deleteModel->delete();
+        }
+        foreach($pieces as $piece) {
+            $model = static::findOne(['id'=> $piece['id']]);
+            if (is_null($model)) {
+                $insertData[] = [
+                    'name'=> $piece['name'],
+                    'desc'=> $piece['desc'],
+                    'sort'=> $piece['sort'],
+                    'img_url'=> $piece['img_url'],
+                    'pid'=> $this->id,
+                ];
+            } else {
+                $model->name = $piece['name'];
+                $model->desc = $piece['desc'];
+                $model->sort = $piece['sort'];
+                $model->img_url = $piece['img_url'];
+                $model->pid = $piece['pid'];
+            }
+            
+        }
+        if (!empty($insertData)) {
+            Yii::$app->db->createCommand()->batchInsert(self::tableName(), ['name', 'desc', 'sort', 'img_url', 'pid'], $insertData)->execute(); 
+        }
     }
 
     public static function randomPieces($num = 5)

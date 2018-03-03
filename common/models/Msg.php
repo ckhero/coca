@@ -104,8 +104,25 @@ class Msg extends \yii\db\ActiveRecord
         $model->save();
         Yii::$app->cache->set('NewMsg:'.$data['uid'], 1, 3600 * 24 * 30); //标记用户有新的消息
     }
+    /**
+     * [getBattleStatus 对战状态]
+     * @Author   ckhero
+     * @DateTime 2018-03-03
+     * @return   [type]     [description]
+     */
+    public function getBattleStatus()
+    {
+        return 1;
+    }
+    public function setBattleStatus($value)
+    {
+        $this->battleStatus = $value;
+    }
 
-
+    public function fields()
+    {
+        return array_merge(parent::fields(), ['battleStatus']);
+    }
 }
 
 // （1）邀请对战：  <用户A>在<时间 xxxx–xx-xx xx：xx：xx>向你发起1v1挑战，快来对战吧~

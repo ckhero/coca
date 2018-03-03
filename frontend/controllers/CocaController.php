@@ -7,6 +7,7 @@ use common\models\PtUser;
 use common\models\Level;
 use common\models\Chapter;
 use common\models\ChapterChild;
+use yii\filters\VerbFilter;
 use Api\Coca;
 
 class CocaController extends \yii\web\Controller
@@ -15,6 +16,21 @@ class CocaController extends \yii\web\Controller
     public function actionIndex()
     {
         return $this->render('index');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        return [
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'refresh' => ['post'],
+                ],
+            ],
+        ];
     }
 
     /**
