@@ -89,15 +89,34 @@ class Questions extends \yii\db\ActiveRecord
             }
         }
         if ($optionNum == $rightOptionNum) {
-            return ['code'=> 1, 'message'=> '全部答对','total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum];
+            return ['code'=> 1, 'message'=> '全部答对','total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum, 'isClearance'=> true];
         }else if ($rightOptionNum == 0) {
             return ['code'=> 0, 'message'=> '全部答错', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum];
         } else {
-            return ['code'=> 2, 'message'=> '部分答对', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum, 'percent'=> round($rightOptionNum/$optionNum, 4)];
+            return ['code'=> 2, 'message'=> '部分答对', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum, 'percent'=> $this->isClearance($optionNum, $rightOptionNum)];
         }
         
     }
-
+    /**
+     * [isClearance 判断是否通关]
+     * #Author ckhero
+     * #DateTime 2018-03-07
+     * @return boolean [description]
+     */
+    public function isClearance($num = 0, $rightNum = 0)
+    {   
+        $percent = round($rightNum/$num, 4);
+        if ($num >= 5 && $percent > 0.7) {
+            return true;
+        }
+        if ($num >= 1 && $num <= 3 && $num == $rightNum) {
+            return true;
+        }
+        if ($num == 4 && $rightNum >= 3) {
+            return true;
+        }
+        return false;
+    }
     public static function dayQuestions()
     {   
         $uid = Yii::$app->user->id;

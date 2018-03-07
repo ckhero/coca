@@ -20,7 +20,7 @@
  * elearninggame.icoke.cn
  *unzip coca.zip ;chmod 777 -R coca;rm -rf /var/www/coca;mv coca /var/www/
  * unzip coca.zip ;chmod 777 -R coca/frontend/runtime/;chmod 777 -R coca/backend/runtime/;rm -rf /var/www/coca;mv coca /var/www/html/
- *  sudo chmod 777 -R /var/www/html/coca/backend/web/assets
+ *  sudo chmod 777 -R /var/www/html/coca/backend/web/assets;sudo chmod 777 -R /var/www/html/coca/frontend/web/assets
  *  sudo chmod 777 -R /var/www/html/coca/backend/web/uploads
  * /coca/frontend/web
  */
