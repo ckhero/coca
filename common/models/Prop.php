@@ -69,6 +69,19 @@ class Prop extends \yii\db\ActiveRecord
                 'redirect_url',
             ];  
         }
+        if (Yii::$app->controller->id == 'prop') {
+
+          return [
+                'id',
+                'name',
+                'desc',
+                'sort',
+                'pid',
+                'img_url',
+                'redirect_url',
+                'num',
+            ];  
+        }
         return [
             'id',
             'name',
@@ -238,5 +251,17 @@ class Prop extends \yii\db\ActiveRecord
     public function getParentProp()
     {
         return $this->hasOne(static::className(), ['pid'=> 'id']);
+    }
+
+    public function getUserProps()
+    {
+        return $this->hasMany(UserProp::className(), ['prop_id'=> 'id'])
+                    ->andWhere(['status'=> UserProp::STATUS_ACTIVE, 'uid'=> Yii::$app->user->id, 'type'=> UserProp::TYPE_PROP]);
+    }
+
+    //个数
+    public function getNum(){}
+    public function setNum($value){
+        $this->num = $value;
     }
 }

@@ -4,6 +4,7 @@ namespace frontend\module\v1\controllers;
 
 use Yii;
 use common\models\UserProp;
+use common\models\Prop;
 use common\models\PtUser;
 use yii\data\ActiveDataProvider;
 use yii\data\SqlDataProvider;
@@ -23,6 +24,13 @@ class PropController extends \common\base\BaseRestWebController
      *         in="query",
      *         name="page",
      *         type="integer",
+     *         required=false,
+     *     ),
+     *  @SWG\Parameter(
+     *         description="排行榜类型，碎片用piece，道具用prop，默认piece",
+     *         in="query",
+     *         name="type",
+     *         type="string",
      *         required=false,
      *     ),
      *  @SWG\Parameter(
@@ -46,7 +54,7 @@ class PropController extends \common\base\BaseRestWebController
      *   }
      * )
      */
-    public function actionIndex()
+    public function actionIndex($type = 'piece')
     {
        //  $provider = new ActiveDataProvider([
        //  		'query'=> UserProp::find()->innerJoinWith('prop')->where(['status'=> UserProp::STATUS_ACTIVE, 'uid'=> Yii::$app->user->id]),
@@ -75,6 +83,32 @@ class PropController extends \common\base\BaseRestWebController
        //  }
        //  $provider->setModels($newModels);
        //  return $provider;
+        if ($type == 'prop') {
+
+             $provider = new ActiveDataProvider([
+                 'query'=> Prop::find()->select([
+                        '{{co_prop}}.*',
+                        'count(1) as num',
+                    ])->innerJoinWith('userProps')->groupBy('{{co_prop}}.id'),
+                 'pagination' => [
+                     'pageSize' => Yii::$app->request->get('per-page', 20),
+                    ],
+                    'sort' => [
+                        'defaultOrder' => [
+                            'id' => SORT_DESC,
+                        ]
+                    ],
+             ]);
+             $oldModels = $provider->getModels();
+             $currentPage = Yii::$app->request->get('page', 1);
+             $newModels = [];
+             foreach ($oldModels as $model) {
+                $model->num = $model->num;
+                $newModels[] = $model;
+             }
+             $provider->setModels($newModels);
+             return $provider;
+        }
         $count = Yii::$app->db->createCommand("select count(1) from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop inner join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.name order by co_prop.id) as a group by a.pid", [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE])->queryScalar();
 
         $provider = new SqlDataProvider([

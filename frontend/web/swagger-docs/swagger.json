@@ -862,6 +862,13 @@
                         "type": "integer"
                     },
                     {
+                        "name": "type",
+                        "in": "query",
+                        "description": "\u6392\u884c\u699c\u7c7b\u578b\uff0c\u788e\u7247\u7528piece\uff0c\u9053\u5177\u7528prop\uff0c\u9ed8\u8ba4piece",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
                         "name": "per-page",
                         "in": "query",
                         "description": "\u6bcf\u9875\u6570\u91cf",
