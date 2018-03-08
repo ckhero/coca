@@ -8,6 +8,7 @@ use common\models\PtUser;
 use common\models\Prop;
 use common\models\UserProp;
 use common\models\UserChapterRecord;
+use common\models\ChapterChild;
 use common\models\GameLog;
 
 class ChapterItemController extends \common\base\BaseController
@@ -49,7 +50,7 @@ class ChapterItemController extends \common\base\BaseController
      *   }
      * )
      */
-    
+
     /**
      * @SWG\Put(path="/v1/chapter-items/{id}",
      *   tags={"子关卡"},
@@ -88,7 +89,7 @@ class ChapterItemController extends \common\base\BaseController
      *   }
      * )
      */
-    
+
     public function actionUpdate($id)
     {
          	$options = \Yii::$app->request->getBodyParams();
@@ -100,6 +101,7 @@ class ChapterItemController extends \common\base\BaseController
                $optionsVerifyRes['reward'] = [];
                if ( UserChapterRecord::isFirstClearance($id) ) {
 
+										Yii::$app->cache->delete('userTotalDone_'.Yii::$app->user->id);//删除完成已完成关卡的缓存
                     $exp = 100;
                     PtUser::addExp($exp);//发放经验
                     $pieces = Prop::randomPieces(); //获取五个碎片
@@ -122,4 +124,30 @@ class ChapterItemController extends \common\base\BaseController
           return $optionsVerifyRes;
          	//验证答案的正确性
     }
+		/**
+     * @SWG\Get(path="/v1/chapter-item/chapter-info",
+     *   tags={"子关卡"},
+     *   summary="查看闯关情况",
+     *   description="查看闯关情况",
+     *   operationId="getInventory",
+     *   produces={"application/json"},
+     *   @SWG\Parameter(
+     *         description="身份令牌",
+     *         in="query",
+     *         name="access-token",
+     *         required=true,
+     *         type="string",
+     *     ),
+     *   @SWG\Response(response=200, @SWG\Schema(ref="#/definitions/responseQuestion"), description="提交成功"),
+     *   @SWG\Response(response=422, description="数据验证失败"),
+     *   @SWG\Response(response=404,description="小关卡不存在"),
+     *   security={
+     *     {"Authorization": {}},
+     *   }
+     * )
+     */
+		public function actionChapterInfo()
+		{
+				return Yii::$app->user->identity;
+		}
 }
