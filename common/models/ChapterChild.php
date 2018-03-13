@@ -158,7 +158,7 @@ class ChapterChild extends \yii\db\ActiveRecord
 
     public function getClearanceChapterChild()
     {
-        return $this->hasOne(UserChapterRecord::className(), ['chapter_child_id'=> 'id']);
+        return $this->hasOne(UserChapterRecord::className(), ['chapter_child_id'=> 'id'])->where(['uid'=> Yii::$app->user->id]);
     }
     /**
      * [totalDone 获取用户已经完成的关卡数量]
