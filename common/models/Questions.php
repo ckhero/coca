@@ -93,7 +93,7 @@ class Questions extends \yii\db\ActiveRecord
         }else if ($rightOptionNum == 0) {
             return ['code'=> 0, 'message'=> '全部答错', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum];
         } else {
-            return ['code'=> 2, 'message'=> '部分答对', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum, 'percent'=> $this->isClearance($optionNum, $rightOptionNum)];
+            return ['code'=> 2, 'message'=> '部分答对', 'total'=> $optionNum, 'rightOptionNum'=> $rightOptionNum, 'percent'=> static::isClearance($optionNum, $rightOptionNum)];
         }
         
     }
@@ -103,7 +103,7 @@ class Questions extends \yii\db\ActiveRecord
      * #DateTime 2018-03-07
      * @return boolean [description]
      */
-    public function isClearance($num = 0, $rightNum = 0)
+    public static function isClearance($num = 0, $rightNum = 0)
     {   
         $percent = round($rightNum/$num, 4);
         if ($num >= 5 && $percent > 0.7) {
