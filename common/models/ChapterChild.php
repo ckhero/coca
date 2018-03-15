@@ -160,6 +160,11 @@ class ChapterChild extends \yii\db\ActiveRecord
     {
         return $this->hasOne(UserChapterRecord::className(), ['chapter_child_id'=> 'id'])->where(['uid'=> Yii::$app->user->id]);
     }
+
+    public function getClearanceChapterChild2()
+    {
+        return $this->hasOne(UserChapterRecord::className(), ['chapter_child_id'=> 'id']);
+    }
     /**
      * [totalDone 获取用户已经完成的关卡数量]
      * #Author ckhero
@@ -171,7 +176,7 @@ class ChapterChild extends \yii\db\ActiveRecord
     {
         return Yii::$app->cache->getOrSet('userTotalDone_'.$uid, function () use ($uid) {
             $query = new static();
-            return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild')->where(['uid'=> $uid, 'activity_id'=> static::TYPE_CHAPTER])->count();
+            return $query->find()->innerJoinWith('parents')->innerJoinWith('clearanceChapterChild2')->where(['uid'=> $uid, 'activity_id'=> static::TYPE_CHAPTER])->count();
         }, 300);
     }
 
