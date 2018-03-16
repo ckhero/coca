@@ -199,7 +199,7 @@ class PropController extends \common\base\BaseRestWebController
         $model->status = UserProp::STATUS_INACTIVE;
         $model->save();
         PtUser::addDoubleTime();
-        return ['code'=> 1, 'message'=> '使用成功'];
+        return ['code'=> 1, 'message'=> '使用成功', 'prop'=> $model];
     }
 
 }
