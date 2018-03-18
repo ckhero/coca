@@ -53,6 +53,7 @@ class GameController extends \common\base\BaseRestWebController
         $params['point'] = strtotime($userModel->double_end) >= time()? $params['point'] * 2: $params['point'];
         $res = UserChapterRecord::addRecord(['point'=> $params['point'], 'chapter_child_id'=> $params['chapter_id']], UserChapterRecord::TYPE_XIAOXIAOLE);
         $userModel->updateCounters(['nog' => -1]);
+        $userModel->updateCounters(['points' => $params['point']]);
         $coca = new Coca();
         $saveRes = $coca->savePoint($res, $userModel->coca_id);
         if ($saveRes['Message'][0]['Value'] == 'Success') {

@@ -65,13 +65,13 @@ class MsgController extends \common\base\BaseRestWebController
             $model->battleStatus = null;
             if($model->is_battle == Msg::STATUS_BATTLE) {
                 $battleInfo = Battle::findOne(['id'=> $model->battle_id]);
-                if ($battleInfo->created_at < date('Y-m-d H:i:s', time() - Battle::TIME_INACTIVE) && $battleInfo->status_win == Battle::STATUS_NULL) {
+                if ($battleInfo['created_at'] < date('Y-m-d H:i:s', time() - Battle::TIME_INACTIVE) && $battleInfo['status_win'] == Battle::STATUS_NULL) {
                     $model->battleStatus = 2;//对战未完成，超时
-                } else if ($battleInfo->status_win > Battle::STATUS_NULL) {
+                } else if ($battleInfo['status_win'] > Battle::STATUS_NULL) {
                     $model->battleStatus = 1;//对战完成
                 } else {
                     $isOppositeUser = Battle::isOppositeUser($battleInfo);//是否是发起者
-                    if (($isOppositeUser && $battleInfo->opposite_record_id > 0) || (!$isOppositeUser && $battleInfo->record_id > 0)) {
+                    if (($isOppositeUser && $battleInfo['opposite_record_id'] > 0) || (!$isOppositeUser && $battleInfo['record_id'] > 0)) {
                         $model->battleStatus = 3;//你已经完成答题，对手 尚未完成
                     }else {
                         $model->battleStatus = 4;//未完成答题，需要进行答题

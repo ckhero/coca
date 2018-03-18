@@ -127,6 +127,7 @@ class Map extends \yii\db\ActiveRecord
                 break;
             }
         }
+        return $key;
         $steps = new Steps(); 
         $steps->setAll($mapHasChapters);
 
@@ -135,5 +136,28 @@ class Map extends \yii\db\ActiveRecord
         $prev = $steps->getPrev()?? $curr; 
         $next = $steps->getNext()?? $curr; 
         return compact('curr', 'prev', 'next');
+    }
+    public static function findNeighbors($currentId = 0)
+    {
+        $allMaps = static::find()->select("{{id}}")
+                                 ->all();
+        $left = 0;
+        $right = count($allMaps);
+        while($left <= $right) {
+            $mid = floor(($left + $right) / 2);
+            if ($allMaps[$mid]['id'] == $currentId) {
+                return [
+                    'prev'=> $allMaps[$mid - 1]['id']?? $currentId,
+                    'curr'=> $allMaps[$mid]['id'],
+                    'next'=> $allMaps[$mid + 1]['id']?? $currentId,
+                ];
+            } else if ($allMaps[$mid]['id'] > $currentId) {
+
+                $right = $mid - 1;
+            } else {
+                $left = $mid + 1;
+            }
+        }
+        return $allMaps[0];
     }
 }

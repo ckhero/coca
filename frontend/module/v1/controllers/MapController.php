@@ -43,11 +43,13 @@ class MapController extends \common\base\BaseController
      $response->format = \yii\web\Response::FORMAT_JSON;
      $query = $this->modelClass::find();
      // return Map::currentMapId();
-     $positions = Map::currentMapId();
+     $currId = Map::currentMapId();
+     $mapId = Yii::$app->request->get('mapid', $currId);
+     //return $this->modelClass::findNeighbors($currId);
      $query->andFilterWhere([
-            'id' => $positions['curr'],
+            'id' =>  $mapId,
         ]);
-     return ['map'=> $query->one(), '_meta'=> $positions];
+     return ['map'=> $query->one(), '_meta'=> array_merge($this->modelClass::findNeighbors($mapId), ['curr_pos'=> $currId])];
      // return new ActiveDataProvider([
      //          'query' => $query,
      //          'pagination' => [
