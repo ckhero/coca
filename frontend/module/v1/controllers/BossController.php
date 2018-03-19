@@ -80,6 +80,7 @@ class BossController extends \common\base\BaseRestWebController
                     }
                     return ['code'=> $code, 'message'=> $message, 'total'=> $bossRecord['total'], 'right_num'=> $bossRecord['right_num'], 'nextQuestion'=> $nextQuestion, 'boss'=> $bossInfo];
                 }
+                $bossInfo['reduced'] = $bossInfo['hp'];
                 $message = '回答正确,并且boss死亡';
                 $code = 3;
             } 
