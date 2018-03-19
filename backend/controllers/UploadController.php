@@ -6,7 +6,7 @@ use Yii;
 use common\models\UploadForm;
 use yii\web\UploadedFile;
 
-class UploadController extends \common\base\BaseWebController
+class UploadController extends \yii\web\Controller
 {
 	/**
      * @SWG\Post(path="/upload",

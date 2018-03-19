@@ -29,7 +29,8 @@ class UploadForm extends Model
                 'type'=> $file->extension,
                 'name'=> $fileName,
                 'original_name'=> $file->baseName.$file->extension,
-                'path'=> 'https://'.Yii::$app->request->serverName.'/'.$attachment,
+                //'path'=> 'https://'.Yii::$app->request->serverName.'/'.$attachment,
+                'path'=> 'https://elearninggame.icoke.cn/'.$attachment,
             ];
     	}
     	return $attachments;
