@@ -47,12 +47,16 @@ class GameController extends \common\base\BaseRestWebController
         }
         //检查分数是否翻倍
         $userModel =  PtUser::findById(Yii::$app->user->id);
-        if ($userModel->nog < 1) {
-        	return ['code'=> 0, 'message'=> '游戏次数不够'];
+        // if ($userModel->nog < 1) {
+        // 	return ['code'=> 0, 'message'=> '游戏次数不够'];
+        // }
+        if (Yii::$app->cache->get(Yii::$app->user->id.'_game') != 1) {
+            return ['code'=> 0, 'message'=> '游戏次数不够'];
         }
+        Yii::$app->cache->delete(Yii::$app->user->id.'_game');
         $params['point'] = strtotime($userModel->double_end) >= time()? $params['point'] * 2: $params['point'];
         $res = UserChapterRecord::addRecord(['point'=> $params['point'], 'chapter_child_id'=> $params['chapter_id']], UserChapterRecord::TYPE_XIAOXIAOLE);
-        $userModel->updateCounters(['nog' => -1]);
+        //$userModel->updateCounters(['nog' => -1]);
         $userModel->updateCounters(['points' => $params['point']]);
         $coca = new Coca();
         $saveRes = $coca->savePoint($res, $userModel->coca_id);
@@ -64,4 +68,14 @@ class GameController extends \common\base\BaseRestWebController
         return ['code'=> 0, 'message'=> '失败'];
     }
 
+    public function actionPlay()
+    {   
+        if (Yii::$app->user->identity->nog > 0) {
+            Yii::$app->user->identity->updateCounters(['nog' => -1]);
+            Yii::$app->cache->set(Yii::$app->user->id.'_game', 1, 3600);
+            return ['code'=> 1, 'message'=> '次数成功'];
+        }
+
+        return ['code'=> 0, 'message'=> '次数不够'];
+    }
 }
