@@ -79,6 +79,7 @@ class Prop extends \yii\db\ActiveRecord
                 'pid',
                 'img_url',
                 'redirect_url',
+                'pieces',
                 'num',
             ];  
         }

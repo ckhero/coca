@@ -29,7 +29,7 @@ class ChapterChild extends \yii\db\ActiveRecord
     {
         return [
             [['chapter_id', 'sort'], 'integer'],
-            [['desc', 'guide', 'guide_bg_url', 'guide_type'], 'string'],
+            [['desc', 'guide', 'guide_bg_url', 'guide_type', 'guide_preview_url'], 'string'],
             [['created_at', 'updated_at'], 'safe'],
             [['name'], 'string', 'max' => 32],
         ];
@@ -48,6 +48,7 @@ class ChapterChild extends \yii\db\ActiveRecord
             'sort' => 'Sort',
             'guide' => 'Guide',
             'guide_bg_url' => 'guide_bg_url',
+            'guide_preview_url' => 'guide_preview_url',
             'guide_type' => 'guide_type',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -68,6 +69,7 @@ class ChapterChild extends \yii\db\ActiveRecord
                         'sort',
                         'guide',
                         'guide_bg_url',
+                        'guide_preview_url',
                         'guide_type',
                         'status',
                         'questions',
@@ -84,6 +86,7 @@ class ChapterChild extends \yii\db\ActiveRecord
                     'sort',
                     'guide',
                     'guide_bg_url',
+                    'guide_preview_url',
                     'guide_type',
                     'status',
                 ];
@@ -96,6 +99,7 @@ class ChapterChild extends \yii\db\ActiveRecord
                 'sort',
                 'guide',
                 'guide_bg_url',
+                'guide_preview_url',
                 'guide_type',
                 'status'
             ];
@@ -108,6 +112,7 @@ class ChapterChild extends \yii\db\ActiveRecord
             'sort',
             'guide',
             'guide_bg_url',
+            'guide_preview_url',
             'guide_type',
             'questions',
             'clearanceChapterChild'

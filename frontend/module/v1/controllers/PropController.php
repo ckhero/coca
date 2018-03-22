@@ -109,10 +109,10 @@ class PropController extends \common\base\BaseRestWebController
              $provider->setModels($newModels);
              return $provider;
         }
-        $count = Yii::$app->db->createCommand("select count(1) from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop inner join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.name order by co_prop.id) as a group by a.pid", [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE])->queryScalar();
+        $count = Yii::$app->db->createCommand("select count(1) from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop inner join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.id order by co_prop.id) as a group by a.pid", [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE])->queryScalar();
 
         $provider = new SqlDataProvider([
-            'sql' => "select co_prop.*, b.num,b.pieces from co_prop inner join (select * ,group_concat(concat_ws(' ',id,name,num, type, img_url)) as pieces from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop left join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.name order by co_prop.id) as a group by a.pid) as b on b.pid=co_prop.id ",
+            'sql' => "select co_prop.*, b.num,b.pieces from co_prop inner join (select * ,group_concat(concat_ws(' ',id,name,num, type, img_url)) as pieces from (select co_prop.id, co_prop.name, co_prop.desc, co_prop.img_url, co_user_prop.type, count(1) as num,if (co_prop.pid = 0 ,co_prop.id, co_prop.pid) as pid from co_prop left join co_user_prop on co_prop.id = co_user_prop.prop_id where co_user_prop.uid = :uid and co_user_prop.status = :status group by co_prop.id order by co_prop.id) as a group by a.pid) as b on b.pid=co_prop.id ",
             'params' => [':uid' => Yii::$app->user->id, ':status'=> UserProp::STATUS_ACTIVE],
             'totalCount' => $count,
             'pagination' => [

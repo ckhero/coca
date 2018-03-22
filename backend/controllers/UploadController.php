@@ -5,9 +5,29 @@ namespace backend\controllers;
 use Yii;
 use common\models\UploadForm;
 use yii\web\UploadedFile;
+use yii\filters\Cors;
+use yii\helpers\ArrayHelper;
+
 
 class UploadController extends \yii\web\Controller
 {
+    public function behaviors()
+    {
+        return ArrayHelper::merge([
+            [
+                'class' => Cors::className(),
+                'cors' => [
+                    'Origin' => ['http://elearninggame.icoke.cn'],
+                    'Access-Control-Request-Method' => ['GET', 'HEAD', 'OPTIONS'],
+                ],
+                 'actions' => [
+                    'index' => [
+                        'Access-Control-Allow-Credentials' => true,
+                    ]
+                ]
+            ],
+        ], parent::behaviors());
+    }
 	/**
      * @SWG\Post(path="/upload",
      *   tags={"文件管理"},
@@ -39,6 +59,7 @@ class UploadController extends \yii\web\Controller
      */
     public function actionIndex()
     {
+       
     	$model = new UploadForm();
         $model->files = UploadedFile::getInstancesByName('files');
 
@@ -49,6 +70,7 @@ class UploadController extends \yii\web\Controller
 	        return $model->upload();
 
         } else {
+
 	        $response = \Yii::$app->getResponse();
 	        $response->setStatusCode(422);
 	        $response->format = \yii\web\Response::FORMAT_JSON;
