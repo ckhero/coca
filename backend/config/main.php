@@ -45,6 +45,7 @@ return [
             'showScriptName' => false,
             'rules' => [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/chapter-item'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/day-url'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/level'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/login'],

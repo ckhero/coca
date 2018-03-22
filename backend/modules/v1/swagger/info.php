@@ -1,8 +1,8 @@
 <?php 
 /**
  * @SWG\Swagger(
- * 	   schemes={"http"},
- *     host="localhost",
+ * 	   schemes={"https"},
+ *     host="elearninggame.icoke.cn",
  *     basePath="/coca/backend/web",
  *     @SWG\Info(
  *         version="1.0.0",
