@@ -96,7 +96,7 @@ class BossController extends \common\base\BaseRestWebController
                 $message = '参与答题,奖励发放成功';
                 
                 $pieces = Prop::randomPieces($piecesNum); //获取五个碎片
-                UserProp::addProp($pieces); //将碎片添加给用户
+                UserProp::addProp($pieces, UserProp::TYPE_PROP); //将碎片添加给用户
                 $userRecord->props = json_encode(array_column($pieces, 'id'));
                 $userRecord->status = UserChapterRecord::STATUS_ISSUED;
                 $userRecord->save();
