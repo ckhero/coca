@@ -45,4 +45,13 @@ class DayUrl extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+
+
+    public static function allUrls()
+    {
+        $url = Yii::$app->cache->getOrSet('urls', function () {
+
+            return static::find()->select(['url'])->all();
+        }, 120);
+    }
 }

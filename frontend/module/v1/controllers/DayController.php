@@ -9,6 +9,7 @@ use common\models\GameLog;
 use common\models\Prop;
 use common\models\UserProp;
 use common\models\UserChapterRecord;
+use common\models\DayUrl;
 
 class DayController extends \common\base\BaseRestWebController
 {	
@@ -36,7 +37,9 @@ class DayController extends \common\base\BaseRestWebController
      * )
      */
     public function actionIndex()
-    {
+    {   
+        // $urls = DayUrl::allUrls();
+        // return DayUrl::find()->all();
         $user = new PtUser();
         if ($user->dayMissionStatus) {
         	return ['code'=> 0, 'message'=> '已完成每日任务'];
