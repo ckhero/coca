@@ -253,6 +253,11 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         return UserChapterRecord::isDayMissionDone();
     }
 
+    public function getDayMissionNum()
+    {
+        return UserChapterRecord::isDayMissionDone()? 0: 1;
+    }
+
     public function fields()
     {
         $fields = parent::fields();
@@ -260,7 +265,7 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
         if (Yii::$app->controller->id != 'coca' || Yii::$app->controller->action->id != 'login') {
             unset($fields['access_token'], $fields['refresh_token']);
         }
-        return array_merge($fields, ['rank', 'level', 'chapterDone', 'chapterTotal', 'bossTime']);   
+        return array_merge($fields, ['rank', 'level', 'chapterDone', 'chapterTotal', 'bossTime', 'dayMissionNum']);   
     }
 
     /**
