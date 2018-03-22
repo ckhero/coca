@@ -104,10 +104,11 @@ class ChapterItemController extends \common\base\BaseController
 										Yii::$app->cache->delete('userTotalDone_'.Yii::$app->user->id);//删除完成已完成关卡的缓存
                     $exp = 100;
                     PtUser::addExp($exp);//发放经验
-                    $pieces = Prop::randomPieces(); //获取五个碎片
-                    UserProp::addProp($pieces); //将碎片添加给用户
-                    UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id, 'exp'=> $exp, 'props'=> json_encode(array_column($pieces, 'id'))]));//添加过关记录表明关卡已通
-                    $optionsVerifyRes['reward']['pieces'] = $pieces;
+                    UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id, 'exp'=> $exp]));//添加过关记录表明关卡已通
+                    // $pieces = Prop::randomPieces(); //获取五个碎片
+                    // UserProp::addProp($pieces); //将碎片添加给用户
+                    // UserChapterRecord::addRecord(array_merge($optionsVerifyRes, ['chapter_child_id'=> $id, 'exp'=> $exp, 'props'=> json_encode(array_column($pieces, 'id'))]));//添加过关记录表明关卡已通
+                    // $optionsVerifyRes['reward']['pieces'] = $pieces;
                     $optionsVerifyRes['reward']['exp'] = $exp;
                     Yii::$app->cache->delete("userTotalDone_".Yii::$app->user->id);
                }

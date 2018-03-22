@@ -250,12 +250,12 @@ class PtUser extends \yii\db\ActiveRecord implements IdentityInterface
      */
     public function getDayMissionStatus()
     {
-        return UserChapterRecord::isDayMissionDone();
+        return UserChapterRecord::isDayMissionDone(Yii::$app->user->id);
     }
 
     public function getDayMissionNum()
     {
-        return UserChapterRecord::isDayMissionDone()? 0: 1;
+        return UserChapterRecord::isDayMissionDone($this->id)? 0: 1;
     }
 
     public function fields()

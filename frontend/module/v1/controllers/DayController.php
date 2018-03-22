@@ -88,7 +88,7 @@ class DayController extends \common\base\BaseRestWebController
         $optionsVerifyRes['reward'] = [];
 	    if ($optionsVerifyRes['code'] === 1 || (isset($optionsVerifyRes['percent']) && $optionsVerifyRes['percent'] >= 0.5)) {
 	         //答题成功
-	         $pieces = Prop::randomPieces(); //获取五个碎片
+	         $pieces = Prop::randomPieces(); //获取1个道具
 	         UserProp::addProp($pieces); //将碎片添加给用户
              $extraData = ['props'=> json_encode(array_column($pieces, 'id'))];
              $optionsVerifyRes['reward']['pieces'] = $pieces;

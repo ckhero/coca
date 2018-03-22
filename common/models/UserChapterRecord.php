@@ -137,9 +137,9 @@ class UserChapterRecord extends \yii\db\ActiveRecord
      * #DateTime 2018-02-06
      * @return boolean [true 为已完成 false为未完成]
      */
-    public static function isDayMissionDone()
+    public static function isDayMissionDone($uid)
     {
-        $uid = Yii::$app->user->id;
+        //$uid = Yii::$app->user->id;
         if ($uid > 0) {
             $record = static::find()
                             ->where([

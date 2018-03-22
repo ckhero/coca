@@ -91,7 +91,7 @@ class BossController extends \common\base\BaseRestWebController
             if (!is_null($userRecord)) {
                 //可发放奖励
 
-                $piecesNum = $deadBossInfo['hp'] == $deadBossInfo['reduced']? 10: 2;
+                $piecesNum = $deadBossInfo['hp'] == $deadBossInfo['reduced']? 2: 1;
                 $code = 4;
                 $message = '参与答题,奖励发放成功';
                 

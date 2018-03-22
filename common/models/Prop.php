@@ -194,9 +194,10 @@ class Prop extends \yii\db\ActiveRecord
         }
     }
 
-    public static function randomPieces($num = 5)
+    public static function randomPieces($num = 1)
     {
-        $pieces = static::allPieces();
+        //$pieces = static::allPieces();
+        $pieces = static::find()->where(['pid'=> 0])->all();
         $total = count($pieces) - 1;
         for ($i =0; $i < $num; $i++) {
             $piecesList[] = $pieces[mt_rand(0, $total)];
