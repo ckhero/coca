@@ -13,6 +13,7 @@ return [
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'components' => [
+         
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
@@ -48,6 +49,7 @@ return [
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/day-url'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/question'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/level'],
+                ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/rule'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/login'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/prop'],
                 ['class' => 'yii\rest\UrlRule', 'controller' => 'v1/map'],

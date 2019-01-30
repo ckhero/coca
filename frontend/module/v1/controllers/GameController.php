@@ -53,7 +53,7 @@ class GameController extends \common\base\BaseRestWebController
         if (Yii::$app->cache->get(Yii::$app->user->id.'_game') != 1) {
             return ['code'=> 0, 'message'=> '游戏次数不够'];
         }
-        Yii::$app->cache->delete(Yii::$app->user->id.'_game');
+        // Yii::$app->cache->delete(Yii::$app->user->id.'_game');
         $params['point'] = strtotime($userModel->double_end) >= time()? $params['point'] * 2: $params['point'];
         $res = UserChapterRecord::addRecord(['point'=> $params['point'], 'chapter_child_id'=> $params['chapter_id']], UserChapterRecord::TYPE_XIAOXIAOLE);
         //$userModel->updateCounters(['nog' => -1]);
@@ -77,5 +77,10 @@ class GameController extends \common\base\BaseRestWebController
         }
 
         return ['code'=> 0, 'message'=> '次数不够'];
+    }
+
+    public function actionCancel()
+    {   
+        return Yii::$app->cache->delete(Yii::$app->user->id.'_game');
     }
 }

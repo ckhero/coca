@@ -148,7 +148,7 @@ function quickSortByAscii($data)
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
     // 设置获取的信息以文件流的形式返回，而不是直接输出。
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-    
+
     if (strtoupper($method) == 'POST') {
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
@@ -162,6 +162,12 @@ function quickSortByAscii($data)
     }
     $result = curl_exec($curl);
     $error = curl_error($curl);
+    Yii::info(json_encode([
+        'overview' => $url,
+        'request' => $data,
+        'response' => $result,
+        'error' => $error
+    ]));
     curl_close($curl);
     // 发生错误，抛出异常
     // if ($error) throw new \Exception('请求发生错误：' . $error);

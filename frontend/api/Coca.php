@@ -9,6 +9,7 @@ class Coca
     const RANK_URL = 'https://konnectoruat.icoke.cn/ELearningGame/GetUserList?';
     const POINT_SAVE_URL = 'https://konnectoruat.icoke.cn/ELearningGame/SavePontInfo?';
     const USER_INFO_URL = 'https://konnectoruat.icoke.cn/ELearningGame/GetGamePontsByUser?';
+    const COURSEWARE_URL = 'https://konnectoruat.icoke.cn/ELearningGame/Index?';
 
 	public function checkSign($params = [])
     {
@@ -116,7 +117,7 @@ class Coca
         $points['Points'] = [];
         // foreach($records as $record) {
             $points['Points'][] = [
-                'Id'=> $record['chapter_child_id'],
+                'Id'=> $record['id'],
                 'SourceId'=> 1,
                 'SourceName'=> $record['activity_name'],
                 'GainPoint'=> $record['point'],
@@ -133,6 +134,19 @@ class Coca
         $params['KOUserId'] = 22439;
         $res = send_curl(self::USER_INFO_URL.http_build_query(array_merge($params, $this->getSign())));;
         return json_decode($res, true);
+    }
+
+    /**
+     * [getCoursewareUrl 课间访问url]
+     * @Author   ckhero
+     * @DateTime 2018-03-31
+     * @param    [type]     $params [description]
+     * @return   [type]             [description]
+     */
+    public function getCoursewareUrl($params) 
+    {
+        $params = array_merge($params, $this->getSign());
+        return self::COURSEWARE_URL.http_build_query($params);
     }
  }
 

@@ -205,15 +205,15 @@ class ChapterChild extends \yii\db\ActiveRecord
      * #DateTime 2018-02-05
      * @return [type] [description]
      */
-    public static function getDoneClearanceByUid($uid = 0)
+    public static function getDoneClearanceByUid($uid = 0, $chapterId)
     {
-        $allClearance = static::findAllClearance($uid);
+        $allClearance = static::findAllClearance($uid, $chapterId);
         return $allClearance;
     }
 
-    public static function findAllClearance($uid = 0)
+    public static function findAllClearance($uid = 0, $chapterId)
     {
-        return static::find()->where(['uid'=> $uid, 'activity_id'=> 1])->innerJoinWith('clearanceChapterChild')->all();
+        return static::find()->where(['uid'=> $uid, 'activity_id'=> 1, 'chapter_id'=> $chapterId])->innerJoinWith('clearanceChapterChild')->all();
     }
 
     public function getStatus()

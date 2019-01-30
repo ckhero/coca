@@ -127,4 +127,14 @@ class CocaController extends \yii\web\Controller
         ];
     }
 
+    public function actionCourseware($id)
+    {
+        $coca = new Coca();
+        $params = [
+            'Id'=> $id,
+            'ReturnUrl'=> urlencode('https://elearninggame.icoke.cn/h5/')
+        ];
+        return $this->redirect(trim($coca->getCoursewareUrl($params)));
+    }
+
 }

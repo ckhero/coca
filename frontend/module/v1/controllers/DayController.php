@@ -38,14 +38,27 @@ class DayController extends \common\base\BaseRestWebController
      */
     public function actionIndex()
     {   
-        // $urls = DayUrl::allUrls();
-        // return DayUrl::find()->all();
-        $user = new PtUser();
-        if ($user->dayMissionStatus) {
+
+        //$user = new PtUser();
+        if (Yii::$app->user->identity->dayMissionStatus) {
         	return ['code'=> 0, 'message'=> '已完成每日任务'];
         }
-        $questions = Questions::dayQuestions();
-        return ['code'=> 1, 'message'=> '题目列表获取成功', 'items'=> $questions];
+        $urls = DayUrl::allUrls();
+        $num = count($urls);
+        $seed = rand(0, $num);
+        if ($seed == $num) {
+            $questions = Questions::dayQuestions();
+            return ['code'=> 1, 'message'=> '题目列表获取成功', 'items'=> $questions, 'isUrl'=> false];
+        } else {
+            //答题成功
+             $pieces = Prop::randomPieces(); //获取1个道具
+             UserProp::addProp($pieces, UserProp::TYPE_PROP); //将碎片添加给用户
+             $extraData = ['props'=> json_encode(array_column($pieces, 'id'))];
+             $optionsVerifyRes['reward']['pieces'] = $pieces;
+            UserChapterRecord::addRecord(array_merge($optionsVerifyRes, $extraData), UserChapterRecord::TYPE_DAY);//添加过关记录表明关卡已通
+            return ['code'=> 1, 'message'=> '本次为连接', 'isUrl'=> true, 'url'=> $urls[$seed]];
+        }
+        
     }
 
     /**

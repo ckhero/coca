@@ -27,7 +27,8 @@
         "yiisoft/yii2-apidoc": "^2.1@dev",
         "zircote/swagger-php": "^2.0",
         "yiisoft/yii2-debug": "~2.0.0",
-        "yiisoft/yii2-redis": "^2.0@dev"
+        "yiisoft/yii2-redis": "^2.0@dev",
+        "moonlandsoft/yii2-phpexcel": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

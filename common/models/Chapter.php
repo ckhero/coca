@@ -160,11 +160,10 @@ class Chapter extends \yii\db\ActiveRecord
     {
         //子关卡id
         $childsId = array_column($this->chapterChilds, 'id');
-
         //已完成关卡id
-        $clearanceChapterChild = ChapterChild::getDoneClearanceByUid(Yii::$app->user->id);
+        $clearanceChapterChild = ChapterChild::getDoneClearanceByUid(Yii::$app->user->id, $this->id);
         $diff = array_diff($childsId, array_column(array_column($clearanceChapterChild, 'clearanceChapterChild'), 'chapter_child_id'));
-        if (!empty($childsId) && empty($diff)) {
+        if ((!empty($childsId) && empty($diff)) || ($this->id == 1 && count($diff) <= 1)) { //全部通关 或者是第一大关 有个过了
             return self::DONE;
         } else if (!empty($childsId) && count($diff) < count($childsId)){
             return self::DOING;

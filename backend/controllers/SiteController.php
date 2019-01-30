@@ -7,6 +7,9 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
 use common\models\Map;
+use yii\filters\Cors;
+use yii\helpers\ArrayHelper;
+
 
 /**
  * Site controller
@@ -17,30 +20,24 @@ class SiteController extends Controller
      * @inheritdoc
      */
     public function behaviors()
-    {
-        return [
-            // 'access' => [
-            //     'class' => AccessControl::className(),
-            //     'rules' => [
-            //         [
-            //             'actions' => ['login', 'error'],
-            //             'allow' => true,
-            //         ],
-            //         [
-            //             'actions' => ['logout', 'index'],
-            //             'allow' => true,
-            //             'roles' => ['@'],
-            //         ],
-            //     ],
-            // ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
+{
+    return ArrayHelper::merge([
+        [
+            'class' => Cors::className(),
+            'cors' => [
+                'Origin' => ['*'],
+                'Access-Control-Request-Method' => ['GET', 'HEAD', 'OPTIONS','POST'],
+                'Access-Control-Request-Headers' => ['Origin', 'X-Requested-With', 'Content-Type', 'x-token'],  
             ],
-        ];
-    }
+
+            'actions' => [
+                'login' => [
+                    'Access-Control-Allow-Credentials' => true,
+                ]
+            ]
+        ],
+    ], parent::behaviors());
+}
 
     /**
      * @inheritdoc
@@ -114,5 +111,24 @@ class SiteController extends Controller
      public function actionApi()
     {   
         $this->redirect('/swagger-ui-3.9.3/dist/index.html');
+    }
+
+    public function actionTest2()
+    { \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        $models = \common\models\User::find()->all();
+        \moonland\phpexcel\Excel::export([
+            'models' => $models,
+            'columns' => [
+                'created_at:datetime',
+                [
+                    'attribute' => 'email',
+                    'format' => 'text',
+                 ], 
+            ],
+            'headers' => [
+                'updated_at' =>'updated_at',
+                'email'=>'email',
+            ]
+        ]);
     }
 }

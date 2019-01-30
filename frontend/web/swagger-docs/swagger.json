@@ -10,10 +10,10 @@
         },
         "version": "1.0.0"
     },
-    "host": "localhost",
+    "host": "elearninggame.icoke.cn",
     "basePath": "/coca/frontend/web",
     "schemes": [
-        "http"
+        "https"
     ],
     "paths": {
         "/coca/login?TimeStamp=1517208547&Nonce=a909d84864f248bb15a22437448f1875&signature=59798734ca1f2d6e1c5d4ab84ac659c93f90d3e7&KOUserId=11111&NickName=test&HeadImgUrl=http://img0.imgtn.bdimg.com/it/u=12867320,655225767&fm=214&gp=0.jpg": {
@@ -1100,6 +1100,47 @@
                     },
                     "401": {
                         "description": "\u8eab\u4efd\u8ba4\u8bc1\u5931\u8d25"
+                    }
+                },
+                "security": [
+                    {
+                        "Authorization": []
+                    }
+                ]
+            }
+        },
+        "/v1/rules": {
+            "get": {
+                "tags": [
+                    "\u5e2e\u52a9"
+                ],
+                "summary": "\u83b7\u53d6\u5e2e\u52a9",
+                "description": "\u83b7\u53d6\u5e2e\u52a9",
+                "operationId": "getInventory",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "access-token",
+                        "in": "query",
+                        "description": "\u8eab\u4efd\u4ee4\u724c",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "\u83b7\u53d6\u6210\u529f",
+                        "schema": {
+                            "$ref": "#/definitions/rule"
+                        }
+                    },
+                    "404": {
+                        "description": "\u5173\u5361\u4e0d\u5b58\u5728"
+                    },
+                    "401": {
+                        "description": "\u8eab\u4efd\u9a8c\u8bc1\u5931\u8d25"
                     }
                 },
                 "security": [
@@ -2196,6 +2237,27 @@
             "type": "object",
             "xml": {
                 "name": "reward"
+            }
+        },
+        "rule": {
+            "required": [
+                "score",
+                "name"
+            ],
+            "properties": {
+                "content": {
+                    "description": "url",
+                    "type": "string"
+                },
+                "status": {
+                    "description": "\u72b6\u6001  1\u4e3a\u53ef\u7528 0 \u4e3a\u4e0d\u53ef\u7528",
+                    "type": "integer",
+                    "example": "1"
+                }
+            },
+            "type": "object",
+            "xml": {
+                "name": "rule"
             }
         },
         "user": {

@@ -127,7 +127,7 @@ class Map extends \yii\db\ActiveRecord
                 break;
             }
         }
-        return $key;
+        return $key?? 0;
         $steps = new Steps(); 
         $steps->setAll($mapHasChapters);
 
@@ -158,6 +158,6 @@ class Map extends \yii\db\ActiveRecord
                 $left = $mid + 1;
             }
         }
-        return $allMaps[0];
+        return is_array($allMaps[0])? $allMaps[0]: [];
     }
 }

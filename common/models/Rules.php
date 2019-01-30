@@ -5,21 +5,22 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "co_day_url".
+ * This is the model class for table "co_rules".
  *
  * @property int $id
- * @property string $url
+ * @property string $content
+ * @property int $status
  * @property string $created_at
  * @property string $updated_at
  */
-class DayUrl extends \yii\db\ActiveRecord
+class Rules extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'co_day_url';
+        return 'co_rules';
     }
 
     /**
@@ -28,7 +29,8 @@ class DayUrl extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['url'], 'string'],
+            [['content'], 'string'],
+            [['status'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
         ];
     }
@@ -40,19 +42,10 @@ class DayUrl extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'url' => 'Url',
+            'content' => 'Content',
+            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
-    }
-
-
-    public static function allUrls()
-    {
-        return Yii::$app->cache->getOrSet('DayUrls', function () {
-
-            return Yii::$app->db->createCommand('SELECT url FROM '.static::tableName())
-                            ->queryColumn();
-        }, 120);
     }
 }
